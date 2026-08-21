@@ -1,0 +1,121 @@
+import React, { useEffect, useState, useRef } from 'react';
+import gsap from 'gsap';
+
+export const PortfolioIntro = () => {
+  const [shouldRender, setShouldRender] = useState(true);
+  const containerRef = useRef(null);
+
+  useEffect(() => {
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    if (prefersReducedMotion) {
+      setShouldRender(false);
+      return;
+    }
+
+    document.body.style.overflow = 'hidden';
+    
+    let ctx = gsap.context(() => {
+      const tl = gsap.timeline({
+        onComplete: () => {
+          document.body.style.overflow = '';
+          setShouldRender(false);
+        }
+      });
+
+      // 0.5 - 1.3s: Identity reveal
+      tl.to('.intro-identity', { opacity: 1, y: 0, duration: 0.8, ease: 'power2.out' }, 0.5)
+        
+      // 1.2 - 2.0s: Statement reveal
+        .to('.intro-statement', { opacity: 1, y: 0, duration: 0.8, ease: 'power2.out' }, 1.2)
+        
+      // 1.9s: Text fades out just before doors open
+        .to('.intro-content-wrapper', { opacity: 0, y: -20, duration: 0.4, ease: 'power2.inOut' }, 1.9)
+        
+      // 1.9s: Blue door seam appears exactly in the center
+        .to('.intro-seam', { opacity: 1, duration: 0.3, ease: 'power2.out' }, 1.9);
+
+      // 2.0 - 3.5s: Doors open (cinematic expo.inOut).
+      tl.to('.intro-left-panel', { xPercent: -100, duration: 1.5, ease: 'expo.inOut' }, 2.0);
+      tl.to('.intro-right-panel', { xPercent: 100, duration: 1.5, ease: 'expo.inOut' }, 2.0);
+        
+      // 2.0 - 3.5s: The seam travels to exactly the PortfolioGuide location.
+      const trackEl = document.getElementById('guide-track-line');
+      let targetX = 0;
+      if (trackEl) {
+        const rect = trackEl.getBoundingClientRect();
+        const startX = window.innerWidth / 2;
+        targetX = rect.left - startX + (rect.width / 2);
+      } else {
+        const lg = window.matchMedia('(min-width: 1024px)').matches;
+        const md = window.matchMedia('(min-width: 768px)').matches;
+        const offset = lg ? 32 : (md ? 24 : 8); 
+        targetX = offset - (window.innerWidth / 2);
+      }
+
+      tl.to('.intro-seam', {
+        x: targetX,
+        opacity: 0.2,
+        top: '20vh',
+        bottom: '20vh',
+        duration: 1.5,
+        ease: 'expo.inOut'
+      }, 2.0);
+
+      // 3.5s: Exact handoff point
+      // Hide the intro seam instantly. Since the real PortfolioGuide track is naturally underneath 
+      // and now exposed by the open doors, it seamlessly takes over.
+      tl.set('.intro-seam', { opacity: 0 }, 3.5);
+
+      // 3.5 - 4.0s: Intro completely unmounts/exits
+      tl.to(containerRef.current, { opacity: 0, duration: 0.5, ease: 'power2.inOut' }, 3.5);
+
+    }, containerRef);
+
+    return () => {
+      document.body.style.overflow = '';
+      ctx.revert();
+    };
+  }, []);
+
+  if (!shouldRender) return null;
+
+  return (
+    <div 
+      ref={containerRef}
+      className="fixed inset-0 z-[100] pointer-events-auto"
+      aria-hidden="true"
+    >
+      {/* LEFT DOOR */}
+      <div className="intro-left-panel absolute top-0 bottom-0 left-0 w-1/2 bg-[var(--color-canvas)] z-10"></div>
+      
+      {/* RIGHT DOOR */}
+      <div className="intro-right-panel absolute top-0 bottom-0 right-0 w-1/2 bg-[var(--color-canvas)] z-10"></div>
+
+      {/* INDEPENDENT BLUE SEAM (Animates to become the guide laser) */}
+      <div className="intro-seam fixed top-0 bottom-0 left-1/2 -translate-x-1/2 w-[1px] bg-[var(--color-accent)] opacity-0 z-30"></div>
+
+      {/* TYPOGRAPHY CONTENT */}
+      <div className="absolute inset-0 flex flex-col items-center justify-center z-20 pointer-events-none">
+        <div className="intro-content-wrapper flex flex-col items-center gap-12">
+          
+          <div className="intro-identity opacity-0 translate-y-4 flex flex-col items-center gap-2">
+            <div className="font-meta text-[10px] tracking-widest text-[var(--color-text-secondary)]">
+              01 / AHMED RAZA
+            </div>
+            <div className="font-body text-sm md:text-base text-[var(--color-text-primary)] tracking-widest uppercase">
+              Full Stack Developer
+            </div>
+          </div>
+
+          <div className="intro-statement opacity-0 translate-y-4 px-6 text-center">
+            <div className="font-display text-[clamp(2.5rem,6vw,5rem)] text-[var(--color-text-primary)] tracking-tight leading-[1]">
+              I BUILD DIGITAL PRODUCTS.
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  );
+};

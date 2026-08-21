@@ -1,0 +1,71 @@
+@import "tailwindcss";
+
+@theme {
+  --color-canvas: #F5F4EF;
+  --color-elevated: #FBFAF7;
+  --color-text-primary: #111111;
+  --color-text-secondary: #686762;
+  --color-text-muted: #96958F;
+  --color-border-subtle: #D9D7D0;
+  --color-border-strong: #B9B7AF;
+  --color-accent: #3157FF;
+  --color-accent-hover: #2447E8;
+
+  --font-display: "Instrument Serif", serif;
+  --font-body: "Manrope", sans-serif;
+  
+  --text-hero: clamp(4rem, 9vw, 8rem);
+  --text-heading: clamp(3rem, 6vw, 5rem);
+  --text-project: clamp(2.5rem, 5vw, 4.5rem);
+  --text-body: 1.125rem; /* 18px */
+  --text-small: 0.9375rem; /* 15px */
+  --text-meta: 0.75rem; /* 12px */
+
+  --tracking-meta: 0.12em;
+}
+
+@layer base {
+  html, body {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    overflow-x: hidden;
+  }
+
+  body {
+    background-color: var(--color-canvas);
+    color: var(--color-text-primary);
+    font-family: var(--font-body);
+    font-size: var(--text-body);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-display);
+    font-weight: normal;
+    margin: 0;
+  }
+
+  /* Utility classes for typography scale if needed directly */
+  .text-hero {
+    font-size: var(--text-hero);
+    line-height: 1.1;
+  }
+  
+  .text-heading {
+    font-size: var(--text-heading);
+    line-height: 1.1;
+  }
+  
+  .text-project {
+    font-size: var(--text-project);
+    line-height: 1.1;
+  }
+
+  .text-meta {
+    font-size: var(--text-meta);
+    letter-spacing: var(--tracking-meta);
+    text-transform: uppercase;
+  }
+}

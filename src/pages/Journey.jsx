@@ -1,0 +1,25 @@
+import React, { useEffect } from 'react';
+import { Link } from 'react-router-dom';
+import { Container } from '../components/layout/Container';
+import { JourneySection } from '../components/sections/JourneySection';
+
+export const Journey = () => {
+
+  return (
+    <div className="pt-24 md:pt-32 min-h-screen bg-[var(--color-canvas)]">
+      <Container>
+        <Link 
+          to="/" 
+          className="inline-block font-meta text-xs tracking-widest text-[var(--color-text-secondary)] hover:text-[var(--color-accent)] transition-colors duration-300"
+        >
+          ← BACK HOME
+        </Link>
+      </Container>
+      
+      {/* The Journey Section Content */}
+      <div className="-mt-12 md:-mt-20">
+        <JourneySection />
+      </div>
+    </div>
+  );
+};
