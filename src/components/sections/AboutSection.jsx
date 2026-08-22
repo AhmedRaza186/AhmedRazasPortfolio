@@ -45,17 +45,38 @@ export const AboutSection = () => {
       // 3. Product + Engineering
       tl.from('.about-split', { y: 20, opacity: 0, duration: 0.6, stagger: 0.15, ease: 'power3.out' }, '-=0.4');
 
-      // 4. Snake Path lines reveal
+      // 4. Snake Path lines reveal (Standard LTR)
       tl.fromTo('.snake-line-1', { scaleX: 0, transformOrigin: 'left center' }, { scaleX: 1, opacity: 1, duration: 0.6, ease: 'power2.inOut' }, '-=0.2');
-      tl.fromTo('.snake-line-2', { scaleY: 0, transformOrigin: 'top center' }, { scaleY: 1, opacity: 1, duration: 0.3, ease: 'power2.inOut' });
-      tl.fromTo('.snake-line-3', { scaleX: 0, transformOrigin: 'right center' }, { scaleX: 1, opacity: 1, duration: 0.6, ease: 'power2.inOut' });
-      tl.fromTo('.snake-line-mobile', { scaleY: 0, transformOrigin: 'top center' }, { scaleY: 1, opacity: 1, duration: 1.5, ease: 'power2.inOut' }, '-=1.5');
+      tl.fromTo('.snake-line-3', { scaleX: 0, transformOrigin: 'left center' }, { scaleX: 1, opacity: 1, duration: 0.6, ease: 'power2.inOut' });
+      tl.fromTo('.snake-line-mobile', { scaleY: 0, transformOrigin: 'top center' }, { scaleY: 1, opacity: 1, duration: 1.5, ease: 'power2.inOut' }, '-=1.2');
 
       // 5. Process steps
       tl.from('.process-step', { y: 15, opacity: 0, duration: 0.5, stagger: 0.1, ease: 'power3.out' }, '-=1.2');
 
       // 6. Background
       tl.from('.about-footer', { y: 20, opacity: 0, duration: 0.6, ease: 'power3.out' }, '-=0.4');
+
+      // 7. Continuous Light Pulse Effect
+      const pulseTl = gsap.timeline({ 
+        repeat: -1, 
+        repeatDelay: 1.5,
+        delay: 2
+      });
+      
+      // Desktop top line pulse
+      pulseTl.fromTo('.process-pulse-1', { left: '-100px', opacity: 0 }, { opacity: 1, duration: 0.2, ease: 'none' }, 0)
+             .to('.process-pulse-1', { left: '100%', duration: 1.5, ease: 'power1.inOut' }, 0)
+             .to('.process-pulse-1', { opacity: 0, duration: 0.2, ease: 'none' }, 1.3);
+
+      // Desktop bottom line pulse
+      pulseTl.fromTo('.process-pulse-2', { left: '-100px', opacity: 0 }, { opacity: 1, duration: 0.2, ease: 'none' }, 1.6)
+             .to('.process-pulse-2', { left: '100%', duration: 1.5, ease: 'power1.inOut' }, 1.6)
+             .to('.process-pulse-2', { opacity: 0, duration: 0.2, ease: 'none' }, 2.9);
+
+      // Mobile vertical line pulse
+      pulseTl.fromTo('.process-pulse-mobile', { top: '-100px', opacity: 0 }, { opacity: 1, duration: 0.2, ease: 'none' }, 0)
+             .to('.process-pulse-mobile', { top: '100%', duration: 2.5, ease: 'power1.inOut' }, 0)
+             .to('.process-pulse-mobile', { opacity: 0, duration: 0.2, ease: 'none' }, 2.3);
 
     }, sectionRef);
 
@@ -64,11 +85,11 @@ export const AboutSection = () => {
 
   const desktopOrder = [
     processSteps[0], processSteps[1], processSteps[2],
-    processSteps[5], processSteps[4], processSteps[3]
+    processSteps[3], processSteps[4], processSteps[5]
   ];
 
   return (
-    <section id="about" ref={sectionRef} className="py-24 md:py-40 relative bg-[var(--color-canvas)]">
+    <section id="about" ref={sectionRef} className="py-12 md:py-16 relative bg-[var(--color-canvas)]">
       <Container>
         
         {/* Layer 01 — Section Introduction */}
@@ -96,15 +117,15 @@ export const AboutSection = () => {
               
               <div className="about-split about-anim">
                 <h3 className="text-meta text-[var(--color-text-secondary)] mb-6">01 — PRODUCT THINKING</h3>
-                <p className="font-display text-2xl md:text-3xl lg:text-4xl leading-[1.2] tracking-tight text-[var(--color-text-primary)]">
+                <p className="font-display text-2xl md:text-3xl lg:text-4xl leading-[1.5] tracking-tight text-[var(--color-text-primary)]">
                   Before building, I try to understand the user, the business goal, and what actually needs to exist.
                 </p>
               </div>
 
               <div className="about-split about-anim">
                 <h3 className="text-meta text-[var(--color-text-secondary)] mb-6">02 — ENGINEERING</h3>
-                <p className="font-display text-2xl md:text-3xl lg:text-4xl leading-[1.2] tracking-tight text-[var(--color-text-primary)]">
-                  Then I turn that understanding into a reliable interface, backend, API, and system that can actually scale.
+                <p className="font-display text-2xl md:text-3xl lg:text-4xl leading-[1.5] tracking-tight text-[var(--color-text-primary)]">
+                  Then I turn that understanding into clean logic using Node.js, robust REST APIs with Express, and scalable data systems with MongoDB.
                 </p>
               </div>
               
@@ -118,6 +139,7 @@ export const AboutSection = () => {
           {/* Mobile Vertical Path */}
           <div className="lg:hidden relative pl-6 border-l border-[var(--color-border-subtle)] flex flex-col gap-12">
             <div className="snake-line-mobile snake-line absolute top-0 left-[-1px] w-[1px] h-full bg-[var(--color-border-strong)] opacity-0"></div>
+            <div className="process-pulse-mobile absolute top-[-100px] left-[-2px] w-[3px] h-[100px] bg-gradient-to-b from-transparent via-[var(--color-accent)] to-transparent opacity-0 z-10 pointer-events-none shadow-[0_0_12px_rgba(49,87,255,0.8)]"></div>
             {processSteps.map((step, idx) => (
               <div key={idx} className="process-step about-anim group relative">
                 <span className="absolute -left-[29px] top-2 w-2 h-2 rounded-full bg-[var(--color-canvas)] border border-[var(--color-border-strong)] group-hover:bg-[var(--color-accent)] group-hover:border-[var(--color-accent)] transition-colors duration-300"></span>
@@ -133,13 +155,12 @@ export const AboutSection = () => {
             
             {/* The Connecting Lines */}
             <div className="absolute top-[3.75rem] left-[16.66%] right-[16.66%] h-[1px] bg-[var(--color-border-subtle)]">
-              <div className="snake-line-1 snake-line w-full h-full bg-[var(--color-border-strong)] opacity-0"></div>
-            </div>
-            <div className="absolute top-[3.75rem] bottom-[3.75rem] right-[16.66%] w-[1px] bg-[var(--color-border-subtle)]">
-              <div className="snake-line-2 snake-line w-full h-full bg-[var(--color-border-strong)] opacity-0"></div>
+              <div className="snake-line-1 snake-line w-full h-full bg-[var(--color-border-strong)] opacity-0 relative"></div>
+              <div className="process-pulse-1 absolute top-[-1px] left-[-100px] w-[100px] h-[3px] bg-gradient-to-r from-transparent via-[var(--color-accent)] to-transparent opacity-0 z-10 pointer-events-none shadow-[0_0_12px_rgba(49,87,255,0.8)]"></div>
             </div>
             <div className="absolute bottom-[3.75rem] left-[16.66%] right-[16.66%] h-[1px] bg-[var(--color-border-subtle)]">
-              <div className="snake-line-3 snake-line w-full h-full bg-[var(--color-border-strong)] opacity-0"></div>
+              <div className="snake-line-3 snake-line w-full h-full bg-[var(--color-border-strong)] opacity-0 relative"></div>
+              <div className="process-pulse-2 absolute top-[-1px] left-[-100px] w-[100px] h-[3px] bg-gradient-to-r from-transparent via-[var(--color-accent)] to-transparent opacity-0 z-10 pointer-events-none shadow-[0_0_12px_rgba(49,87,255,0.8)]"></div>
             </div>
 
             {/* Grid for Nodes */}
@@ -162,7 +183,7 @@ export const AboutSection = () => {
         {/* Layer 04 — Background / Personal Context */}
         <Grid className="about-footer about-anim border-t border-[var(--color-border-subtle)] pt-12 md:pt-16">
           <div className="col-span-4 md:col-span-12 lg:col-span-8 flex flex-col items-start gap-8">
-            <p className="font-body text-lg md:text-xl text-[var(--color-text-secondary)] max-w-2xl leading-relaxed mb-4 lg:mb-0">
+            <p className="font-body text-lg md:text-xl text-[var(--color-text-secondary)] max-w-[65ch] leading-relaxed mb-4 lg:mb-0">
               My path started with design and experimentation before I found my footing in full-stack web development. Today, I enjoy working where product thinking, engineering, AI, and business problems overlap.
             </p>
             <button 
@@ -179,7 +200,7 @@ export const AboutSection = () => {
             </button>
           </div>
           
-          <div className="col-span-4 md:col-span-12 lg:col-span-4 flex flex-col sm:flex-row lg:flex-col justify-between lg:justify-start gap-8 lg:gap-12 mt-12 lg:mt-0">
+          <div className="col-span-4 md:col-span-12 lg:col-span-4 flex flex-col sm:flex-row lg:flex-col justify-between lg:justify-start gap-8 lg:gap-12 mt-12 lg:mt-0 lg:pt-1.5">
             <div>
               <h4 className="text-meta text-[var(--color-text-secondary)] mb-2">KARACHI, PAKISTAN</h4>
               <p className="font-body text-base text-[var(--color-text-primary)]">FULL STACK DEVELOPMENT</p>

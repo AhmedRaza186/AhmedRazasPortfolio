@@ -60,7 +60,7 @@ export const ContactSection = () => {
   }, []);
 
   return (
-    <section id="contact" ref={sectionRef} aria-labelledby="contact-heading" className="py-24 md:py-32 lg:py-48 relative bg-[var(--color-canvas)] border-t border-[var(--color-border-subtle)]">
+    <section id="contact" ref={sectionRef} aria-labelledby="contact-heading" className="py-12 md:py-16 relative bg-[var(--color-canvas)] border-t border-[var(--color-border-subtle)]">
       <Container>
         <Grid>
           
@@ -95,7 +95,7 @@ export const ContactSection = () => {
                   className="contact-anim group flex flex-col gap-2 focus:outline-none"
                   aria-label={`Contact via ${link.label}`}
                 >
-                  <span className="font-meta text-xs text-[var(--color-text-secondary)] tracking-widest transition-colors duration-300 group-hover:text-[var(--color-text-primary)] group-focus-visible:text-[var(--color-text-primary)]">
+                  <span className="font-meta text-sm font-semibold text-[var(--color-text-secondary)] tracking-wide transition-colors duration-300 group-hover:text-[var(--color-text-primary)] group-focus-visible:text-[var(--color-text-primary)]">
                     {link.label}
                   </span>
                   
@@ -105,7 +105,7 @@ export const ContactSection = () => {
                       {/* Subtle Electric Blue Underline Indicator */}
                       <span className="absolute -bottom-1 left-0 w-full h-[1px] bg-[var(--color-accent)] opacity-0 group-hover:opacity-100 group-focus-visible:opacity-100 transition-opacity duration-300 transform origin-left scale-x-0 group-hover:scale-x-100 group-focus-visible:scale-x-100"></span>
                     </span>
-                    <span className="text-[var(--color-text-secondary)] group-hover:text-[var(--color-accent)] group-focus-visible:text-[var(--color-accent)] transition-colors duration-300 font-meta text-xl md:text-2xl mt-1">
+                    <span className="text-[var(--color-text-secondary)] group-hover:text-[var(--color-accent)] group-focus-visible:text-[var(--color-accent)] transition-all duration-300 group-hover:translate-x-1 group-hover:-translate-y-1 group-focus-visible:translate-x-1 group-focus-visible:-translate-y-1 font-meta text-xl md:text-2xl mt-1">
                       ↗
                     </span>
                   </div>

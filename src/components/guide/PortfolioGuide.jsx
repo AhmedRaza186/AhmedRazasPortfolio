@@ -86,27 +86,36 @@ export const PortfolioGuide = () => {
   if (prefersReducedMotion) return null;
 
   return (
-    <div 
-      ref={containerRef}
-      className="fixed left-2 md:left-6 lg:left-8 top-[20vh] bottom-[20vh] z-50 pointer-events-none flex flex-col items-center"
-      aria-hidden="true"
-    >
-      {/* Background track (Laser) */}
-      <div id="guide-track-line" className="absolute top-0 bottom-0 left-1/2 -translate-x-1/2 w-[1px] bg-[var(--color-accent)] opacity-20"></div>
-      
-      {/* Moving Signal Dot */}
-      <div 
-        ref={dotRef} 
-        id="guide-dot-element"
-        className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 w-1.5 h-1.5 bg-[var(--color-accent)] rounded-full shadow-[0_0_8px_rgba(49,87,255,0.8)]"
-      >
-        {/* Dynamic Guide Message rendered alongside the dot */}
-        {activeMessage && (
-          <GuideMessage 
-            messageData={activeMessage} 
-            isVisible={showMessage} 
-          />
-        )}
+    <div className="fixed inset-0 pointer-events-none z-50">
+      {/* 
+        We use a max-w container to match the site's layout.
+        The left-* classes exactly mirror the Container's px-* padding, 
+        ensuring the laser perfectly aligns with the text content (e.g. Hero subhead).
+      */}
+      <div className="w-full max-w-[1440px] mx-auto h-full relative">
+        <div 
+          ref={containerRef}
+          className="absolute left-5 md:left-8 lg:left-12 xl:left-16 top-[20vh] bottom-[20vh] flex flex-col items-center"
+          aria-hidden="true"
+        >
+          {/* Background track (Laser) */}
+          <div id="guide-track-line" className="absolute top-0 bottom-0 left-1/2 -translate-x-1/2 w-[1px] bg-[var(--color-accent)] opacity-20"></div>
+          
+          {/* Moving Signal Dot */}
+          <div 
+            ref={dotRef} 
+            id="guide-dot-element"
+            className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 w-1.5 h-1.5 bg-[var(--color-accent)] rounded-full shadow-[0_0_8px_rgba(49,87,255,0.8)]"
+          >
+            {/* Dynamic Guide Message rendered alongside the dot */}
+            {activeMessage && (
+              <GuideMessage 
+                messageData={activeMessage} 
+                isVisible={showMessage} 
+              />
+            )}
+          </div>
+        </div>
       </div>
     </div>
   );

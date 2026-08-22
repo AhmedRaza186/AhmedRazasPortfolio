@@ -235,9 +235,9 @@ export const ProjectDetail = () => {
           <div className="col-span-4 md:col-span-4 lg:col-span-3">
              <h3 className="font-meta text-xs text-[var(--color-text-secondary)] tracking-widest mb-6">BUILT WITH</h3>
              {project.technologies && project.technologies.length > 0 ? (
-               <ul className="flex flex-col gap-2">
+               <ul className="flex flex-wrap gap-2">
                  {project.technologies.map((tech, i) => (
-                   <li key={i} className="font-body text-base text-[var(--color-text-primary)]">{tech}</li>
+                   <li key={i} className="font-meta text-[10px] tracking-widest px-3 py-1.5 border border-[var(--color-border-subtle)] rounded-full text-[var(--color-text-primary)] bg-[var(--color-canvas)]">{tech}</li>
                  ))}
                </ul>
              ) : (
@@ -254,7 +254,7 @@ export const ProjectDetail = () => {
 
           <div className="col-span-4 md:col-span-12 lg:col-span-5">
              <h3 className="font-meta text-xs text-[var(--color-text-secondary)] tracking-widest mb-6">CHALLENGES</h3>
-             <p className="font-body text-base text-[var(--color-text-secondary)] leading-relaxed">
+             <p className="font-body text-base text-[var(--color-text-secondary)] leading-relaxed whitespace-pre-line">
                {caseStudy?.challenges || "Standard implementation focusing on core stability and performance."}
              </p>
           </div>
@@ -277,7 +277,7 @@ export const ProjectDetail = () => {
           <Grid className="cs-section mt-16 md:mt-24 border-t border-[var(--color-border-subtle)] pt-16">
             <div className="col-span-4 md:col-span-12 flex flex-wrap gap-8 justify-center">
               {project.live && (
-                <a href={project.live} target="_blank" rel="noopener noreferrer" className="group flex flex-col gap-2 focus:outline-none items-center">
+                <a href={project.live} target="_blank" rel="noopener noreferrer" className="group flex flex-col gap-2 focus:outline-none items-center p-4">
                   <span className="font-meta text-[10px] tracking-widest text-[var(--color-text-secondary)] group-hover:text-[var(--color-text-primary)] transition-colors">LIVE PROJECT</span>
                   <div className="flex items-center gap-2 text-[var(--color-text-primary)]">
                     <span className="font-body text-xl md:text-2xl relative">
@@ -289,7 +289,7 @@ export const ProjectDetail = () => {
                 </a>
               )}
               {project.github && (
-                <a href={project.github} target="_blank" rel="noopener noreferrer" className="group flex flex-col gap-2 focus:outline-none items-center">
+                <a href={project.github} target="_blank" rel="noopener noreferrer" className="group flex flex-col gap-2 focus:outline-none items-center p-4">
                   <span className="font-meta text-[10px] tracking-widest text-[var(--color-text-secondary)] group-hover:text-[var(--color-text-primary)] transition-colors">VIEW SOURCE</span>
                   <div className="flex items-center gap-2 text-[var(--color-text-primary)]">
                     <span className="font-body text-xl md:text-2xl relative">
@@ -310,13 +310,23 @@ export const ProjectDetail = () => {
       {nextProject && (
         <div className="cs-section border-t border-[var(--color-border-subtle)] bg-[var(--color-canvas)]">
           <Container className="py-24 md:py-32">
-            <Link to={`/work/${nextProject.slug}`} className="group block w-fit mx-auto text-center focus:outline-none">
+            <Link to={`/work/${nextProject.slug}`} className="group block w-fit mx-auto text-center focus:outline-none relative py-8">
               <span className="font-meta text-xs tracking-widest text-[var(--color-text-secondary)] mb-6 block transition-colors group-hover:text-[var(--color-accent)]">
                 NEXT PROJECT →
               </span>
-              <h2 className="font-display text-4xl md:text-6xl text-[var(--color-text-primary)] group-hover:opacity-70 transition-opacity">
+              <h2 className="font-display text-4xl md:text-6xl text-[var(--color-text-primary)] group-hover:opacity-70 transition-opacity mb-4">
                 {nextProject.title}
               </h2>
+              {nextProject.category && (
+                <div className="font-body text-base md:text-lg text-[var(--color-text-secondary)] opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                  {nextProject.category}
+                </div>
+              )}
+              {nextProject.image && (
+                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[300px] aspect-video rounded-sm overflow-hidden opacity-0 pointer-events-none group-hover:opacity-10 transition-opacity duration-700 -z-10 mix-blend-luminosity">
+                  <img src={nextProject.image} alt="" className="w-full h-full object-cover" />
+                </div>
+              )}
             </Link>
           </Container>
         </div>

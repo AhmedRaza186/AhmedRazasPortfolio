@@ -9,94 +9,152 @@ import { projects } from '../../data/projects';
 gsap.registerPlugin(ScrollTrigger);
 
 const ProjectCard = ({ project, index }) => {
-  // Custom layouts based on index to create intentional asymmetry
-  let colSpan = '';
-  let imageAspect = '';
-  let innerLayout = '';
-  
-  if (index === 0) {
-    // 01 Auto-QA: Largest, strongest visual
-    colSpan = 'col-span-4 md:col-span-8 lg:col-span-12 mb-20 md:mb-40';
-    imageAspect = 'aspect-[4/3] md:aspect-[16/9] lg:aspect-[2.35/1]';
-    innerLayout = 'flex flex-col gap-6 md:gap-10';
-  } else if (index === 1) {
-    // 02 TradeSift: Typographic, pushed right
-    colSpan = 'col-span-4 md:col-span-8 lg:col-span-8 lg:col-start-5 mb-20 md:mb-40';
-    imageAspect = 'aspect-video';
-    innerLayout = 'flex flex-col gap-6 md:gap-10';
-  } else if (index === 2) {
-    // 03 GoldenKey: Image on left, text right
-    colSpan = 'col-span-4 md:col-span-8 lg:col-span-10 lg:col-start-1 mb-20 md:mb-40';
-    imageAspect = 'aspect-[4/3]';
-    innerLayout = 'flex flex-col md:flex-row gap-8 lg:gap-16 items-center';
-  } else {
-    // 04 User Management System: smaller final, centered
-    colSpan = 'col-span-4 md:col-span-8 lg:col-span-6 lg:col-start-4 mb-20 md:mb-32';
-    imageAspect = 'aspect-[4/3]';
-    innerLayout = 'flex flex-col gap-6 md:gap-8';
-  }
+  // Intentional asymmetry via alternating grid
+  const isReverse = index % 2 !== 0;
 
   return (
-    <div className={`project-card ${colSpan} group`}>
-      <Link to={`/work/${project.slug}`} className="block">
-        <div className={innerLayout}>
-          
-          {/* Visual Block */}
-          {project.image ? (
-            <div className={`w-full overflow-hidden rounded-sm bg-[var(--color-border-subtle)] relative ${index === 2 ? 'md:w-[60%]' : ''}`}>
-              <div className={`w-full ${imageAspect}`}>
+    <div className="project-card col-span-4 md:col-span-12 mb-32 md:mb-40 group">
+      <div className={`flex flex-col ${isReverse ? 'lg:flex-row-reverse' : 'lg:flex-row'} gap-12 lg:gap-24 items-center`}>
+        
+        {/* Visual Block - 55% width */}
+        <div className="w-full lg:w-[55%]">
+          {/* Browser Window Frame Mockup */}
+          <div className="w-full rounded-xl bg-[var(--color-elevated)] border border-[var(--color-border-subtle)] shadow-2xl overflow-hidden relative transition-transform duration-700 ease-out group-hover:scale-[1.02]">
+            
+            {/* Browser Chrome */}
+            <div className="h-8 border-b border-[var(--color-border-subtle)] bg-[var(--color-canvas)] flex items-center px-4 gap-2">
+              <div className="w-2.5 h-2.5 rounded-full bg-[var(--color-border-strong)] opacity-50"></div>
+              <div className="w-2.5 h-2.5 rounded-full bg-[var(--color-border-strong)] opacity-50"></div>
+              <div className="w-2.5 h-2.5 rounded-full bg-[var(--color-border-strong)] opacity-50"></div>
+            </div>
+            
+            {/* Image / UI Placeholder */}
+            <div className="w-full aspect-[4/3] md:aspect-[16/9] lg:aspect-[4/3] bg-[var(--color-canvas)] relative">
+              {project.image ? (
                 <img 
                   src={project.image} 
                   alt={project.title} 
-                  className="w-full h-full object-cover object-top transition-transform duration-1000 ease-out group-hover:scale-[1.03]"
+                  loading="lazy"
+                  className="w-full h-full object-cover object-top"
                 />
-              </div>
+              ) : (
+                // CSS Dashboard Mockup for User Management System
+                <div className="absolute inset-0 flex p-4 gap-4 bg-[var(--color-canvas)]">
+                  {/* Sidebar */}
+                  <div className="w-1/4 h-full rounded-md border border-[var(--color-border-subtle)] bg-[var(--color-elevated)] p-3 flex flex-col gap-3">
+                    <div className="w-full h-4 bg-[var(--color-border-strong)] rounded-sm opacity-20 mb-4"></div>
+                    <div className="w-3/4 h-2 bg-[var(--color-border-strong)] rounded-sm opacity-10"></div>
+                    <div className="w-2/3 h-2 bg-[var(--color-border-strong)] rounded-sm opacity-10"></div>
+                    <div className="w-4/5 h-2 bg-[var(--color-border-strong)] rounded-sm opacity-10"></div>
+                  </div>
+                  {/* Main Content */}
+                  <div className="w-3/4 h-full flex flex-col gap-4">
+                    {/* Header */}
+                    <div className="w-full h-12 rounded-md border border-[var(--color-border-subtle)] bg-[var(--color-elevated)] p-3 flex items-center justify-between">
+                       <div className="w-1/3 h-2 bg-[var(--color-border-strong)] rounded-sm opacity-20"></div>
+                       <div className="w-8 h-8 rounded-full border border-[var(--color-border-strong)] opacity-20"></div>
+                    </div>
+                    {/* Stats */}
+                    <div className="grid grid-cols-3 gap-4">
+                      <div className="h-16 rounded-md border border-[var(--color-border-subtle)] bg-[var(--color-elevated)] p-3 flex flex-col justify-center gap-2">
+                        <div className="w-1/2 h-2 bg-[var(--color-border-strong)] rounded-sm opacity-10"></div>
+                        <div className="w-1/3 h-4 bg-[var(--color-border-strong)] rounded-sm opacity-30"></div>
+                      </div>
+                      <div className="h-16 rounded-md border border-[var(--color-border-subtle)] bg-[var(--color-elevated)] p-3 flex flex-col justify-center gap-2">
+                        <div className="w-1/2 h-2 bg-[var(--color-border-strong)] rounded-sm opacity-10"></div>
+                        <div className="w-1/3 h-4 bg-[var(--color-border-strong)] rounded-sm opacity-30"></div>
+                      </div>
+                      <div className="h-16 rounded-md border border-[var(--color-border-subtle)] bg-[var(--color-elevated)] p-3 flex flex-col justify-center gap-2">
+                        <div className="w-1/2 h-2 bg-[var(--color-border-strong)] rounded-sm opacity-10"></div>
+                        <div className="w-1/3 h-4 bg-[var(--color-border-strong)] rounded-sm opacity-30"></div>
+                      </div>
+                    </div>
+                    {/* List */}
+                    <div className="flex-1 rounded-md border border-[var(--color-border-subtle)] bg-[var(--color-elevated)] p-4 flex flex-col gap-3">
+                       <div className="w-full h-8 rounded-sm bg-[var(--color-canvas)] border border-[var(--color-border-subtle)] flex items-center px-3">
+                         <div className="w-6 h-6 rounded-full bg-[var(--color-border-strong)] opacity-20"></div>
+                         <div className="ml-3 w-1/4 h-2 bg-[var(--color-border-strong)] rounded-sm opacity-20"></div>
+                       </div>
+                       <div className="w-full h-8 rounded-sm bg-[var(--color-canvas)] border border-[var(--color-border-subtle)] flex items-center px-3">
+                         <div className="w-6 h-6 rounded-full bg-[var(--color-border-strong)] opacity-20"></div>
+                         <div className="ml-3 w-1/3 h-2 bg-[var(--color-border-strong)] rounded-sm opacity-20"></div>
+                       </div>
+                    </div>
+                  </div>
+                </div>
+              )}
             </div>
-          ) : (
-            <div className={`w-full overflow-hidden rounded-sm bg-[var(--color-elevated)] border border-[var(--color-border-subtle)] relative flex items-center justify-center p-12 ${index === 2 ? 'md:w-[60%]' : ''} ${imageAspect}`}>
-              <span className="font-display text-4xl md:text-5xl lg:text-7xl text-[var(--color-text-secondary)] tracking-tight opacity-40 transition-opacity duration-700 group-hover:opacity-100">
-                {project.title}
-              </span>
+          </div>
+        </div>
+
+        {/* Content Block - 45% width */}
+        <div className="w-full lg:w-[45%] flex flex-col justify-center">
+          <div className="flex flex-wrap items-center gap-4 mb-4 md:mb-6 text-meta text-[var(--color-text-secondary)] transition-transform duration-500 group-hover:translate-x-1">
+            <span>0{index + 1}</span>
+            <span className="w-6 h-[1px] bg-[var(--color-border-strong)]"></span>
+            <span>{project.category}</span>
+          </div>
+          
+          <Link to={`/work/${project.slug}`} className="group/title block w-fit">
+            <h3 className="font-display text-3xl md:text-5xl lg:text-[3.5rem] mb-4 md:mb-6 leading-[1.1] transition-colors duration-300 group-hover/title:text-[var(--color-accent)]">
+              {project.title}
+            </h3>
+          </Link>
+          
+          <p className="font-body text-[var(--color-text-secondary)] text-base md:text-lg mb-6 leading-relaxed">
+            {project.description}
+          </p>
+
+          {/* Impact Metric Block */}
+          {project.impact && (
+            <div className="mb-6 border-l-2 border-[var(--color-accent)] pl-4 py-1">
+              <p className="font-body text-sm md:text-base text-[var(--color-text-primary)]">
+                <span className="font-semibold text-[var(--color-accent)] mr-2">Impact:</span>
+                {project.impact}
+              </p>
             </div>
           )}
 
-          {/* Content Block */}
-          <div className={`flex flex-col justify-center ${index === 2 ? 'md:w-[40%]' : ''}`}>
-            <div className="flex flex-wrap items-center gap-4 mb-4 md:mb-6 text-meta text-[var(--color-text-secondary)] transition-transform duration-500 group-hover:translate-x-1">
-              <span>0{index + 1}</span>
-              <span className="w-6 h-[1px] bg-[var(--color-border-strong)]"></span>
-              <span>{project.category}</span>
+          {/* Tech Stack Pills */}
+          {project.technologies && (
+            <div className="flex flex-wrap items-center gap-2 mb-8 font-meta text-xs text-[var(--color-text-secondary)]">
+              {project.technologies.slice(0, 5).map((tech, i) => (
+                <span key={i} className="px-3 py-1.5 rounded-full border border-[var(--color-border-subtle)] bg-[var(--color-elevated)]">
+                  {tech}
+                </span>
+              ))}
+              {project.technologies.length > 5 && (
+                <span className="px-3 py-1.5 rounded-full border border-[var(--color-border-subtle)] bg-[var(--color-elevated)]">
+                  +{project.technologies.length - 5} MORE
+                </span>
+              )}
             </div>
+          )}
+          
+          {/* Action Links */}
+          <div className="mt-auto flex flex-col sm:flex-row items-start sm:items-center font-meta font-semibold gap-4 sm:gap-6 text-xs md:text-sm">
+            <Link to={`/work/${project.slug}`} className="group/link flex items-center gap-2 text-[var(--color-text-primary)] transition-all duration-300">
+              CASE STUDY 
+              <span className="text-[var(--color-accent)] transition-transform duration-300 group-hover/link:translate-x-1">→</span>
+            </Link>
             
-            <h3 className="font-display text-3xl md:text-5xl lg:text-[3.5rem] mb-4 md:mb-6 leading-[1.1] transition-colors duration-300">
-              {project.title}
-            </h3>
-            
-            <p className="font-body text-[var(--color-text-secondary)] text-base md:text-lg mb-6 leading-relaxed max-w-xl">
-              {project.description}
-            </p>
-
-            {project.technologies && (
-              <div className="flex flex-wrap items-center gap-x-2 gap-y-1 mb-8 text-xs font-meta text-[var(--color-text-secondary)]">
-                {project.technologies.map((tech, i) => (
-                  <React.Fragment key={i}>
-                    <span>{tech}</span>
-                    {i < project.technologies.length - 1 && (
-                      <span className="text-[var(--color-accent)] opacity-50">·</span>
-                    )}
-                  </React.Fragment>
-                ))}
-              </div>
+            {project.live && (
+              <a href={project.live} target="_blank" rel="noopener noreferrer" className="group/link flex items-center gap-2 text-[var(--color-text-secondary)] hover:text-[var(--color-text-primary)] transition-all duration-300">
+                LIVE DEMO 
+                <span className="text-[var(--color-accent)] transition-transform duration-300 group-hover/link:translate-x-1 group-hover/link:-translate-y-1">↗</span>
+              </a>
             )}
             
-            <div className="mt-auto flex items-center text-meta font-semibold gap-2 group-hover:gap-4 transition-all duration-300">
-              VIEW PROJECT 
-              <span className="text-[var(--color-accent)] transition-transform duration-300 group-hover:translate-x-1">→</span>
-            </div>
+            {project.github && (
+              <a href={project.github} target="_blank" rel="noopener noreferrer" className="group/link flex items-center gap-2 text-[var(--color-text-secondary)] hover:text-[var(--color-text-primary)] transition-all duration-300">
+                SOURCE CODE 
+                <span className="text-[var(--color-accent)] transition-transform duration-300 group-hover/link:translate-x-1 group-hover/link:-translate-y-1">↗</span>
+              </a>
+            )}
           </div>
-
         </div>
-      </Link>
+
+      </div>
     </div>
   );
 };
@@ -141,7 +199,7 @@ export const WorkSection = () => {
   }, []);
 
   return (
-    <section id="work" ref={sectionRef} className="py-24 md:py-40 relative bg-[var(--color-canvas)]">
+    <section id="work" ref={sectionRef} className="py-12 md:py-16 relative bg-[var(--color-canvas)]">
       <Container>
         
         {/* Section Header */}
@@ -170,21 +228,17 @@ export const WorkSection = () => {
         </Grid>
 
         {/* View All Projects CTA */}
-        <div className="mt-24 md:mt-32 text-center">
+        <div className="mt-12 md:mt-20 text-center flex justify-center">
           <Link 
             to="/work" 
-            className="group inline-flex flex-col items-center focus:outline-none"
+            className="group flex items-center gap-4 px-8 py-4 rounded-full border border-[var(--color-border-strong)] bg-[var(--color-canvas)] hover:bg-[var(--color-elevated)] transition-all duration-300 focus:outline-none"
           >
-            <span className="font-meta text-xs tracking-widest text-[var(--color-text-secondary)] group-hover:text-[var(--color-text-primary)] transition-colors mb-2">
-              DISCOVER MORE
+            <span className="font-meta text-xs md:text-sm tracking-widest text-[var(--color-text-primary)]">
+              VIEW ALL PROJECTS
             </span>
-            <div className="flex items-center gap-2 text-[var(--color-text-primary)]">
-              <span className="font-body text-2xl md:text-3xl relative">
-                VIEW ALL PROJECTS
-                <span className="absolute -bottom-1 left-0 w-full h-[1px] bg-[var(--color-accent)] opacity-0 group-hover:opacity-100 transition-all origin-left scale-x-0 group-hover:scale-x-100"></span>
-              </span>
-              <span className="font-meta text-2xl group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform group-hover:text-[var(--color-accent)]">↗</span>
-            </div>
+            <span className="font-meta text-lg text-[var(--color-text-secondary)] group-hover:text-[var(--color-accent)] group-hover:translate-x-1 group-hover:-translate-y-1 transition-all duration-300">
+              ↗
+            </span>
           </Link>
         </div>
 

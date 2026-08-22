@@ -36,7 +36,7 @@ export const Hero = () => {
       .to(q('.hero-desc'), { opacity: 1, y: 0, duration: 0.8 }, '-=0.6')
       .to(q('.hero-cta'), { opacity: 1, y: 0, duration: 0.8, stagger: 0.1 }, '-=0.6')
       .to(q('.hero-image-container'), { clipPath: 'inset(0% 0% 0% 0%)', duration: 1.2, ease: 'power4.inOut' }, '-=0.8')
-      .to(q('.hero-image'), { scale: 1, duration: 1.2, ease: 'power4.inOut' }, '-=1.2');
+      .to(q('.hero-image'), { scale: 1, duration: 1.2, ease: 'power4.inOut', clearProps: 'transform' }, '-=1.2');
 
     return () => {
       tl.kill();
@@ -48,19 +48,19 @@ export const Hero = () => {
   };
 
   return (
-    <section 
+    <section
       id="hero"
-      ref={heroRef} 
-      className="relative min-h-[calc(100svh-80px)] flex flex-col justify-center pt-8 pb-24 md:pt-16 md:pb-32 overflow-hidden"
+      ref={heroRef}
+      className="relative min-h-[calc(100svh-80px)] flex flex-col justify-center pt-8 pb-24 md:pt-1 md:pb-32 overflow-hidden"
     >
       <Container>
         <Grid className="items-end">
-          
+
           {/* Left Column - Content */}
           <div className="col-span-4 md:col-span-8 lg:col-span-7 flex flex-col z-10">
-            
+
             {/* Metadata */}
-            <div className="flex flex-wrap items-center gap-4 mb-8 md:mb-12">
+            <div className="flex flex-wrap items-center gap-4 mb-10 md:mb-12">
               <span className="hero-meta animate-item text-meta flex items-center gap-2">
                 <span className="w-1.5 h-1.5 rounded-full bg-[var(--color-accent)] inline-block"></span>
                 KARACHI, PAKISTAN
@@ -72,14 +72,14 @@ export const Hero = () => {
             </div>
 
             {/* Headline */}
-            <h1 className="font-display text-[clamp(4rem,9vw,8rem)] leading-[1] tracking-tight mb-8" style={{ perspective: '1000px' }}>
+            <h1 className="font-display text-[clamp(3rem,6vw,5.5rem)] leading-[1.1] tracking-tight mb-8 md:mb-10" style={{ perspective: '1000px' }}>
               <div className="hero-title-line animate-item origin-bottom">I build digital products</div>
               <div className="hero-title-line animate-item origin-bottom text-[var(--color-text-secondary)]">from idea to deployment.</div>
             </h1>
 
             {/* Description */}
-            <p className="hero-desc animate-item font-body text-base md:text-xl text-[var(--color-text-secondary)] max-w-xl mb-12 leading-relaxed">
-              Product-focused Full Stack Developer building end-to-end web products across AI, automation, commerce, and real-world business problems.
+            <p className="hero-desc animate-item font-body text-base md:text-xl text-[var(--color-text-secondary)] max-w-xl mb-12 leading-loose">
+              Product-focused Full Stack Developer building robust MERN architecture with Node.js, Express, and REST APIs, alongside seamless frontend experiences.
             </p>
 
             {/* CTAs */}
@@ -97,19 +97,19 @@ export const Hero = () => {
             </div>
           </div>
 
-          {/* Right Column - Image */}
-          <div className="col-span-4 md:col-span-8 lg:col-span-4 lg:col-start-9 mt-16 lg:mt-0 relative">
-            <div className="hero-image-container animate-item relative w-full aspect-[4/5] md:aspect-[16/9] lg:aspect-[3/4] overflow-hidden rounded-sm bg-[var(--color-border-subtle)]">
-              <img 
-                src="/assets/personal/ahmedRazaPhoto.jpg" 
-                alt="Ahmed Raza Portrait" 
-                className="hero-image animate-item w-full h-full object-cover object-center grayscale hover:grayscale-0 transition-all duration-700 ease-out"
+          {/* Right Column - Image (Background on mobile, Grid on desktop) */}
+          <div className="absolute inset-0 w-full h-full -z-10 lg:z-auto lg:relative lg:col-span-4 lg:col-start-9 group pointer-events-none lg:pointer-events-auto">
+            <div className="hero-image-container animate-item relative w-full h-full lg:aspect-[3/4] overflow-hidden lg:rounded-sm bg-transparent lg:bg-[var(--color-border-subtle)]">
+              <img
+                src="/assets/personal/ahmedRazaPhoto.jpg"
+                alt="Ahmed Raza Portrait"
+                className="hero-image animate-item w-full h-full object-cover object-[center_top] grayscale opacity-15 lg:opacity-100 group-hover:grayscale-0 group-hover:scale-105 transition-all duration-700 ease-out"
               />
             </div>
             {/* Subtle decorative element */}
             <div className="hero-meta animate-item absolute -bottom-6 -right-6 w-24 h-24 border border-[var(--color-border-subtle)] rounded-full hidden lg:block -z-10"></div>
           </div>
-          
+
         </Grid>
       </Container>
     </section>

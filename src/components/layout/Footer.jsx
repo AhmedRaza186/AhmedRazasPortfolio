@@ -13,6 +13,11 @@ const footerLinks = [
     href: "mailto:ahmedrazamun@gmail.com"
   },
   {
+    label: "GITHUB",
+    value: "AhmedRaza186",
+    href: "https://github.com/AhmedRaza186"
+  },
+  {
     label: "LINKEDIN",
     value: "LinkedIn",
     href: "https://www.linkedin.com/in/ahmed-raza-14188b35b/"
@@ -79,9 +84,9 @@ export const Footer = () => {
         </Grid>
 
         {/* Layer 03 — Contact Links */}
-        <Grid className="mb-32 md:mb-48 gap-y-12">
+        <div className="mb-32 md:mb-48 flex flex-wrap gap-x-12 gap-y-12 lg:gap-x-20">
           {footerLinks.map((link, idx) => (
-            <div key={idx} className="footer-link footer-anim col-span-4 md:col-span-4 lg:col-span-3">
+            <div key={idx} className="footer-link footer-anim flex-shrink-0">
               <a 
                 href={link.href}
                 target="_blank"
@@ -106,27 +111,28 @@ export const Footer = () => {
               </a>
             </div>
           ))}
-        </Grid>
+        </div>
 
         {/* Layer 04 — Footer Meta */}
-        <div className="footer-bottom footer-anim flex flex-col md:flex-row justify-between items-start md:items-end gap-12 md:gap-4 border-t border-[var(--color-border-subtle)] pt-12">
+        <div className="footer-bottom footer-anim flex flex-col md:flex-row justify-between items-start md:items-center gap-8 md:gap-4 border-t border-[var(--color-border-subtle)] pt-12">
           
-          <div className="flex flex-col gap-1">
+          {/* Left Side: Name, Role, Location */}
+          <div className="flex flex-col md:flex-row md:items-center gap-2 md:gap-4">
             <span className="font-body text-base text-[var(--color-text-primary)]">AHMED RAZA</span>
+            <span className="hidden md:inline-block text-[var(--color-text-secondary)]">·</span>
             <span className="font-meta text-xs text-[var(--color-text-secondary)] tracking-widest">FULL STACK DEVELOPER</span>
-          </div>
-
-          <div className="hidden lg:block text-center flex-1">
+            <span className="hidden md:inline-block text-[var(--color-text-secondary)]">·</span>
             <span className="font-meta text-xs text-[var(--color-text-secondary)] tracking-widest">KARACHI, PAKISTAN</span>
           </div>
 
-          <div className="flex flex-col md:items-end gap-6 md:gap-2 w-full md:w-auto">
+          {/* Right Side: Copyright & Back to Top */}
+          <div className="flex flex-col md:flex-row md:items-center gap-6 md:gap-8 w-full md:w-auto mt-2 md:mt-0">
             <span className="font-meta text-xs text-[var(--color-text-secondary)] tracking-widest">
               &copy; 2026 AHMED RAZA
             </span>
             <button 
               onClick={handleBackToTop}
-              className="group flex items-center gap-2 font-meta text-xs tracking-widest text-[var(--color-text-primary)] hover:text-[var(--color-accent)] focus-visible:text-[var(--color-accent)] transition-colors duration-300 focus:outline-none mt-4 md:mt-2"
+              className="group flex items-center gap-2 font-meta text-xs tracking-widest text-[var(--color-text-primary)] hover:text-[var(--color-accent)] focus-visible:text-[var(--color-accent)] transition-colors duration-300 focus:outline-none"
               aria-label="Scroll back to top"
             >
               BACK TO TOP
