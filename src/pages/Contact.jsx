@@ -5,6 +5,7 @@ import emailjs from '@emailjs/browser';
 import { Container } from '../components/layout/Container';
 import { Grid } from '../components/layout/Grid';
 import { Footer } from '../components/layout/Footer';
+import { siteConfig } from '../data/site';
 
 export const Contact = () => {
   const pageRef = useRef(null);
@@ -100,6 +101,12 @@ export const Contact = () => {
       label: "GITHUB",
       value: "AhmedRaza186",
       href: "https://github.com/AhmedRaza186",
+    },
+    {
+      label: "DOWNLOAD CV",
+      value: "View Résumé",
+      href: siteConfig.cvUrl,
+      download: "Ahmed_Raza_CV.pdf"
     }
   ];
 
@@ -137,8 +144,9 @@ export const Contact = () => {
                 <a 
                   key={idx}
                   href={link.href}
-                  target="_blank"
-                  rel="noopener noreferrer"
+                  download={link.download}
+                  target={link.download ? undefined : "_blank"}
+                  rel={link.download ? undefined : "noopener noreferrer"}
                   className="contact-link-row group flex items-center justify-between border-b border-[var(--color-border-subtle)] py-4 hover:bg-[var(--color-text-secondary)]/5 px-4 -mx-4 rounded-sm focus:outline-none focus-visible:bg-[var(--color-text-secondary)]/5 transition-colors"
                 >
                   <div className="flex flex-col gap-1">

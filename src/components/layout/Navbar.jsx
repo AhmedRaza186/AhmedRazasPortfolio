@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { NavLink } from 'react-router-dom';
 import { Container } from './Container';
 import { Logo } from '../common/Logo';
+import { siteConfig } from '../../data/site';
 
 export const Navbar = () => {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -30,7 +31,7 @@ export const Navbar = () => {
 
   const navLinks = [
     { name: 'Work', path: '/work' },
-    { name: 'About', path: '/about' },
+    { name: 'Achievements', path: '/achievements' },
     { name: 'Journey', path: '/journey' },
     { name: 'Contact', path: '/contact' },
   ];
@@ -75,6 +76,14 @@ export const Navbar = () => {
                 )}
               </NavLink>
             ))}
+            
+            <a
+              href={siteConfig.cvUrl}
+              download="Ahmed_Raza_CV.pdf"
+              className="text-meta text-[var(--color-text-primary)] transition-colors duration-200 hover:text-[var(--color-accent)] py-2 ml-4 flex items-center gap-1"
+            >
+              DOWNLOAD CV ↗
+            </a>
           </nav>
 
           {/* Mobile Menu Toggle */}
@@ -128,6 +137,15 @@ export const Navbar = () => {
               {link.name}
             </NavLink>
           ))}
+          
+          <a
+            href={siteConfig.cvUrl}
+            download="Ahmed_Raza_CV.pdf"
+            className="text-meta tracking-widest text-[var(--color-text-primary)] hover:text-[var(--color-accent)] transition-colors duration-300 mt-8"
+            onClick={() => setIsMobileMenuOpen(false)}
+          >
+            DOWNLOAD CV ↗
+          </a>
         </div>
       </div>
     </>

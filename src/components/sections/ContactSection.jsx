@@ -4,6 +4,7 @@ import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { Container } from '../layout/Container';
 import { Grid } from '../layout/Grid';
+import { siteConfig } from '../../data/site';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -25,6 +26,13 @@ const contactLinks = [
     value: "Let's chat",
     href: "https://wa.me/923320397145?text=Hi%20Ahmed%2C%20I%27d%20like%20to%20discuss%20a%20project.",
     external: true
+  },
+  {
+    label: "DOWNLOAD CV",
+    value: "View Résumé",
+    href: siteConfig.cvUrl,
+    external: true,
+    download: "Ahmed_Raza_CV.pdf"
   }
 ];
 
@@ -85,7 +93,7 @@ export const ContactSection = () => {
             {contactLinks.map((link, idx) => {
               const LinkElement = link.external ? 'a' : Link;
               const linkProps = link.external 
-                ? { href: link.href, target: "_blank", rel: "noopener noreferrer" }
+                ? { href: link.href, target: link.download ? undefined : "_blank", rel: link.download ? undefined : "noopener noreferrer", download: link.download }
                 : { to: link.to };
 
               return (

@@ -4,6 +4,7 @@ import gsap from 'gsap';
 import { Container } from '../layout/Container';
 import { Grid } from '../layout/Grid';
 import { Button } from '../ui/Button';
+import { siteConfig } from '../../data/site';
 
 export const Hero = () => {
   const navigate = useNavigate();
@@ -93,6 +94,15 @@ export const Hero = () => {
                 <Button variant="secondary" onClick={handleWhatsApp}>
                   LET'S TALK ↗
                 </Button>
+              </div>
+              <div className="hero-cta animate-item ml-2 md:ml-4">
+                <a 
+                  href={siteConfig.cvUrl} 
+                  download="Ahmed_Raza_CV.pdf"
+                  className="font-meta text-xs tracking-widest text-[var(--color-text-secondary)] hover:text-[var(--color-text-primary)] hover:underline underline-offset-4 transition-all duration-300 uppercase"
+                >
+                  DOWNLOAD CV ↗
+                </a>
               </div>
             </div>
           </div>
