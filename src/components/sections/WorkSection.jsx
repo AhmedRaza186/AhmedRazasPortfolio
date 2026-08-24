@@ -30,9 +30,9 @@ const ProjectCard = ({ project, index }) => {
             
             {/* Image / UI Placeholder */}
             <div className="w-full aspect-[4/3] md:aspect-[16/9] lg:aspect-[4/3] bg-[var(--color-canvas)] relative">
-              {project.image ? (
+              {project.thumbnail ? (
                 <img 
-                  src={project.image} 
+                  src={project.thumbnail} 
                   alt={project.title} 
                   loading="lazy"
                   className="w-full h-full object-cover object-top"
@@ -138,15 +138,15 @@ const ProjectCard = ({ project, index }) => {
               <span className="text-[var(--color-accent)] transition-transform duration-300 group-hover/link:translate-x-1">→</span>
             </Link>
             
-            {project.live && (
-              <a href={project.live} target="_blank" rel="noopener noreferrer" className="group/link flex items-center gap-2 text-[var(--color-text-secondary)] hover:text-[var(--color-text-primary)] transition-all duration-300">
+            {project.liveUrl && (
+              <a href={project.liveUrl} target="_blank" rel="noopener noreferrer" className="group/link flex items-center gap-2 text-[var(--color-text-secondary)] hover:text-[var(--color-text-primary)] transition-all duration-300">
                 LIVE DEMO 
                 <span className="text-[var(--color-accent)] transition-transform duration-300 group-hover/link:translate-x-1 group-hover/link:-translate-y-1">↗</span>
               </a>
             )}
             
-            {project.github && (
-              <a href={project.github} target="_blank" rel="noopener noreferrer" className="group/link flex items-center gap-2 text-[var(--color-text-secondary)] hover:text-[var(--color-text-primary)] transition-all duration-300">
+            {project.githubUrl && (
+              <a href={project.githubUrl} target="_blank" rel="noopener noreferrer" className="group/link flex items-center gap-2 text-[var(--color-text-secondary)] hover:text-[var(--color-text-primary)] transition-all duration-300">
                 SOURCE CODE 
                 <span className="text-[var(--color-accent)] transition-transform duration-300 group-hover/link:translate-x-1 group-hover/link:-translate-y-1">↗</span>
               </a>

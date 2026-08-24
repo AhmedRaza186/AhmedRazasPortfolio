@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useMemo } from 'react';
+import React, { useEffect, useRef, useMemo, useState } from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
@@ -6,6 +6,8 @@ import { projects } from '../data/projects';
 import { Container } from '../components/layout/Container';
 import { Grid } from '../components/layout/Grid';
 import { Footer } from '../components/layout/Footer';
+import { DemoMedia } from '../components/projects/DemoMedia';
+import { TripleMonitorShowcase } from '../components/projects/TripleMonitorShowcase';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -13,6 +15,7 @@ export const ProjectDetail = () => {
   const { slug } = useParams();
   const navigate = useNavigate();
   const pageRef = useRef(null);
+  const [zoomedImage, setZoomedImage] = useState(null);
 
   const projectIndex = useMemo(() => projects.findIndex(p => p.slug === slug), [slug]);
   const project = projectIndex !== -1 ? projects[projectIndex] : null;
@@ -59,6 +62,22 @@ export const ProjectDetail = () => {
         });
       });
 
+      // Gallery Stagger
+      const galleryItems = gsap.utils.toArray('.cs-gallery-item');
+      if (galleryItems.length > 0) {
+        gsap.from(galleryItems, {
+          y: 40,
+          opacity: 0,
+          duration: 1,
+          stagger: 0.15,
+          ease: 'power3.out',
+          scrollTrigger: {
+            trigger: '.cs-gallery-grid',
+            start: 'top 85%',
+          }
+        });
+      }
+
       // Stagger features
       const featureItems = gsap.utils.toArray('.cs-feature-item');
       if (featureItems.length > 0) {
@@ -78,6 +97,26 @@ export const ProjectDetail = () => {
 
     return () => ctx.revert();
   }, [project]);
+
+  // Handle keyboard navigation for lightbox
+  useEffect(() => {
+    if (zoomedImage === null || !project?.uiScreenshots) return;
+
+    const handleKeyDown = (e) => {
+      if (e.key === 'Escape') {
+        setZoomedImage(null);
+      } else if (e.key === 'ArrowLeft') {
+        setZoomedImage(prev => (prev > 0 ? prev - 1 : prev));
+      } else if (e.key === 'ArrowRight') {
+        // Calculate remaining screenshots in gallery
+        const remainingScreenshots = project.uiScreenshots.slice(2);
+        setZoomedImage(prev => (prev < remainingScreenshots.length - 1 ? prev + 1 : prev));
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [zoomedImage, project]);
 
   if (!project) {
     return (
@@ -116,16 +155,22 @@ export const ProjectDetail = () => {
       <Container className="mb-16 md:mb-24">
         <Grid>
           <div className="col-span-4 md:col-span-12 lg:col-span-10">
-            <div className="cs-meta-top text-meta flex items-center gap-3 text-[var(--color-text-secondary)] mb-8">
-              <span className="w-1.5 h-1.5 rounded-full bg-[var(--color-accent)] inline-block"></span>
-              01 / PROJECT
+            {/* Logo */}
+            <div className="cs-meta-top mb-12">
+               {project.logo ? (
+                 <img src={project.logo} alt={`${project.title} Logo`} className="h-12 md:h-16 w-auto object-contain" />
+               ) : (
+                 <div className="font-display text-3xl text-[var(--color-text-primary)] tracking-tight">
+                    {project.title}
+                 </div>
+               )}
             </div>
             
             <h1 className="cs-title font-display text-[clamp(3.5rem,8vw,7rem)] leading-[0.9] tracking-tight text-[var(--color-text-primary)] mb-12">
               {project.title}
             </h1>
 
-            <div className="flex flex-col md:flex-row gap-8 md:gap-16 border-t border-[var(--color-border-subtle)] pt-8">
+            <div className="flex flex-col md:flex-row gap-8 md:gap-16 border-t border-[var(--color-border-subtle)] pt-8 mb-12">
               <div className="cs-desc-meta">
                 <div className="font-meta text-xs text-[var(--color-text-secondary)] tracking-widest mb-2">CATEGORY</div>
                 <div className="font-body text-base text-[var(--color-text-primary)]">{project.category}</div>
@@ -139,28 +184,45 @@ export const ProjectDetail = () => {
                 <div className="font-body text-base text-[var(--color-text-secondary)] leading-relaxed">{project.description}</div>
               </div>
             </div>
+
+            {/* Action Links (Top) */}
+            {(project.liveUrl || project.githubUrl || project.linkedinUrl) && (
+              <div className="cs-desc-meta flex flex-wrap gap-8 pt-4">
+                {project.liveUrl && (
+                  <a href={project.liveUrl} target="_blank" rel="noopener noreferrer" className="group flex items-center gap-2 font-meta text-xs tracking-widest text-[var(--color-text-secondary)] hover:text-[var(--color-text-primary)] transition-colors">
+                    LIVE DEMO <span className="text-[var(--color-accent)] group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform">↗</span>
+                  </a>
+                )}
+                {project.githubUrl && (
+                  <a href={project.githubUrl} target="_blank" rel="noopener noreferrer" className="group flex items-center gap-2 font-meta text-xs tracking-widest text-[var(--color-text-secondary)] hover:text-[var(--color-text-primary)] transition-colors">
+                    SOURCE CODE <span className="text-[var(--color-accent)] group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform">↗</span>
+                  </a>
+                )}
+                {project.linkedinUrl && (
+                  <a href={project.linkedinUrl} target="_blank" rel="noopener noreferrer" className="group flex items-center gap-2 font-meta text-xs tracking-widest text-[var(--color-text-secondary)] hover:text-[var(--color-text-primary)] transition-colors">
+                    LINKEDIN <span className="text-[var(--color-accent)] group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform">↗</span>
+                  </a>
+                )}
+              </div>
+            )}
           </div>
         </Grid>
       </Container>
 
-      {/* Hero Visual */}
-      <Container className="mb-24 md:mb-40">
-        {project.image ? (
-          <div className="cs-image-container relative w-full aspect-[4/3] md:aspect-[16/9] lg:aspect-[21/9] overflow-hidden bg-[var(--color-border-subtle)] rounded-sm">
-            <img 
-              src={project.image} 
-              alt={`${project.title} visualization`} 
-              className="cs-image w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-700"
-            />
-          </div>
-        ) : (
-          <div className="cs-image-container relative w-full aspect-[4/3] md:aspect-[16/9] lg:aspect-[21/9] bg-[var(--color-border-subtle)] rounded-sm flex items-center justify-center p-8 overflow-hidden">
-             <div className="cs-image absolute text-[clamp(10rem,25vw,30rem)] font-display text-[var(--color-canvas)] opacity-40 whitespace-nowrap select-none tracking-tighter" style={{ top: '50%', left: '50%', transform: 'translate(-50%, -50%)' }}>
-                {project.title.substring(0, 3).toUpperCase()}
-             </div>
-          </div>
-        )}
-      </Container>
+      {/* Triple Monitor Showcase */}
+      <TripleMonitorShowcase 
+        logoImg={project.logoImg} 
+        thumbnail={project.thumbnail}
+        uiScreenshots={project.uiScreenshots} 
+        title={project.title} 
+      />
+
+      {/* Demo Video */}
+      {project.demo && (
+        <Container className="mb-24 md:mb-40">
+           <DemoMedia demo={project.demo} />
+        </Container>
+      )}
 
       {/* Case Study Content */}
       <Container className="mb-32 md:mb-48">
@@ -272,12 +334,12 @@ export const ProjectDetail = () => {
           </Grid>
         )}
 
-        {/* Links */}
-        {(project.live || project.github || project.backend) && (
+        {/* Bottom Links */}
+        {(project.liveUrl || project.githubUrl || project.linkedinUrl) && (
           <Grid className="cs-section mt-16 md:mt-24 border-t border-[var(--color-border-subtle)] pt-16">
             <div className="col-span-4 md:col-span-12 flex flex-wrap gap-8 justify-center">
-              {project.live && (
-                <a href={project.live} target="_blank" rel="noopener noreferrer" className="group flex flex-col gap-2 focus:outline-none items-center p-4">
+              {project.liveUrl && (
+                <a href={project.liveUrl} target="_blank" rel="noopener noreferrer" className="group flex flex-col gap-2 focus:outline-none items-center p-4">
                   <span className="font-meta text-[10px] tracking-widest text-[var(--color-text-secondary)] group-hover:text-[var(--color-text-primary)] transition-colors">LIVE PROJECT</span>
                   <div className="flex items-center gap-2 text-[var(--color-text-primary)]">
                     <span className="font-body text-xl md:text-2xl relative">
@@ -288,12 +350,24 @@ export const ProjectDetail = () => {
                   </div>
                 </a>
               )}
-              {project.github && (
-                <a href={project.github} target="_blank" rel="noopener noreferrer" className="group flex flex-col gap-2 focus:outline-none items-center p-4">
+              {project.githubUrl && (
+                <a href={project.githubUrl} target="_blank" rel="noopener noreferrer" className="group flex flex-col gap-2 focus:outline-none items-center p-4">
                   <span className="font-meta text-[10px] tracking-widest text-[var(--color-text-secondary)] group-hover:text-[var(--color-text-primary)] transition-colors">VIEW SOURCE</span>
                   <div className="flex items-center gap-2 text-[var(--color-text-primary)]">
                     <span className="font-body text-xl md:text-2xl relative">
                       GitHub
+                      <span className="absolute -bottom-1 left-0 w-full h-[1px] bg-[var(--color-accent)] opacity-0 group-hover:opacity-100 transition-all origin-left scale-x-0 group-hover:scale-x-100"></span>
+                    </span>
+                    <span className="font-meta text-xl group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform group-hover:text-[var(--color-accent)]">↗</span>
+                  </div>
+                </a>
+              )}
+              {project.linkedinUrl && (
+                <a href={project.linkedinUrl} target="_blank" rel="noopener noreferrer" className="group flex flex-col gap-2 focus:outline-none items-center p-4">
+                  <span className="font-meta text-[10px] tracking-widest text-[var(--color-text-secondary)] group-hover:text-[var(--color-text-primary)] transition-colors">LINKEDIN</span>
+                  <div className="flex items-center gap-2 text-[var(--color-text-primary)]">
+                    <span className="font-body text-xl md:text-2xl relative">
+                      Profile
                       <span className="absolute -bottom-1 left-0 w-full h-[1px] bg-[var(--color-accent)] opacity-0 group-hover:opacity-100 transition-all origin-left scale-x-0 group-hover:scale-x-100"></span>
                     </span>
                     <span className="font-meta text-xl group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform group-hover:text-[var(--color-accent)]">↗</span>
@@ -322,13 +396,64 @@ export const ProjectDetail = () => {
                   {nextProject.category}
                 </div>
               )}
-              {nextProject.image && (
+              {nextProject.thumbnail && (
                 <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[300px] aspect-video rounded-sm overflow-hidden opacity-0 pointer-events-none group-hover:opacity-10 transition-opacity duration-700 -z-10 mix-blend-luminosity">
-                  <img src={nextProject.image} alt="" className="w-full h-full object-cover" />
+                  <img src={nextProject.thumbnail} alt="" className="w-full h-full object-cover" />
                 </div>
               )}
             </Link>
           </Container>
+        </div>
+      )}
+
+      {/* Image Lightbox Overlay */}
+      {zoomedImage !== null && (
+        <div 
+          className="fixed inset-0 z-[100] flex items-center justify-center bg-black/95 backdrop-blur-sm p-4 md:p-12 cursor-zoom-out"
+          onClick={() => setZoomedImage(null)}
+          style={{ opacity: 0, animation: 'fadeIn 0.3s ease forwards' }}
+        >
+          <style>{`
+            @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+            @keyframes scaleIn { from { transform: scale(0.95); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+          `}</style>
+          
+          {/* Controls Overlay */}
+          <div className="absolute inset-0 pointer-events-none z-[120]">
+            <button 
+              className="absolute top-6 right-6 md:top-10 md:right-10 text-white bg-red-600/90 hover:bg-red-700 backdrop-blur-md rounded-sm transition-colors px-6 py-3 font-meta text-sm md:text-base tracking-widest pointer-events-auto shadow-lg"
+              onClick={(e) => { e.stopPropagation(); setZoomedImage(null); }}
+            >
+              CLOSE [X]
+            </button>
+            
+            {zoomedImage > 0 && (
+              <button 
+                className="absolute left-4 md:left-8 top-1/2 -translate-y-1/2 text-white bg-black/60 hover:bg-black/90 backdrop-blur-md rounded-full w-16 h-16 md:w-20 md:h-20 flex items-center justify-center transition-colors font-meta text-3xl md:text-4xl pointer-events-auto shadow-lg"
+                onClick={(e) => { e.stopPropagation(); setZoomedImage(zoomedImage - 1); }}
+              >
+                ←
+              </button>
+            )}
+            
+            {zoomedImage < (project.uiScreenshots ? project.uiScreenshots.slice(2).length - 1 : 0) && (
+              <button 
+                className="absolute right-4 md:right-8 top-1/2 -translate-y-1/2 text-white bg-black/60 hover:bg-black/90 backdrop-blur-md rounded-full w-16 h-16 md:w-20 md:h-20 flex items-center justify-center transition-colors font-meta text-3xl md:text-4xl pointer-events-auto shadow-lg"
+                onClick={(e) => { e.stopPropagation(); setZoomedImage(zoomedImage + 1); }}
+              >
+                →
+              </button>
+            )}
+          </div>
+          
+          <img 
+            key={zoomedImage} // Force re-animation on index change
+            src={project.uiScreenshots ? project.uiScreenshots.slice(2)[zoomedImage] : ''} 
+            alt={`Zoomed project view ${zoomedImage + 3}`} 
+            className="max-w-full max-h-full object-contain rounded-sm shadow-2xl relative z-[110]"
+            style={{ animation: 'scaleIn 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards' }}
+            onClick={(e) => e.stopPropagation()} 
+          />
         </div>
       )}
 
