@@ -17,7 +17,7 @@ export const achievements = [
     type: "Certification",
     year: "2026",
     image: "/assets/certificates/SaylaniCourse-Completed.pdf",
-    description: 'Completed an intensive 1.5-year Web & App Development program covering both frontend and backend development. Built a strong foundation in HTML, CSS, JavaScript, React, Node.js, Express.js, MongoDB, APIs, databases, authentication, and full-stack application development through hands-on projects and practical development work.',
+    description: 'Completed an intensive 14-months Web & App Development program covering both frontend and backend development. Built a strong foundation in HTML, CSS, JavaScript, React, Node.js, Express.js, MongoDB, APIs, databases, authentication, and full-stack application development through hands-on projects and practical development work.',
     credentialUrl: null,
     featured: true,
   },

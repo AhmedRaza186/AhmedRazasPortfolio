@@ -5,7 +5,7 @@ const autoQA = {
   year: 2026,
   featured: true,
   logoImg: null,
-  thumbnail: "/assets/projects/AutoQA/thumbnail.png",
+  thumbnail: "/assets/projects/AutoQA/autoQA-logo.svg",
   uiScreenshots: [
     "/assets/projects/AutoQA/auto-qa-rouge.vercel.app_workspace (1).png",
     "/assets/projects/AutoQA/auto-qa-rouge.vercel.app_workspace.png",
@@ -57,7 +57,7 @@ const tradeSift = {
   year: 2026,
   featured: true,
   logoImg: null,
-  thumbnail: "/assets/projects/TradeSift/landing page.png",
+  thumbnail: "/assets/projects/TradeSift/TradeSift-logo.png",
   uiScreenshots: [
     "/assets/projects/TradeSift/Dashboard.jpeg",
     "/assets/projects/TradeSift/humanReview.jpeg",
@@ -185,7 +185,7 @@ const vipSetup = {
   year: 2026,
   featured: false,
   logoImg: null,
-  thumbnail: "/assets/projects/VipSetup/thumbnail.png",
+  thumbnail: "/assets/projects/VipSetup/vipsetup-logo.jpg",
   uiScreenshots: [
     "/assets/projects/VipSetup/Screenshot 2026-08-20 004541.png",
     "/assets/projects/VipSetup/Screenshot 2026-08-20 004716.png",
@@ -227,7 +227,7 @@ const noirCafe = {
   year: 2026,
   featured: false,
   logoImg: null,
-  thumbnail: "/assets/projects/Noir/thumbnail.png",
+  thumbnail: "/assets/projects/Noir/Noir-logo.jpg",
   uiScreenshots: [
     "/assets/projects/Noir/noir-demo-self.vercel.app_.png",
     "/assets/projects/Noir/NoirGallery.png",
@@ -269,7 +269,7 @@ const quizify = {
   year: 2025,
   featured: false,
   logoImg: null,
-  thumbnail: "/assets/projects/Quizify/quizify.jpg",
+  thumbnail: "/assets/projects/Quizify/quizify-logo.jpg",
   uiScreenshots: [],
   demo: {
     type: "linkedin",
@@ -304,7 +304,7 @@ const healthMate = {
   year: 2025,
   featured: false,
   logoImg: null,
-  thumbnail: "/assets/projects/Healthmate/healthmate.jpg",
+  thumbnail: "/assets/projects/Healthmate/healthmate-logo.jpg",
   uiScreenshots: [],
   demo: {
     type: "linkedin",
@@ -339,7 +339,7 @@ const rollClash = {
   year: 2025,
   featured: false,
   logoImg: null,
-  thumbnail: "/assets/projects/Rollclash/rollclash.jpg",
+  thumbnail: "/assets/projects/Rollclash/rollclash-logo.jpg",
   uiScreenshots: [],
   demo: {
     type: "linkedin",
@@ -373,7 +373,7 @@ const guessMyNumber = {
   year: 2025,
   featured: false,
   logoImg: null,
-  thumbnail: "/assets/projects/Guessmynumber/guessmynumber.jpg",
+  thumbnail: "/assets/projects/Guessmynumber/guessmynumber-logo.jpg",
   uiScreenshots: [],
   demo: {
     type: "linkedin",
@@ -441,7 +441,7 @@ const eatUCrave = {
   year: 2025,
   featured: false,
   logoImg: null,
-  thumbnail: "/assets/projects/Eatyoucrave/eatyoucrave.jpg",
+  thumbnail: "/assets/projects/Eatyoucrave/eatyoucrave-logo.jpg",
   uiScreenshots: [],
   demo: {
     type: "linkedin",
@@ -475,7 +475,7 @@ const buyYouWant = {
   year: 2025,
   featured: false,
   logoImg: null,
-  thumbnail: "/assets/projects/Buyyouwant/buyyouwant.jpg",
+  thumbnail: "/assets/projects/Buyyouwant/buyyouwant-logo.jpg",
   uiScreenshots: [],
   demo: {
     type: "linkedin",
@@ -509,7 +509,7 @@ const linkUp = {
   year: 2025,
   featured: false,
   logoImg: null,
-  thumbnail: "/assets/projects/Linkup/linkup.jpg",
+  thumbnail: "/assets/projects/Linkup/linkup-logo.jpg",
   uiScreenshots: [],
   demo: {
     type: "linkedin",
@@ -543,7 +543,7 @@ const luxurs = {
   year: 2025,
   featured: false,
   logoImg: null,
-  thumbnail: "/assets/projects/Luxurs/luxurs.jpg",
+  thumbnail: "/assets/projects/Luxurs/luxurs-logo.jpg",
   uiScreenshots: [],
   demo: {
     type: "linkedin",
@@ -577,7 +577,7 @@ const fakeStore = {
   year: 2025,
   featured: false,
   logoImg: null,
-  thumbnail: "/assets/projects/Fakestore/fakestore.jpg",
+  thumbnail: "/assets/projects/Fakestore/fakestore-logo.jpg",
   uiScreenshots: [],
   demo: {
     type: "linkedin",
@@ -612,7 +612,7 @@ const forkify = {
   year: 2025,
   featured: false,
   logoImg: null,
-  thumbnail: "/assets/projects/Forkify/forkify.jpg",
+  thumbnail: "/assets/projects/Forkify/forkify-logo.jpg",
   uiScreenshots: [],
   demo: {
     type: "linkedin",
@@ -647,7 +647,7 @@ const newsWave = {
   year: 2025,
   featured: false,
   logoImg: null,
-  thumbnail: "/assets/projects/Newswave/newswave.jpg",
+  thumbnail: "/assets/projects/Newswave/newswave-logo.jpg",
   uiScreenshots: [],
   demo: {
     type: "linkedin",
@@ -682,7 +682,7 @@ const atmos = {
   year: 2025,
   featured: false,
   logoImg: null,
-  thumbnail: "/assets/projects/Atmos/atmos.jpg",
+  thumbnail: "/assets/projects/Atmos/atmos-logo.jpg",
   uiScreenshots: [],
   demo: {
     type: "linkedin",

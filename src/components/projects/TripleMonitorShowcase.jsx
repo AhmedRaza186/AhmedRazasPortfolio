@@ -8,10 +8,23 @@ export const TripleMonitorShowcase = ({ logoImg, thumbnail, uiScreenshots, title
   const containerRef = useRef(null);
   
   // Combine all viable images for the showcase
-  const allImages = [thumbnail, ...(uiScreenshots || [])].filter(Boolean);
+  const allImages = [...(uiScreenshots || [])].filter(Boolean);
   
   const [currentIndex, setCurrentIndex] = useState(0);
   const [touchStart, setTouchStart] = useState(null);
+  const [zoomedImage, setZoomedImage] = useState(null);
+
+  // Keyboard navigation for Lightbox
+  useEffect(() => {
+    if (zoomedImage === null) return;
+    const handleKeyDown = (e) => {
+      if (e.key === 'Escape') setZoomedImage(null);
+      else if (e.key === 'ArrowLeft') setZoomedImage((prev) => (prev - 1 + allImages.length) % allImages.length);
+      else if (e.key === 'ArrowRight') setZoomedImage((prev) => (prev + 1) % allImages.length);
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [zoomedImage, allImages.length]);
 
   // Animation on mount
   useEffect(() => {
@@ -46,15 +59,39 @@ export const TripleMonitorShowcase = ({ logoImg, thumbnail, uiScreenshots, title
     setCurrentIndex((prev) => (prev + 1) % allImages.length);
   };
 
-  // Touch Swipe Handlers for Mobile
-  const onTouchStart = (e) => setTouchStart(e.targetTouches[0].clientX);
-  const onTouchMove = (e) => {
-    if (!touchStart) return;
-    const diff = touchStart - e.targetTouches[0].clientX;
-    if (diff > 50) { handleNext(); setTouchStart(null); } 
-    else if (diff < -50) { handlePrev(); setTouchStart(null); }
+  const [dragStart, setDragStart] = useState(null);
+  const isSwipingRef = useRef(false);
+
+  // Unified Drag Handlers
+  const onDragStart = (clientX) => {
+    setDragStart(clientX);
+    isSwipingRef.current = false;
   };
-  const onTouchEnd = () => setTouchStart(null);
+  const onDragMove = (clientX) => {
+    if (!dragStart) return;
+    const diff = dragStart - clientX;
+    if (Math.abs(diff) > 10) isSwipingRef.current = true; // Detect intent to swipe
+    if (diff > 50) { handleNext(); setDragStart(null); } 
+    else if (diff < -50) { handlePrev(); setDragStart(null); }
+  };
+  const onDragEnd = () => {
+    setDragStart(null);
+    setTimeout(() => {
+      isSwipingRef.current = false;
+    }, 50);
+  };
+
+  // Wheel Handler for Trackpad/Mouse Wheel
+  const handleWheel = (e) => {
+    // Only trigger if mostly horizontal scrolling to prevent interfering with vertical page scroll
+    if (Math.abs(e.deltaX) > Math.abs(e.deltaY)) {
+      if (e.deltaX > 20) {
+        handleNext();
+      } else if (e.deltaX < -20) {
+        handlePrev();
+      }
+    }
+  };
 
   if (allImages.length === 0) return null;
 
@@ -76,9 +113,17 @@ export const TripleMonitorShowcase = ({ logoImg, thumbnail, uiScreenshots, title
     <div 
       ref={containerRef} 
       className="w-full relative py-16 md:py-32 flex flex-col items-center justify-center overflow-visible select-none"
-      onTouchStart={onTouchStart}
-      onTouchMove={onTouchMove}
-      onTouchEnd={onTouchEnd}
+      onTouchStart={(e) => onDragStart(e.targetTouches[0].clientX)}
+      onTouchMove={(e) => onDragMove(e.targetTouches[0].clientX)}
+      onTouchEnd={onDragEnd}
+      onMouseDown={(e) => onDragStart(e.clientX)}
+      onMouseMove={(e) => {
+        if (e.buttons === 1) onDragMove(e.clientX);
+      }}
+      onMouseUp={onDragEnd}
+      onMouseLeave={onDragEnd}
+      onWheel={handleWheel}
+      onDragStart={(e) => e.preventDefault()}
     >
       
       {/* 3D Coverflow Stage */}
@@ -96,28 +141,26 @@ export const TripleMonitorShowcase = ({ logoImg, thumbnail, uiScreenshots, title
           const direction = diff > 0 ? 1 : -1;
           
           // Math for fanning outwards
-          const lgTx = diff * 50; // translateX percentage
-          const lgTz = -absDiff * 250; // translateZ pixels
-          const lgRy = -direction * (absDiff > 0 ? 25 : 0); // rotateY degrees
+          const lgTx = diff * 55; // translateX percentage
+          const lgRy = -direction * (absDiff > 0 ? 20 : 0); // rotateY degrees
 
           return (
             <div 
               key={i}
-              onClick={() => {
+              onClick={(e) => {
+                if (isSwipingRef.current) return;
                 if (diff > 0) handleNext();
-                if (diff < 0) handlePrev();
+                else if (diff < 0) handlePrev();
+                else setZoomedImage(i);
               }}
               className={`monitor-3d-wrapper absolute top-1/2 left-1/2 w-[85%] sm:w-[75%] md:w-[65%] lg:w-[50%] transition-all duration-700 ease-out ${
-                isCenter ? 'cursor-default' : 'cursor-pointer group'
-              } ${
-                // On mobile, hide non-center images completely to use a standard swipe carousel
-                !isCenter ? 'hidden lg:block' : 'block'
-              }`}
+                isCenter ? 'cursor-zoom-in' : 'cursor-pointer group'
+              } block`}
               style={{
                 transform: `translate(-50%, -50%) translateX(var(--tx, 0%)) translateZ(var(--tz, 0px)) rotateY(var(--ry, 0deg))`,
                 zIndex: 30 - absDiff,
                 '--tx': `${lgTx}%`,
-                '--tz': `${lgTz}px`,
+                '--tz': `clamp(-300px, ${-absDiff * 15}vw, -100px)`,
                 '--ry': `${lgRy}deg`
               }}
             >
@@ -142,16 +185,59 @@ export const TripleMonitorShowcase = ({ logoImg, thumbnail, uiScreenshots, title
         })}
       </div>
 
-      {/* Mobile/Tablet Swipe Indicators */}
+      {/* Swipe Indicators and Buttons */}
       {allImages.length > 1 && (
-        <div className="flex lg:hidden items-center gap-4 z-30 mt-8">
-          <button onClick={handlePrev} className="w-10 h-10 rounded-full bg-[var(--color-elevated)] text-[var(--color-text-primary)] flex items-center justify-center border border-[var(--color-border-subtle)] shadow-sm">←</button>
+        <div className="flex items-center gap-4 z-30 mt-8 md:mt-12">
+          <button onClick={handlePrev} className="w-10 h-10 rounded-full bg-[var(--color-elevated)] text-[var(--color-text-primary)] hover:text-[var(--color-accent)] hover:border-[var(--color-accent)] flex items-center justify-center border border-[var(--color-border-subtle)] shadow-sm transition-colors focus:outline-none">←</button>
           <div className="flex gap-2">
             {allImages.map((_, i) => (
               <div key={i} className={`w-2 h-2 rounded-full transition-colors ${i === currentIndex ? 'bg-[var(--color-accent)]' : 'bg-[var(--color-border-strong)]'}`} />
             ))}
           </div>
-          <button onClick={handleNext} className="w-10 h-10 rounded-full bg-[var(--color-elevated)] text-[var(--color-text-primary)] flex items-center justify-center border border-[var(--color-border-subtle)] shadow-sm">→</button>
+          <button onClick={handleNext} className="w-10 h-10 rounded-full bg-[var(--color-elevated)] text-[var(--color-text-primary)] hover:text-[var(--color-accent)] hover:border-[var(--color-accent)] flex items-center justify-center border border-[var(--color-border-subtle)] shadow-sm transition-colors focus:outline-none">→</button>
+        </div>
+      )}
+
+      {/* Image Lightbox Overlay */}
+      {zoomedImage !== null && (
+        <div 
+          className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/95 backdrop-blur-sm p-4 md:p-12 cursor-zoom-out"
+          onClick={() => setZoomedImage(null)}
+        >
+          
+          <div className="absolute inset-0 pointer-events-none z-[120]">
+            <button 
+              className="absolute top-6 right-6 md:top-10 md:right-10 text-white bg-red-600/90 hover:bg-red-700 backdrop-blur-md rounded-sm transition-colors px-6 py-3 font-meta text-sm md:text-base tracking-widest pointer-events-auto shadow-lg"
+              onClick={(e) => { e.stopPropagation(); setZoomedImage(null); }}
+            >
+              CLOSE [X]
+            </button>
+            
+            {allImages.length > 1 && (
+              <>
+                <button 
+                  className="absolute left-4 md:left-8 top-1/2 -translate-y-1/2 text-white bg-black/60 hover:bg-black/90 backdrop-blur-md rounded-full w-16 h-16 md:w-20 md:h-20 flex items-center justify-center transition-colors font-meta text-3xl md:text-4xl pointer-events-auto shadow-lg"
+                  onClick={(e) => { e.stopPropagation(); setZoomedImage((zoomedImage - 1 + allImages.length) % allImages.length); }}
+                >
+                  ←
+                </button>
+                <button 
+                  className="absolute right-4 md:right-8 top-1/2 -translate-y-1/2 text-white bg-black/60 hover:bg-black/90 backdrop-blur-md rounded-full w-16 h-16 md:w-20 md:h-20 flex items-center justify-center transition-colors font-meta text-3xl md:text-4xl pointer-events-auto shadow-lg"
+                  onClick={(e) => { e.stopPropagation(); setZoomedImage((zoomedImage + 1) % allImages.length); }}
+                >
+                  →
+                </button>
+              </>
+            )}
+          </div>
+          
+          <img 
+            key={zoomedImage}
+            src={allImages[zoomedImage]} 
+            alt={`${title} zoomed view ${zoomedImage + 1}`} 
+            className="max-w-full max-h-full object-contain rounded-sm shadow-2xl relative z-[110]"
+            onClick={(e) => e.stopPropagation()} 
+          />
         </div>
       )}
     </div>

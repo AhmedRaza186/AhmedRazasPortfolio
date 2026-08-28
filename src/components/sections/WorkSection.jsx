@@ -29,13 +29,13 @@ const ProjectCard = ({ project, index }) => {
             </div>
             
             {/* Image / UI Placeholder */}
-            <div className="w-full aspect-[4/3] md:aspect-[16/9] lg:aspect-[4/3] bg-[var(--color-canvas)] relative">
+            <div className="w-full aspect-[4/3] md:aspect-[16/9] lg:aspect-[4/3] bg-[var(--color-canvas)] relative flex items-center justify-center overflow-hidden">
               {project.thumbnail ? (
                 <img 
                   src={project.thumbnail} 
                   alt={project.title} 
                   loading="lazy"
-                  className="w-full h-full object-cover object-top"
+                  className="w-full h-full object-contain p-8 md:p-12 lg:p-16 transition-transform duration-700 ease-out"
                 />
               ) : (
                 // CSS Dashboard Mockup for User Management System

@@ -134,12 +134,12 @@ export const Work = () => {
       </div>
       
       <div className="flex gap-5 md:gap-6">
-        <div className="w-20 h-20 md:w-24 md:h-24 bg-[var(--color-border-subtle)] shrink-0 overflow-hidden">
+        <div className="w-20 h-20 md:w-24 md:h-24 bg-[var(--color-border-subtle)] shrink-0 overflow-hidden flex items-center justify-center p-3">
           {project.thumbnail ? (
             <img 
               src={project.thumbnail} 
               alt={project.title} 
-              className="w-full h-full object-cover grayscale group-hover:grayscale-0 group-hover:scale-105 transition-all duration-700 ease-out" 
+              className="w-full h-full object-contain grayscale group-hover:grayscale-0 group-hover:scale-105 transition-all duration-700 ease-out" 
             />
           ) : renderMockup(project.slug)}
         </div>
@@ -223,13 +223,13 @@ export const Work = () => {
                 to={`/work/${project.slug}`}
                 className="aw-project-card filtered-project group block"
               >
-                <div className="w-full aspect-[16/9] lg:aspect-square bg-[var(--color-elevated)] rounded-sm overflow-hidden mb-6 md:mb-8 relative">
+                <div className="w-full aspect-[16/9] lg:aspect-square bg-[var(--color-elevated)] rounded-sm overflow-hidden mb-6 md:mb-8 relative flex items-center justify-center">
                   {project.thumbnail ? (
                     <img 
                       src={project.thumbnail} 
                       alt={project.title} 
                       loading="lazy"
-                      className="w-full h-full object-cover object-top filter grayscale group-hover:grayscale-0 group-hover:scale-105 transition-all duration-700"
+                      className="w-full h-full object-contain p-12 lg:p-16 filter grayscale group-hover:grayscale-0 group-hover:scale-105 transition-all duration-700"
                     />
                   ) : renderMockup(project.slug)}
                 </div>
