@@ -31,6 +31,7 @@ export const Navbar = () => {
 
   const navLinks = [
     { name: 'Work', path: '/work' },
+    { name: 'Experience', path: '/experience' },
     { name: 'Achievements', path: '/achievements' },
     { name: 'Journey', path: '/journey' },
     { name: 'Contact', path: '/contact' },
