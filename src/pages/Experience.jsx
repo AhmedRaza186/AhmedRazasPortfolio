@@ -1,6 +1,7 @@
 import React, { useEffect, useRef } from 'react';
 import gsap from 'gsap';
 import { Container } from '../components/layout/Container';
+import { NetworkBackground } from '../components/ui/NetworkBackground';
 
 const experiences = [
   {
@@ -46,8 +47,9 @@ export const Experience = () => {
   }, []);
 
   return (
-    <div ref={pageRef} className="pt-32 pb-24 min-h-screen bg-[var(--color-canvas)]">
-      <Container>
+    <div ref={pageRef} className="pt-32 pb-24 min-h-screen bg-[var(--color-canvas)] relative">
+      <NetworkBackground />
+      <Container className="relative z-10">
         <div className="mb-16 md:mb-24 experience-header">
           <span className="text-meta flex items-center gap-3 text-[var(--color-text-secondary)] mb-6">
             <span className="w-1.5 h-1.5 rounded-full bg-[var(--color-text-primary)] inline-block"></span>

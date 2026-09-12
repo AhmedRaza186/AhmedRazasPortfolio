@@ -5,6 +5,7 @@ import emailjs from '@emailjs/browser';
 import { Container } from '../components/layout/Container';
 import { Grid } from '../components/layout/Grid';
 import { Footer } from '../components/layout/Footer';
+import { RippleBackground } from '../components/ui/RippleBackground';
 import { siteConfig } from '../data/site';
 
 export const Contact = () => {
@@ -111,8 +112,9 @@ export const Contact = () => {
   ];
 
   return (
-    <div ref={pageRef} className="bg-[var(--color-canvas)] min-h-screen pt-24 md:pt-32 flex flex-col">
-      <Container className="mb-24 md:mb-32 flex-grow">
+    <div ref={pageRef} className="bg-[var(--color-canvas)] min-h-screen pt-24 md:pt-32 flex flex-col relative">
+      <RippleBackground />
+      <Container className="mb-24 md:mb-32 flex-grow relative z-10">
         
         <Grid>
           

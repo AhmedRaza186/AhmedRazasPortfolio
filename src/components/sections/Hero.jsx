@@ -38,7 +38,8 @@ export const Hero = () => {
       .to(q('.hero-desc'), { opacity: 1, y: 0, duration: 0.8 }, '-=0.6')
       .to(q('.hero-cta'), { opacity: 1, y: 0, duration: 0.8, stagger: 0.1 }, '-=0.6')
       .to(q('.hero-image-container'), { clipPath: 'inset(0% 0% 0% 0%)', duration: 1.2, ease: 'power4.inOut' }, '-=0.8')
-      .to(q('.hero-image'), { scale: 1, duration: 1.2, ease: 'power4.inOut', clearProps: 'transform' }, '-=1.2');
+      .to(q('.hero-image'), { scale: 1, duration: 1.2, ease: 'power4.inOut', clearProps: 'transform' }, '-=1.2')
+      .add(() => window.dispatchEvent(new CustomEvent('hero-image-revealed')));
 
     return () => {
       tl.kill();

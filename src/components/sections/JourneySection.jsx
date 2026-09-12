@@ -113,7 +113,7 @@ export const JourneySection = () => {
   }, []);
 
   return (
-    <section ref={sectionRef} className="pb-24  pt-6 md:pt-8 relative bg-[var(--color-canvas)] overflow-hidden">
+    <section ref={sectionRef} className="pb-24 pt-6 md:pt-8 relative bg-transparent overflow-hidden">
       <Container>
 
         {/* Section Header */}

@@ -21,12 +21,30 @@ export const ChatWidget = () => {
   ]);
   const [isLoading, setIsLoading] = useState(false);
 
-  // Show preview bubbles after 2 seconds
+  // Show preview bubbles after Hero image is revealed (or fallback on other pages)
   useEffect(() => {
-    const timer = setTimeout(() => {
+    let eventTimer;
+    
+    const showBubbles = () => {
       if (!isOpen) setShowPreview(true);
-    }, 2000);
-    return () => clearTimeout(timer);
+    };
+
+    const handleHeroRevealed = () => {
+      clearTimeout(fallbackTimer);
+      // Wait a tiny bit after the image is revealed so it feels natural
+      eventTimer = setTimeout(showBubbles, 600);
+    };
+
+    window.addEventListener('hero-image-revealed', handleHeroRevealed);
+
+    // Fallback timer: if we're on a page without the Hero section, show after 3.5s
+    let fallbackTimer = setTimeout(showBubbles, 3500);
+
+    return () => {
+      window.removeEventListener('hero-image-revealed', handleHeroRevealed);
+      clearTimeout(fallbackTimer);
+      clearTimeout(eventTimer);
+    };
   }, [isOpen]);
 
   const toggleChat = () => {

@@ -5,6 +5,7 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { Container } from '../components/layout/Container';
 import { Grid } from '../components/layout/Grid';
 import { Footer } from '../components/layout/Footer';
+import { DotGridBackground } from '../components/ui/DotGridBackground';
 import { projects } from '../data/projects';
 
 const FILTERS = ['All', 'Full Stack', 'Frontend', 'AI & Tools', 'API Projects', 'Games'];
@@ -166,8 +167,9 @@ export const Work = () => {
   );
 
   return (
-    <div ref={pageRef} className="bg-[var(--color-canvas)] min-h-screen pt-8 md:pt-12 flex flex-col">
-      <Container className="mb-16 md:mb-24 flex-grow">
+    <div ref={pageRef} className="bg-[var(--color-canvas)] min-h-screen pt-8 md:pt-12 flex flex-col relative">
+      <DotGridBackground />
+      <Container className="mb-16 md:mb-24 flex-grow relative z-10">
         
         {/* Header */}
         <Grid className="mb-20 md:mb-32">

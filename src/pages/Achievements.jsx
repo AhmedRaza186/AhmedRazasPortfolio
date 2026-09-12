@@ -3,11 +3,17 @@ import { Container } from '../components/layout/Container';
 import { Grid } from '../components/layout/Grid';
 import { Footer } from '../components/layout/Footer';
 import { achievements } from '../data/achievements';
+import Confetti from 'react-confetti';
 import gsap from 'gsap';
 
 export const Achievements = () => {
   const pageRef = useRef(null);
   const [selectedImage, setSelectedImage] = useState(null);
+  const [windowDimension, setWindowDimension] = useState({ 
+    width: typeof window !== 'undefined' ? window.innerWidth : 0, 
+    height: typeof window !== 'undefined' ? window.innerHeight : 0 
+  });
+  const [showConfetti, setShowConfetti] = useState(true);
 
   useEffect(() => {
     const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -43,9 +49,39 @@ export const Achievements = () => {
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, [selectedImage]);
 
+  // Window resize for Confetti
+  useEffect(() => {
+    const handleResize = () => {
+      setWindowDimension({ width: window.innerWidth, height: window.innerHeight });
+    };
+    window.addEventListener('resize', handleResize);
+    
+    // Unmount confetti after 10s to clean up DOM
+    const timer = setTimeout(() => setShowConfetti(false), 10000);
+    
+    return () => {
+      window.removeEventListener('resize', handleResize);
+      clearTimeout(timer);
+    };
+  }, []);
+
   return (
     <div ref={pageRef} className="min-h-screen bg-[var(--color-canvas)] pt-24 md:pt-40">
       
+      {/* Celebration Confetti */}
+      {showConfetti && (
+        <Confetti
+          width={windowDimension.width}
+          height={windowDimension.height}
+          colors={['#FFD700', '#FFA500', '#FF8C00', '#F8E8A2']}
+          recycle={false}
+          numberOfPieces={400}
+          gravity={0.12}
+          initialVelocityY={15}
+          style={{ position: 'fixed', zIndex: 100, top: 0, left: 0, pointerEvents: 'none' }}
+        />
+      )}
+
       {/* Hero Section */}
       <Container className="mb-24 md:mb-40">
         <Grid>
