@@ -4,6 +4,7 @@ import gsap from 'gsap';
 import { Container } from '../layout/Container';
 import { Grid } from '../layout/Grid';
 import { Button } from '../ui/Button';
+import { Magnetic } from '../ui/Magnetic';
 import { siteConfig } from '../../data/site';
 
 export const Hero = () => {
@@ -86,14 +87,18 @@ export const Hero = () => {
             {/* CTAs */}
             <div className="flex flex-wrap items-center gap-4">
               <div className="hero-cta animate-item">
-                <Button onClick={() => navigate('/work')}>
-                  VIEW WORK ↗
-                </Button>
+                <Magnetic>
+                  <Button onClick={() => navigate('/work')}>
+                    VIEW WORK ↗
+                  </Button>
+                </Magnetic>
               </div>
               <div className="hero-cta animate-item">
-                <Button variant="secondary" onClick={handleWhatsApp}>
-                  LET'S TALK ↗
-                </Button>
+                <Magnetic>
+                  <Button variant="secondary" onClick={handleWhatsApp}>
+                    LET'S TALK ↗
+                  </Button>
+                </Magnetic>
               </div>
               <div className="hero-cta animate-item ml-2 md:ml-4">
                 <a 
