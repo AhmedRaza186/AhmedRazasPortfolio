@@ -1,11 +1,15 @@
 import React from 'react';
 import { MarkdownRenderer } from './MarkdownRenderer';
 
-export const ChatMessage = ({ message }) => {
+export const ChatMessage = ({ message, index = 0 }) => {
+  const delay = `${index * 150}ms`;
   const isUser = message.role === 'user';
 
   return (
-    <div className={`flex w-full ${isUser ? 'justify-end' : 'justify-start'}`}>
+    <div 
+      className={`flex w-full animate-bubble ${isUser ? 'justify-end' : 'justify-start'}`}
+      style={{ animationDelay: delay }}
+    >
       <div 
         className={`max-w-[85%] px-4 py-3 leading-relaxed rounded-2xl overflow-hidden ${
           isUser 

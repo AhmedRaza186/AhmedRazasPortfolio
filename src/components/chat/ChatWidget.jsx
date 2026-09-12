@@ -1,8 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import { ChatWindow } from './ChatWindow';
 
+const PREVIEW_MESSAGES = [
+  "Hi, I'm Ahmed's AI assistant 👋",
+  "Ask me about his projects",
+  "Or his skills & experience!"
+];
+
 export const ChatWidget = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const [showPreview, setShowPreview] = useState(false);
   const [sessionId, setSessionId] = useState(null);
   const [messages, setMessages] = useState([
     {
@@ -13,7 +20,18 @@ export const ChatWidget = () => {
   ]);
   const [isLoading, setIsLoading] = useState(false);
 
-  const toggleChat = () => setIsOpen((prev) => !prev);
+  // Show preview bubbles after 2 seconds
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      if (!isOpen) setShowPreview(true);
+    }, 2000);
+    return () => clearTimeout(timer);
+  }, [isOpen]);
+
+  const toggleChat = () => {
+    setIsOpen((prev) => !prev);
+    if (!isOpen) setShowPreview(false);
+  };
 
   const handleSendMessage = async (content) => {
     if (!content.trim() || isLoading) return;
@@ -27,6 +45,7 @@ export const ChatWidget = () => {
     
     setMessages((prev) => [...prev, userMessage]);
     setIsLoading(true);
+    setShowPreview(false); // Hide preview just in case
 
     try {
       const payload = { message: content.trim() };
@@ -92,6 +111,30 @@ export const ChatWidget = () => {
 
   return (
     <div className="fixed bottom-6 right-6 z-[999] flex flex-col items-end pointer-events-none">
+      
+      {/* Preview Bubbles */}
+      <div className="pointer-events-auto absolute bottom-20 right-0 flex flex-col items-end gap-2 mb-2">
+        {showPreview && !isOpen && PREVIEW_MESSAGES.map((msg, index) => (
+          <div 
+            key={index}
+            className="origin-bottom-right"
+            style={{ 
+              animation: `bubble-float-in 0.5s cubic-bezier(0.16, 1, 0.3, 1) ${index * 200}ms forwards`,
+              opacity: 0
+            }}
+          >
+            <div style={{ animation: `continuous-float 3s ease-in-out ${(index * 200) + 500}ms infinite` }}>
+              <div 
+                onClick={toggleChat}
+                className="bg-[var(--color-text-primary)] text-[var(--color-canvas)] px-4 py-3 rounded-2xl rounded-br-sm shadow-xl cursor-pointer hover:scale-105 transition-transform flex items-center gap-3 whitespace-nowrap"
+              >
+                <span className="text-[0.9375rem]">{msg}</span>
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+
       {/* Chat Window */}
       <div className={`pointer-events-auto transition-all duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] origin-bottom-right mb-4 ${
         isOpen ? 'opacity-100 scale-100 translate-y-0' : 'opacity-0 scale-95 translate-y-4 pointer-events-none absolute bottom-full'

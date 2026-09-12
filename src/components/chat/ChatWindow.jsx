@@ -44,8 +44,8 @@ export const ChatWindow = ({ messages, isLoading, onSendMessage, onClose }) => {
         className="flex-1 min-h-0 overflow-y-auto p-4 space-y-6 bg-[var(--color-elevated)] overscroll-contain"
         data-lenis-prevent="true"
       >
-        {messages.map((msg) => (
-          <ChatMessage key={msg.id} message={msg} />
+        {messages.map((msg, index) => (
+          <ChatMessage key={msg.id} message={msg} index={index} />
         ))}
         
         {isLoading && (
