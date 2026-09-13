@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState, Suspense, lazy } from 'react';
 import { useTransition } from '../../context/TransitionContext';
 import { useSound } from '../../context/SoundContext';
 import { soundEngine } from '../../utils/soundEngine';
@@ -8,6 +8,8 @@ import { Grid } from '../layout/Grid';
 import { Button } from '../ui/Button';
 import { Magnetic } from '../ui/Magnetic';
 import { siteConfig } from '../../data/site';
+
+const HeroCanvas = lazy(() => import('../micro/HeroCanvas'));
 
 let heroAnimPlayed = false;
 
@@ -79,6 +81,9 @@ export const Hero = () => {
         ref={heroRef}
         className="relative min-h-[calc(100svh-80px)] flex flex-col justify-center pt-8 pb-24 md:pt-1 md:pb-32 overflow-hidden"
       >
+        <Suspense fallback={null}>
+          <HeroCanvas />
+        </Suspense>
       <Container>
         <Grid className="items-end">
 
