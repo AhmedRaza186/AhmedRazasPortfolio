@@ -88,7 +88,6 @@ const AbstractShape = () => {
           fillOpacity={0}
           stroke={"#333333"}
           thickness={0.03}
-          blendFunction={THREE.AdditiveBlending}
         />
       </mesh>
     </Float>
