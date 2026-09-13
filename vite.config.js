@@ -9,8 +9,14 @@ export default defineConfig({
     react(), 
     tailwindcss(),
     VitePWA({
+      strategies: 'injectManifest',
+      srcDir: '.',
+      filename: 'sw.js',
       registerType: 'autoUpdate',
       includeAssets: ['apple-touch-icon.jpg'],
+      injectManifest: {
+        globPatterns: ['**/*.{js,css,html,ico,png,svg,jpg,jpeg,webp,webmanifest}']
+      },
       manifest: {
         name: 'Ahmed Raza - Full Stack Developer',
         short_name: 'Ahmed Raza',
