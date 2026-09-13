@@ -157,6 +157,7 @@ export const Work = () => {
             <img 
               src={project.thumbnail} 
               alt={project.title} 
+              loading="lazy"
               className="parallax-image w-[110%] h-[110%] max-w-none object-contain grayscale group-hover:grayscale-0 group-hover:scale-[1.15] transition-all duration-700 ease-out" 
             />
           ) : renderMockup(project.slug)}

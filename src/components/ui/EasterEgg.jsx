@@ -1,9 +1,10 @@
-import React, { useEffect, useState, useRef } from 'react';
-import Matter from 'matter-js';
+import React, { useEffect, useState, useRef, Suspense } from 'react';
 import { useSound } from '../../context/SoundContext';
-import { EasterEggTerminal } from './EasterEggTerminal';
-import { EasterEggNeon } from './EasterEggNeon';
-import { EasterEggMatrix } from './EasterEggMatrix';
+
+// Lazily load easter egg UI components
+const EasterEggTerminal = React.lazy(() => import('./EasterEggTerminal').then(m => ({ default: m.EasterEggTerminal })));
+const EasterEggNeon = React.lazy(() => import('./EasterEggNeon').then(m => ({ default: m.EasterEggNeon })));
+const EasterEggMatrix = React.lazy(() => import('./EasterEggMatrix').then(m => ({ default: m.EasterEggMatrix })));
 
 export const EasterEgg = () => {
   const { playAlarm } = useSound();
@@ -38,11 +39,13 @@ export const EasterEgg = () => {
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, [activeEgg]);
 
-  const triggerGravityCollapse = () => {
+  const triggerGravityCollapse = async () => {
     if (activeEgg) return;
     setActiveEgg('gravity');
     playAlarm();
 
+    // Dynamically import matter-js ONLY when needed
+    const Matter = (await import('matter-js')).default;
     const { Engine, Runner, MouseConstraint, Mouse, World, Bodies } = Matter;
 
     const engine = Engine.create();
@@ -152,7 +155,6 @@ export const EasterEgg = () => {
     Runner.run(runner, engine);
     requestAnimationFrame(syncDOM);
     
-    // Listen for Esc to stop gravity (bonus)
     const handleEsc = (e) => {
       if (e.key === 'Escape') {
         Runner.stop(runner);
@@ -167,7 +169,7 @@ export const EasterEgg = () => {
   };
 
   return (
-    <>
+    <Suspense fallback={null}>
       {activeEgg === 'gravity' && (
         <div className="fixed top-4 right-4 z-[99999] pointer-events-none text-[var(--color-text-secondary)] font-meta animate-pulse">
           PHYSICS ENGINE ACTIVE [PRESS ESC TO RESET]
@@ -176,6 +178,6 @@ export const EasterEgg = () => {
       {activeEgg === 'terminal' && <EasterEggTerminal onClose={() => setActiveEgg(null)} />}
       {activeEgg === 'neon' && <EasterEggNeon onClose={() => setActiveEgg(null)} />}
       {activeEgg === 'matrix' && <EasterEggMatrix onClose={() => setActiveEgg(null)} />}
-    </>
+    </Suspense>
   );
 };
