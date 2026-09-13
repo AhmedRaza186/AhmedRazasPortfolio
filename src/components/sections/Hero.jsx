@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { useTransition } from '../../context/TransitionContext';
 import { useSound } from '../../context/SoundContext';
+import { soundEngine } from '../../utils/soundEngine';
 import gsap from 'gsap';
 import { Container } from '../layout/Container';
 import { Grid } from '../layout/Grid';
@@ -66,16 +67,34 @@ export const Hero = () => {
     <>
       {/* Click to Enter Overlay */}
       {!entered && !heroAnimPlayed && (
-        <div className="fixed inset-0 z-[99999] flex flex-col items-center justify-center bg-[var(--color-canvas)] text-[var(--color-text-primary)]">
+        <div className="fixed inset-0 z-[99999] flex flex-col items-center justify-center bg-[var(--color-canvas)]">
           <button 
-            className="font-display text-4xl md:text-6xl uppercase tracking-widest hover:text-[var(--color-accent)] transition-colors focus:outline-none"
+            className="group relative flex flex-col items-center focus:outline-none px-8 py-4 bg-[var(--color-canvas)]"
             onClick={() => {
               if (!soundEnabled) toggleSound(); // Enable sound implicitly
-              playDoorOpen();
+              // Force initialization immediately before React state updates
+              soundEngine.init();
+              soundEngine.resume();
+              soundEngine.playDoorOpen();
               setEntered(true);
             }}
           >
-            Click to Enter
+            {/* The Line and Glowing Pulse (Background) */}
+            <div className="absolute top-[28px] left-[-50px] right-[-50px] h-[1px] bg-[var(--color-border-subtle)] -z-20">
+              <div className="absolute top-0 left-1/2 -translate-x-1/2 h-full bg-[var(--color-border-strong)] transition-all duration-700 ease-out w-0 group-hover:w-full"></div>
+              {/* Hover Pulse */}
+              <div className="absolute top-[-1px] left-1/2 -translate-x-1/2 h-[3px] w-0 bg-[var(--color-accent)] opacity-0 group-hover:opacity-100 group-hover:w-[100px] transition-all duration-700 shadow-[0_0_12px_rgba(49,87,255,0.8)]"></div>
+            </div>
+
+            {/* The Dot */}
+            <div className="absolute top-[28px] left-1/2 -translate-x-1/2 -translate-y-1/2 w-2 h-2 rounded-full border border-[var(--color-border-strong)] bg-[var(--color-canvas)] group-hover:border-[var(--color-accent)] group-hover:bg-[var(--color-accent)] transition-all duration-300 -z-10 group-hover:scale-150"></div>
+            
+            <div className="text-meta text-[var(--color-text-secondary)] mb-2 group-hover:text-[var(--color-text-primary)] transition-colors duration-300 bg-[var(--color-canvas)] px-4">
+              SYSTEM READY
+            </div>
+            <h4 className="font-display text-4xl md:text-5xl tracking-wide text-[var(--color-text-secondary)] group-hover:text-[var(--color-text-primary)] transition-colors duration-300 mb-2 bg-[var(--color-canvas)] px-4">
+              CLICK TO ENTER
+            </h4>
           </button>
         </div>
       )}
