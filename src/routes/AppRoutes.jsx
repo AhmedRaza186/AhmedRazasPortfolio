@@ -11,6 +11,8 @@ const Achievements = React.lazy(() => import('../pages/Achievements').then(modul
 const Journey = React.lazy(() => import('../pages/Journey').then(module => ({ default: module.Journey })));
 const Contact = React.lazy(() => import('../pages/Contact').then(module => ({ default: module.Contact })));
 const ProjectDetail = React.lazy(() => import('../pages/ProjectDetail').then(module => ({ default: module.ProjectDetail })));
+const Writing = React.lazy(() => import('../pages/Writing').then(module => ({ default: module.Writing })));
+const WritingDetail = React.lazy(() => import('../pages/WritingDetail').then(module => ({ default: module.WritingDetail })));
 
 // A simple loading fallback
 const LoadingFallback = () => (
@@ -33,6 +35,8 @@ export const AppRoutes = () => {
           <Route path="/achievements" element={<Achievements />} />
           <Route path="/journey" element={<Journey />} />
           <Route path="/contact" element={<Contact />} />
+          <Route path="/writing" element={<Writing />} />
+          <Route path="/writing/:slug" element={<WritingDetail />} />
         </Routes>
       </Suspense>
     </>
