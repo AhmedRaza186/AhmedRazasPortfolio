@@ -97,7 +97,7 @@ const AbstractShape = () => {
 
 export const HeroCanvas = () => {
   return (
-    <div className="absolute inset-0 w-full h-full -z-10 pointer-events-none opacity-40 mix-blend-screen overflow-hidden">
+    <div className="absolute inset-0 w-full h-full -z-10 pointer-events-none opacity-60 overflow-hidden">
       <Canvas 
         camera={{ position: [0, 0, 10], fov: 50 }}
         gl={{ alpha: true, antialias: true, powerPreference: "high-performance" }}
