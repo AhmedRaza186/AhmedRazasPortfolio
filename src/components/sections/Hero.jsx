@@ -7,6 +7,8 @@ import { Button } from '../ui/Button';
 import { Magnetic } from '../ui/Magnetic';
 import { siteConfig } from '../../data/site';
 
+let heroAnimPlayed = false;
+
 export const Hero = () => {
   const { navigateWithTransition } = useTransition();
   const heroRef = useRef(null);
@@ -15,10 +17,14 @@ export const Hero = () => {
   useEffect(() => {
     const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-    if (prefersReducedMotion) {
+    if (prefersReducedMotion || heroAnimPlayed) {
       gsap.set(q('.animate-item'), { opacity: 1, y: 0, clipPath: 'inset(0% 0% 0% 0%)', scale: 1, rotateX: 0 });
+      // Still dispatch the event if other things rely on the image being "revealed"
+      if (heroAnimPlayed) window.dispatchEvent(new CustomEvent('hero-image-revealed'));
       return;
     }
+
+    heroAnimPlayed = true;
 
     const tl = gsap.timeline({ defaults: { ease: 'power3.out' } });
 
