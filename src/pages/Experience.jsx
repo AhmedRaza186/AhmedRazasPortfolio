@@ -1,7 +1,9 @@
 import React, { useEffect, useRef } from 'react';
 import gsap from 'gsap';
 import { Container } from '../components/layout/Container';
-import { NetworkBackground } from '../components/ui/NetworkBackground';
+import { Footer } from '../components/layout/Footer';
+import { DotGridBackground } from '../components/ui/DotGridBackground';
+import { SEO } from '../components/common/SEO';
 
 const experiences = [
   {
@@ -47,8 +49,9 @@ export const Experience = () => {
   }, []);
 
   return (
-    <div ref={pageRef} className="pt-32 pb-24 min-h-screen bg-[var(--color-canvas)] relative">
-      <NetworkBackground />
+    <div ref={pageRef} className="pt-24 md:pt-32 min-h-screen bg-[var(--color-canvas)] relative flex flex-col">
+      <SEO title="Experience" description="My professional work history and internships." />
+      <DotGridBackground />
       <Container className="relative z-10">
         <div className="mb-16 md:mb-24 experience-header">
           <span className="text-meta flex items-center gap-3 text-[var(--color-text-secondary)] mb-6">

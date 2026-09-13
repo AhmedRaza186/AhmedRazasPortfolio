@@ -3,11 +3,13 @@ import { TransitionLink } from '../components/ui/TransitionLink';
 import { Container } from '../components/layout/Container';
 import { JourneySection } from '../components/sections/JourneySection';
 import { HourglassBackground } from '../components/ui/HourglassBackground';
+import { SEO } from '../components/common/SEO';
 
 export const Journey = () => {
 
   return (
     <div className="pt-24 md:pt-32 min-h-screen bg-[var(--color-canvas)] relative">
+      <SEO title="My Journey" description="The story of how I became a developer." />
       <HourglassBackground />
       <Container className="relative z-10">
         <TransitionLink 

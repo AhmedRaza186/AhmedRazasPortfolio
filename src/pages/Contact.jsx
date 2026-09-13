@@ -7,6 +7,7 @@ import { Footer } from '../components/layout/Footer';
 import { RippleBackground } from '../components/ui/RippleBackground';
 import { ContactForm } from '../components/micro/ContactForm';
 import { siteConfig } from '../data/site';
+import { SEO } from '../components/common/SEO';
 
 export const Contact = () => {
   const pageRef = useRef(null);
@@ -59,6 +60,7 @@ export const Contact = () => {
 
   return (
     <div ref={pageRef} className="bg-[var(--color-canvas)] min-h-screen pt-24 md:pt-32 flex flex-col relative">
+      <SEO title="Contact" description="Get in touch. Open to select projects and collaborations." />
       <RippleBackground />
       <Container className="mb-24 md:mb-32 flex-grow relative z-10">
         

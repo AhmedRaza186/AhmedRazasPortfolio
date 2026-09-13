@@ -9,6 +9,7 @@ import { Grid } from '../components/layout/Grid';
 import { Footer } from '../components/layout/Footer';
 import { DemoMedia } from '../components/projects/DemoMedia';
 import { TripleMonitorShowcase } from '../components/projects/TripleMonitorShowcase';
+import { SEO } from '../components/common/SEO';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -137,6 +138,11 @@ export const ProjectDetail = () => {
 
   return (
     <div ref={pageRef} className="bg-[var(--color-canvas)] min-h-screen pt-8 md:pt-12">
+      <SEO 
+        title={project.title} 
+        description={project.description || `Case study for ${project.title}`} 
+        image={project.thumbnail}
+      />
       
       {/* Top Navigation */}
       <Container className="mb-16 md:mb-24">

@@ -7,10 +7,12 @@ import { SkillsSection } from '../components/sections/SkillsSection';
 import { ContactSection } from '../components/sections/ContactSection';
 import { PortfolioGuide } from '../components/guide/PortfolioGuide';
 import { Footer } from '../components/layout/Footer';
+import { SEO } from '../components/common/SEO';
 
 export const Home = () => {
   return (
     <>
+      <SEO />
       <PortfolioIntro />
       <PortfolioGuide />
       <Hero />

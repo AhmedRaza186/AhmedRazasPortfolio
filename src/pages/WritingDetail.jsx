@@ -9,6 +9,7 @@ import { Container } from '../components/layout/Container';
 import { Footer } from '../components/layout/Footer';
 import { writingArticles } from '../data/writing';
 import { useTransition } from '../context/TransitionContext';
+import { SEO } from '../components/common/SEO';
 
 export const WritingDetail = () => {
   const { slug } = useParams();
@@ -45,6 +46,7 @@ export const WritingDetail = () => {
 
   return (
     <div ref={pageRef} className="bg-[var(--color-canvas)] min-h-screen pt-24 md:pt-32 flex flex-col">
+      <SEO title={article.title} description={article.description} />
       <Container className="mb-24 md:mb-32 flex-grow max-w-4xl mx-auto w-full">
         
         {/* Back Button */}

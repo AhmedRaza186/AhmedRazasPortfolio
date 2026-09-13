@@ -8,6 +8,7 @@ import { Footer } from '../components/layout/Footer';
 import { DotGridBackground } from '../components/ui/DotGridBackground';
 import { ProjectMockup } from '../components/micro/ProjectMockup';
 import { projects } from '../data/projects';
+import { SEO } from '../components/common/SEO';
 
 const FILTERS = ['All', 'Full Stack', 'Frontend', 'AI & Tools', 'API Projects', 'Games'];
 
@@ -145,6 +146,7 @@ export const Work = () => {
 
   return (
     <div ref={pageRef} className="bg-[var(--color-canvas)] min-h-screen pt-8 md:pt-12 flex flex-col relative">
+      <SEO title="Selected Works" description="A showcase of my recent full stack web development projects." />
       <DotGridBackground />
       <Container className="mb-16 md:mb-24 flex-grow relative z-10">
         

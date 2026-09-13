@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react';
+import { HelmetProvider } from 'react-helmet-async';
 import { AppRoutes } from './routes/AppRoutes';
 import { Navbar } from './components/layout/Navbar';
 import { CustomCursor } from './components/ui/CustomCursor';
@@ -12,8 +13,9 @@ import gsap from 'gsap';
 
 function App() {
   return (
-    <SoundProvider>
-      <TransitionProvider>
+    <HelmetProvider>
+      <SoundProvider>
+        <TransitionProvider>
         <SmoothScroll>
           <div className="min-h-screen flex flex-col">
             <CustomCursor />
@@ -28,6 +30,7 @@ function App() {
         </SmoothScroll>
       </TransitionProvider>
     </SoundProvider>
+    </HelmetProvider>
   );
 }
 

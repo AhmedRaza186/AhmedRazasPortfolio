@@ -6,6 +6,7 @@ import { Grid } from '../components/layout/Grid';
 import { Footer } from '../components/layout/Footer';
 import { writingArticles } from '../data/writing';
 import { useTransition } from '../context/TransitionContext';
+import { SEO } from '../components/common/SEO';
 
 export const Writing = () => {
   const pageRef = useRef(null);
@@ -27,6 +28,7 @@ export const Writing = () => {
 
   return (
     <div ref={pageRef} className="bg-[var(--color-canvas)] min-h-screen pt-24 md:pt-32 flex flex-col">
+      <SEO title="Writing" description="Thoughts, learnings, and technical articles by Ahmed Raza." />
       <Container className="mb-24 md:mb-32 flex-grow">
         
         {/* Header Section */}

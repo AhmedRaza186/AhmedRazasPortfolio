@@ -2,6 +2,8 @@ import React, { useEffect, useRef, useState } from 'react';
 import { Container } from '../components/layout/Container';
 import { Grid } from '../components/layout/Grid';
 import { Footer } from '../components/layout/Footer';
+import { NetworkBackground } from '../components/ui/NetworkBackground';
+import { SEO } from '../components/common/SEO';
 import { achievements } from '../data/achievements';
 import Confetti from 'react-confetti';
 import gsap from 'gsap';
@@ -66,7 +68,9 @@ export const Achievements = () => {
   }, []);
 
   return (
-    <div ref={pageRef} className="min-h-screen bg-[var(--color-canvas)] pt-24 md:pt-40">
+    <div ref={pageRef} className="pt-24 md:pt-32 min-h-screen bg-[var(--color-canvas)] relative flex flex-col">
+      <SEO title="Achievements" description="My professional achievements and certifications." />
+      <NetworkBackground />
       
       {/* Celebration Confetti */}
       {showConfetti && (
