@@ -93,6 +93,23 @@ export const ProjectDetail = () => {
           }
         });
       }
+
+      // Parallax Effect for Images
+      gsap.utils.toArray('.parallax-image').forEach((img) => {
+        gsap.fromTo(img, 
+          { yPercent: -15 },
+          {
+            yPercent: 15,
+            ease: "none",
+            scrollTrigger: {
+              trigger: img.parentElement,
+              start: "top bottom",
+              end: "bottom top",
+              scrub: true
+            }
+          }
+        );
+      });
     }, pageRef);
 
     return () => ctx.revert();
@@ -382,7 +399,7 @@ export const ProjectDetail = () => {
               )}
               {nextProject.thumbnail && (
                 <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[300px] aspect-video rounded-sm overflow-hidden opacity-0 pointer-events-none group-hover:opacity-10 transition-opacity duration-700 -z-10 mix-blend-luminosity">
-                  <img src={nextProject.thumbnail} alt="" className="w-full h-full object-contain" />
+                  <img src={nextProject.thumbnail} alt="" className="parallax-image w-[110%] h-[110%] max-w-none object-contain" />
                 </div>
               )}
             </TransitionLink>

@@ -38,7 +38,7 @@ const ProjectCard = ({ project, index }) => {
                   src={project.thumbnail} 
                   alt={project.title} 
                   loading="lazy"
-                  className="w-full h-full object-contain p-8 md:p-12 lg:p-16 transition-transform duration-700 ease-out"
+                  className="parallax-image w-[110%] h-[110%] max-w-none object-contain p-8 md:p-12 lg:p-16 transition-transform duration-700 ease-out"
                 />
               ) : (
                 // CSS Dashboard Mockup for User Management System
@@ -195,6 +195,23 @@ export const WorkSection = () => {
           duration: 1,
           ease: 'power3.out'
         });
+      });
+
+      // Parallax Effect for Images
+      gsap.utils.toArray('.parallax-image').forEach((img) => {
+        gsap.fromTo(img, 
+          { yPercent: -15 },
+          {
+            yPercent: 15,
+            ease: "none",
+            scrollTrigger: {
+              trigger: img.parentElement,
+              start: "top bottom",
+              end: "bottom top",
+              scrub: true
+            }
+          }
+        );
       });
     }, sectionRef);
 

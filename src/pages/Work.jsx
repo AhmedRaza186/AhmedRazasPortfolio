@@ -51,6 +51,23 @@ export const Work = () => {
           ease: 'power3.out'
         });
       });
+
+      // Parallax Effect for Images
+      gsap.utils.toArray('.parallax-image').forEach((img) => {
+        gsap.fromTo(img, 
+          { yPercent: -15 },
+          {
+            yPercent: 15,
+            ease: "none",
+            scrollTrigger: {
+              trigger: img.parentElement,
+              start: "top bottom",
+              end: "bottom top",
+              scrub: true
+            }
+          }
+        );
+      });
     }, pageRef);
 
     return () => ctx.revert();
@@ -140,7 +157,7 @@ export const Work = () => {
             <img 
               src={project.thumbnail} 
               alt={project.title} 
-              className="w-full h-full object-contain grayscale group-hover:grayscale-0 group-hover:scale-105 transition-all duration-700 ease-out" 
+              className="parallax-image w-[110%] h-[110%] max-w-none object-contain grayscale group-hover:grayscale-0 group-hover:scale-[1.15] transition-all duration-700 ease-out" 
             />
           ) : renderMockup(project.slug)}
         </div>
@@ -231,7 +248,7 @@ export const Work = () => {
                       src={project.thumbnail} 
                       alt={project.title} 
                       loading="lazy"
-                      className="w-full h-full object-contain p-12 lg:p-16 filter grayscale group-hover:grayscale-0 group-hover:scale-105 transition-all duration-700"
+                      className="parallax-image w-[110%] h-[110%] max-w-none object-contain p-12 lg:p-16 filter grayscale group-hover:grayscale-0 group-hover:scale-[1.15] transition-all duration-700"
                     />
                   ) : renderMockup(project.slug)}
                 </div>
