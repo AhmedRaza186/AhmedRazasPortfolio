@@ -1,37 +1,46 @@
 import React, { useEffect, useState, useRef } from 'react';
 import Matter from 'matter-js';
 import { useSound } from '../../context/SoundContext';
+import { EasterEggTerminal } from './EasterEggTerminal';
+import { EasterEggNeon } from './EasterEggNeon';
+import { EasterEggMatrix } from './EasterEggMatrix';
 
 export const EasterEgg = () => {
   const { playAlarm } = useSound();
-  const [active, setActive] = useState(false);
+  const [activeEgg, setActiveEgg] = useState(null); // 'gravity', 'terminal', 'neon', 'matrix'
   const engineRef = useRef(null);
 
   useEffect(() => {
-    let keyBuffer = [];
-    const secretCode = ['a', 'h', 'm', 'e', 'd'];
+    let keyBuffer = '';
+    const maxLen = 10;
 
     const handleKeyDown = (e) => {
-      if (active) return;
+      if (activeEgg) return;
+      if (!/^[a-zA-Z]$/.test(e.key)) return;
 
-      const key = e.key.toLowerCase();
-      keyBuffer.push(key);
-      if (keyBuffer.length > secretCode.length) {
-        keyBuffer.shift();
+      keyBuffer += e.key.toLowerCase();
+      if (keyBuffer.length > maxLen) {
+        keyBuffer = keyBuffer.slice(-maxLen);
       }
 
-      if (keyBuffer.join('') === secretCode.join('')) {
+      if (keyBuffer.endsWith('ahmed')) {
         triggerGravityCollapse();
+      } else if (keyBuffer.endsWith('hack')) {
+        setActiveEgg('terminal');
+      } else if (keyBuffer.endsWith('neon')) {
+        setActiveEgg('neon');
+      } else if (keyBuffer.endsWith('matrix')) {
+        setActiveEgg('matrix');
       }
     };
 
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [active]);
+  }, [activeEgg]);
 
   const triggerGravityCollapse = () => {
-    if (active) return;
-    setActive(true);
+    if (activeEgg) return;
+    setActiveEgg('gravity');
     playAlarm();
 
     const { Engine, Runner, MouseConstraint, Mouse, World, Bodies } = Matter;
@@ -39,11 +48,9 @@ export const EasterEgg = () => {
     const engine = Engine.create();
     engineRef.current = engine;
 
-    // Grab elements that are visually interesting to drop
     const targetSelectors = 'h1, h2, h3, h4, p, img, button, .process-step, .work-card, .hero-meta, .hero-cta, .about-split';
     const elements = Array.from(document.querySelectorAll(targetSelectors)).filter(el => {
       const rect = el.getBoundingClientRect();
-      // Only include elements currently visible in the viewport
       return rect.width > 0 && rect.height > 0 && rect.top < window.innerHeight && rect.bottom > 0;
     });
 
@@ -77,7 +84,6 @@ export const EasterEgg = () => {
       clone.style.width = `${rect.width}px`;
       clone.style.height = `${rect.height}px`;
       
-      // Preserve styles
       clone.style.fontSize = computed.fontSize;
       clone.style.fontFamily = computed.fontFamily;
       clone.style.fontWeight = computed.fontWeight;
@@ -88,12 +94,10 @@ export const EasterEgg = () => {
       clone.style.borderRadius = computed.borderRadius;
       clone.style.display = computed.display;
       clone.style.boxSizing = 'border-box';
-      // Prevent interactions on the clone itself so we can drag it
       clone.style.pointerEvents = 'none'; 
       
       bodyDOMMap.set(body, { clone, width: rect.width, height: rect.height, original: el });
       
-      // Hide original
       el.style.opacity = '0';
     });
 
@@ -112,16 +116,13 @@ export const EasterEgg = () => {
       container.appendChild(clone);
     });
 
-    // Boundaries
     const floor = Bodies.rectangle(window.innerWidth / 2, window.innerHeight + 50, window.innerWidth * 2, 100, { isStatic: true });
     const leftWall = Bodies.rectangle(-50, window.innerHeight / 2, 100, window.innerHeight * 2, { isStatic: true });
     const rightWall = Bodies.rectangle(window.innerWidth + 50, window.innerHeight / 2, 100, window.innerHeight * 2, { isStatic: true });
-    // Keep them from flying out the top too easily
     const ceiling = Bodies.rectangle(window.innerWidth / 2, -1000, window.innerWidth * 2, 100, { isStatic: true });
 
     World.add(engine.world, [...bodies, floor, leftWall, rightWall, ceiling]);
 
-    // Setup mouse
     const mouse = Mouse.create(document.body);
     const mConstraint = MouseConstraint.create(engine, {
       mouse: mouse,
@@ -135,7 +136,6 @@ export const EasterEgg = () => {
     mouse.element.removeEventListener("mousewheel", mouse.mousewheel);
     mouse.element.removeEventListener("DOMMouseScroll", mouse.mousewheel);
 
-    // Render loop for DOM syncing
     const syncDOM = () => {
       if (!engineRef.current) return;
       
@@ -151,7 +151,31 @@ export const EasterEgg = () => {
     const runner = Runner.create();
     Runner.run(runner, engine);
     requestAnimationFrame(syncDOM);
+    
+    // Listen for Esc to stop gravity (bonus)
+    const handleEsc = (e) => {
+      if (e.key === 'Escape') {
+        Runner.stop(runner);
+        Engine.clear(engine);
+        if (container.parentNode) container.parentNode.removeChild(container);
+        bodyDOMMap.forEach(({ original }) => { original.style.opacity = ''; });
+        setActiveEgg(null);
+        window.removeEventListener('keydown', handleEsc);
+      }
+    };
+    window.addEventListener('keydown', handleEsc);
   };
 
-  return null; // This component has no UI of its own
+  return (
+    <>
+      {activeEgg === 'gravity' && (
+        <div className="fixed top-4 right-4 z-[99999] pointer-events-none text-[var(--color-text-secondary)] font-meta animate-pulse">
+          PHYSICS ENGINE ACTIVE [PRESS ESC TO RESET]
+        </div>
+      )}
+      {activeEgg === 'terminal' && <EasterEggTerminal onClose={() => setActiveEgg(null)} />}
+      {activeEgg === 'neon' && <EasterEggNeon onClose={() => setActiveEgg(null)} />}
+      {activeEgg === 'matrix' && <EasterEggMatrix onClose={() => setActiveEgg(null)} />}
+    </>
+  );
 };
