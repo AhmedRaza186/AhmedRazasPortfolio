@@ -1,10 +1,15 @@
-import React, { createContext, useContext, useState, useEffect } from 'react';
+import React, { createContext, useContext, useState, useEffect, useRef } from 'react';
 import { soundEngine } from '../utils/soundEngine';
 
 const SoundContext = createContext();
 
 export const SoundProvider = ({ children }) => {
   const [soundEnabled, setSoundEnabled] = useState(false);
+  const soundEnabledRef = useRef(soundEnabled);
+
+  useEffect(() => {
+    soundEnabledRef.current = soundEnabled;
+  }, [soundEnabled]);
 
   // Initialize engine only when user opts in to avoid audio context warnings
   useEffect(() => {
@@ -19,23 +24,23 @@ export const SoundProvider = ({ children }) => {
   };
 
   const playHover = () => {
-    if (soundEnabled) soundEngine.playHover();
+    if (soundEnabledRef.current) soundEngine.playHover();
   };
 
   const playWhoosh = () => {
-    if (soundEnabled) soundEngine.playWhoosh();
+    if (soundEnabledRef.current) soundEngine.playWhoosh();
   };
 
   const playPing = () => {
-    if (soundEnabled) soundEngine.playPing();
+    if (soundEnabledRef.current) soundEngine.playPing();
   };
 
   const playDoorOpen = () => {
-    if (soundEnabled) soundEngine.playDoorOpen();
+    if (soundEnabledRef.current) soundEngine.playDoorOpen();
   };
 
   const playLightRay = () => {
-    if (soundEnabled) soundEngine.playLightRay();
+    if (soundEnabledRef.current) soundEngine.playLightRay();
   };
 
   return (
