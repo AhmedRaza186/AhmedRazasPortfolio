@@ -13,7 +13,14 @@ export const EasterEggTerminal = ({ onClose }) => {
 
   useEffect(() => {
     playWhoosh();
-  }, []);
+    
+    const handleEsc = (e) => {
+      if (e.key === 'Escape') onClose();
+    };
+    window.addEventListener('keydown', handleEsc);
+    
+    return () => window.removeEventListener('keydown', handleEsc);
+  }, [playWhoosh, onClose]);
 
   useEffect(() => {
     endRef.current?.scrollIntoView({ behavior: 'smooth' });
