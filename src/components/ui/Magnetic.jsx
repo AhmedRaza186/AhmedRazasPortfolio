@@ -1,8 +1,10 @@
 import React, { useEffect, useRef } from 'react';
 import gsap from 'gsap';
+import { useSound } from '../../context/SoundContext';
 
 export const Magnetic = ({ children }) => {
   const magneticRef = useRef(null);
+  const { playHover } = useSound();
 
   useEffect(() => {
     const el = magneticRef.current;
@@ -34,14 +36,20 @@ export const Magnetic = ({ children }) => {
       });
     };
 
+    const onMouseEnter = () => {
+      playHover();
+    };
+
     el.addEventListener('mousemove', onMouseMove);
     el.addEventListener('mouseleave', onMouseLeave);
+    el.addEventListener('mouseenter', onMouseEnter);
 
     return () => {
       el.removeEventListener('mousemove', onMouseMove);
       el.removeEventListener('mouseleave', onMouseLeave);
+      el.removeEventListener('mouseenter', onMouseEnter);
     };
-  }, []);
+  }, [playHover]);
 
   return (
     <div ref={magneticRef} style={{ display: 'inline-block' }} data-cursor-magnetic="true">

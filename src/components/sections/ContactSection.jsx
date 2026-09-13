@@ -5,6 +5,7 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { Container } from '../layout/Container';
 import { Grid } from '../layout/Grid';
 import { siteConfig } from '../../data/site';
+import { useSound } from '../../context/SoundContext';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -38,6 +39,7 @@ const contactLinks = [
 
 export const ContactSection = () => {
   const sectionRef = useRef(null);
+  const { playPing } = useSound();
 
   useEffect(() => {
     const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -102,6 +104,7 @@ export const ContactSection = () => {
                   {...linkProps}
                   className="contact-anim group flex flex-col gap-2 focus:outline-none"
                   aria-label={`Contact via ${link.label}`}
+                  onClick={() => playPing()}
                 >
                   <span className="font-meta text-sm font-semibold text-[var(--color-text-secondary)] tracking-wide transition-colors duration-300 group-hover:text-[var(--color-text-primary)] group-focus-visible:text-[var(--color-text-primary)]">
                     {link.label}

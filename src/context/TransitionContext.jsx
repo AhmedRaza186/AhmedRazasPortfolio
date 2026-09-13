@@ -1,6 +1,7 @@
 import React, { createContext, useContext, useRef, useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import gsap from 'gsap';
+import { useSound } from './SoundContext';
 
 const TransitionContext = createContext();
 
@@ -13,6 +14,7 @@ export const TransitionProvider = ({ children }) => {
   const veilRef = useRef(null);
   const textRef = useRef(null);
   const [isTransitioning, setIsTransitioning] = useState(false);
+  const { playWhoosh } = useSound();
 
   // Initialize GSAP positions on mount
   React.useEffect(() => {
@@ -28,6 +30,7 @@ export const TransitionProvider = ({ children }) => {
     }
 
     setIsTransitioning(true);
+    playWhoosh();
 
     // Reset curtain position to bottom
     gsap.set([veilRef.current, curtainRef.current], { yPercent: 100 });
