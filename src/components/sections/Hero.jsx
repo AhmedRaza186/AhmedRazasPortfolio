@@ -19,6 +19,16 @@ export const Hero = () => {
   const [entered, setEntered] = useState(heroAnimPlayed);
 
   useEffect(() => {
+    // Initial states MUST be set immediately before the user even clicks enter!
+    if (!heroAnimPlayed) {
+      gsap.set(q('.hero-meta'), { opacity: 0, y: 10 });
+      gsap.set(q('.hero-title-line'), { opacity: 0, y: 40, rotateX: -10 });
+      gsap.set(q('.hero-desc'), { opacity: 0, y: 20 });
+      gsap.set(q('.hero-cta'), { opacity: 0, y: 20 });
+      gsap.set(q('.hero-image-container'), { clipPath: 'inset(100% 0% 0% 0%)' });
+      gsap.set(q('.hero-image'), { scale: 1.1 });
+    }
+
     // Wait until user has clicked enter if it hasn't played yet
     if (!entered && !heroAnimPlayed) return;
 
@@ -34,14 +44,6 @@ export const Hero = () => {
     heroAnimPlayed = true;
 
     const tl = gsap.timeline({ defaults: { ease: 'power3.out' } });
-
-    // Initial states
-    gsap.set(q('.hero-meta'), { opacity: 0, y: 10 });
-    gsap.set(q('.hero-title-line'), { opacity: 0, y: 40, rotateX: -10 });
-    gsap.set(q('.hero-desc'), { opacity: 0, y: 20 });
-    gsap.set(q('.hero-cta'), { opacity: 0, y: 20 });
-    gsap.set(q('.hero-image-container'), { clipPath: 'inset(100% 0% 0% 0%)' });
-    gsap.set(q('.hero-image'), { scale: 1.1 });
 
     // Animation Sequence
     const introDelay = 0.2; // Fast start since they just clicked enter
@@ -68,34 +70,43 @@ export const Hero = () => {
       {/* Click to Enter Overlay */}
       {!entered && !heroAnimPlayed && (
         <div className="fixed inset-0 z-[99999] flex flex-col items-center justify-center bg-[var(--color-canvas)]">
-          <button 
-            className="group relative flex flex-col items-center focus:outline-none px-8 py-4 bg-[var(--color-canvas)]"
-            onClick={() => {
-              if (!soundEnabled) toggleSound(); // Enable sound implicitly
-              // Force initialization immediately before React state updates
-              soundEngine.init();
-              soundEngine.resume();
-              soundEngine.playDoorOpen();
-              setEntered(true);
-            }}
-          >
-            {/* The Line and Glowing Pulse (Background) */}
-            <div className="absolute top-[28px] left-[-50px] right-[-50px] h-[1px] bg-[var(--color-border-subtle)] -z-20">
-              <div className="absolute top-0 left-1/2 -translate-x-1/2 h-full bg-[var(--color-border-strong)] transition-all duration-700 ease-out w-0 group-hover:w-full"></div>
-              {/* Hover Pulse */}
-              <div className="absolute top-[-1px] left-1/2 -translate-x-1/2 h-[3px] w-0 bg-[var(--color-accent)] opacity-0 group-hover:opacity-100 group-hover:w-[100px] transition-all duration-700 shadow-[0_0_12px_rgba(49,87,255,0.8)]"></div>
-            </div>
-
-            {/* The Dot */}
-            <div className="absolute top-[28px] left-1/2 -translate-x-1/2 -translate-y-1/2 w-2 h-2 rounded-full border border-[var(--color-border-strong)] bg-[var(--color-canvas)] group-hover:border-[var(--color-accent)] group-hover:bg-[var(--color-accent)] transition-all duration-300 -z-10 group-hover:scale-150"></div>
+          
+          <div className="relative w-full max-w-[600px] flex flex-col items-center">
+            {/* Background Line */}
+            <div className="absolute top-[50%] left-0 right-0 h-[1px] bg-[var(--color-border-subtle)] -z-20 -translate-y-1/2"></div>
             
-            <div className="text-meta text-[var(--color-text-secondary)] mb-2 group-hover:text-[var(--color-text-primary)] transition-colors duration-300 bg-[var(--color-canvas)] px-4">
-              SYSTEM READY
-            </div>
-            <h4 className="font-display text-4xl md:text-5xl tracking-wide text-[var(--color-text-secondary)] group-hover:text-[var(--color-text-primary)] transition-colors duration-300 mb-2 bg-[var(--color-canvas)] px-4">
-              CLICK TO ENTER
-            </h4>
-          </button>
+            <button 
+              className="group relative flex flex-col items-center focus:outline-none bg-[var(--color-canvas)] px-8 py-4 cursor-pointer"
+              onClick={() => {
+                if (!soundEnabled) toggleSound(); // Enable sound implicitly
+                // Force initialization immediately before React state updates
+                soundEngine.init();
+                soundEngine.resume();
+                soundEngine.playDoorOpen();
+                setEntered(true);
+              }}
+            >
+              {/* Expanding Dark Line on Hover */}
+              <div className="absolute top-[50%] left-1/2 -translate-x-1/2 -translate-y-1/2 h-[1px] bg-[var(--color-border-strong)] transition-all duration-700 ease-out w-0 group-hover:w-[150%] -z-10"></div>
+              
+              {/* Glowing Pulse */}
+              <div className="absolute top-[50%] left-1/2 -translate-x-1/2 -translate-y-1/2 h-[3px] w-0 bg-[var(--color-accent)] opacity-0 group-hover:opacity-100 group-hover:w-[100px] transition-all duration-700 shadow-[0_0_12px_rgba(49,87,255,0.8)] -z-10"></div>
+              
+              {/* The Dot */}
+              <div className="absolute top-[50%] left-1/2 -translate-x-1/2 -translate-y-1/2 w-2 h-2 rounded-full border border-[var(--color-border-strong)] bg-[var(--color-canvas)] group-hover:border-[var(--color-accent)] group-hover:bg-[var(--color-accent)] transition-all duration-300 group-hover:scale-150"></div>
+              
+              <div className="text-meta text-[var(--color-text-secondary)] mb-4 group-hover:text-[var(--color-text-primary)] transition-colors duration-300 bg-[var(--color-canvas)] px-4">
+                00
+              </div>
+              <h4 className="font-display text-3xl tracking-wide group-hover:text-[var(--color-text-primary)] transition-colors duration-300 mb-2 bg-[var(--color-canvas)] px-4">
+                ENTER
+              </h4>
+              <p className="font-body text-base text-[var(--color-text-secondary)] group-hover:text-[var(--color-text-primary)] transition-colors duration-300 whitespace-nowrap bg-[var(--color-canvas)] px-4">
+                Click to initialize system.
+              </p>
+            </button>
+          </div>
+
         </div>
       )}
 
