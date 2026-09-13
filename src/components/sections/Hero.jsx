@@ -1,5 +1,6 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useTransition } from '../../context/TransitionContext';
+import { useSound } from '../../context/SoundContext';
 import gsap from 'gsap';
 import { Container } from '../layout/Container';
 import { Grid } from '../layout/Grid';
@@ -11,10 +12,15 @@ let heroAnimPlayed = false;
 
 export const Hero = () => {
   const { navigateWithTransition } = useTransition();
+  const { playDoorOpen, toggleSound, soundEnabled } = useSound();
   const heroRef = useRef(null);
   const q = gsap.utils.selector(heroRef);
+  const [entered, setEntered] = useState(heroAnimPlayed);
 
   useEffect(() => {
+    // Wait until user has clicked enter if it hasn't played yet
+    if (!entered && !heroAnimPlayed) return;
+
     const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
     if (prefersReducedMotion || heroAnimPlayed) {
@@ -37,7 +43,7 @@ export const Hero = () => {
     gsap.set(q('.hero-image'), { scale: 1.1 });
 
     // Animation Sequence
-    const introDelay = 3.0;
+    const introDelay = 0.2; // Fast start since they just clicked enter
 
     tl.to(q('.hero-meta'), { opacity: 1, y: 0, duration: 0.8, stagger: 0.1, delay: introDelay })
       .to(q('.hero-title-line'), { opacity: 1, y: 0, rotateX: 0, duration: 1, stagger: 0.1 }, '-=0.6')
@@ -50,18 +56,35 @@ export const Hero = () => {
     return () => {
       tl.kill();
     };
-  }, []);
+  }, [entered]); // Rerun when entered state changes
 
   const handleWhatsApp = () => {
     window.open('https://wa.me/923320397145?text=Hi%20Ahmed%2C%20I%27d%20like%20to%20discuss%20a%20project.', '_blank', 'noopener,noreferrer');
   };
 
   return (
-    <section
-      id="hero"
-      ref={heroRef}
-      className="relative min-h-[calc(100svh-80px)] flex flex-col justify-center pt-8 pb-24 md:pt-1 md:pb-32 overflow-hidden"
-    >
+    <>
+      {/* Click to Enter Overlay */}
+      {!entered && !heroAnimPlayed && (
+        <div className="fixed inset-0 z-[99999] flex flex-col items-center justify-center bg-[var(--color-canvas)] text-[var(--color-text-primary)]">
+          <button 
+            className="font-display text-4xl md:text-6xl uppercase tracking-widest hover:text-[var(--color-accent)] transition-colors focus:outline-none"
+            onClick={() => {
+              if (!soundEnabled) toggleSound(); // Enable sound implicitly
+              playDoorOpen();
+              setEntered(true);
+            }}
+          >
+            Click to Enter
+          </button>
+        </div>
+      )}
+
+      <section
+        id="hero"
+        ref={heroRef}
+        className="relative min-h-[calc(100svh-80px)] flex flex-col justify-center pt-8 pb-24 md:pt-1 md:pb-32 overflow-hidden"
+      >
       <Container>
         <Grid className="items-end">
 
@@ -135,5 +158,6 @@ export const Hero = () => {
         </Grid>
       </Container>
     </section>
+    </>
   );
 };

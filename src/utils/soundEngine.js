@@ -99,6 +99,88 @@ class SoundEngine {
     
     noise.start();
   }
+
+  // Heavy, cinematic rumble sweep for door opening
+  playDoorOpen() {
+    if (!this.ctx || this.ctx.state === 'suspended') return;
+    
+    const osc = this.ctx.createOscillator();
+    const gain = this.ctx.createGain();
+    
+    osc.type = 'triangle';
+    osc.frequency.setValueAtTime(60, this.ctx.currentTime);
+    osc.frequency.exponentialRampToValueAtTime(20, this.ctx.currentTime + 1.5);
+    
+    gain.gain.setValueAtTime(0, this.ctx.currentTime);
+    gain.gain.linearRampToValueAtTime(0.5, this.ctx.currentTime + 0.2);
+    gain.gain.linearRampToValueAtTime(0.001, this.ctx.currentTime + 1.5);
+    
+    osc.connect(gain);
+    gain.connect(this.ctx.destination);
+    
+    osc.start();
+    osc.stop(this.ctx.currentTime + 1.5);
+
+    // Noise layer for friction
+    const bufferSize = this.ctx.sampleRate * 1.5;
+    const buffer = this.ctx.createBuffer(1, bufferSize, this.ctx.sampleRate);
+    const data = buffer.getChannelData(0);
+    for (let i = 0; i < bufferSize; i++) {
+      data[i] = Math.random() * 2 - 1;
+    }
+    const noise = this.ctx.createBufferSource();
+    noise.buffer = buffer;
+    
+    const filter = this.ctx.createBiquadFilter();
+    filter.type = 'lowpass';
+    filter.frequency.setValueAtTime(100, this.ctx.currentTime);
+    filter.frequency.linearRampToValueAtTime(400, this.ctx.currentTime + 0.5);
+    filter.frequency.linearRampToValueAtTime(50, this.ctx.currentTime + 1.5);
+    
+    const noiseGain = this.ctx.createGain();
+    noiseGain.gain.setValueAtTime(0, this.ctx.currentTime);
+    noiseGain.gain.linearRampToValueAtTime(0.15, this.ctx.currentTime + 0.3);
+    noiseGain.gain.linearRampToValueAtTime(0.001, this.ctx.currentTime + 1.5);
+    
+    noise.connect(filter);
+    filter.connect(noiseGain);
+    noiseGain.connect(this.ctx.destination);
+    
+    noise.start();
+  }
+
+  // Very faint, airy swoosh for light rays
+  playLightRay() {
+    if (!this.ctx || this.ctx.state === 'suspended') return;
+    
+    const bufferSize = this.ctx.sampleRate * 0.3; // 0.3 seconds
+    const buffer = this.ctx.createBuffer(1, bufferSize, this.ctx.sampleRate);
+    const data = buffer.getChannelData(0);
+    for (let i = 0; i < bufferSize; i++) {
+      data[i] = Math.random() * 2 - 1;
+    }
+    
+    const noise = this.ctx.createBufferSource();
+    noise.buffer = buffer;
+    
+    const filter = this.ctx.createBiquadFilter();
+    filter.type = 'bandpass';
+    filter.frequency.setValueAtTime(2000, this.ctx.currentTime);
+    filter.frequency.exponentialRampToValueAtTime(8000, this.ctx.currentTime + 0.15);
+    filter.frequency.exponentialRampToValueAtTime(2000, this.ctx.currentTime + 0.3);
+    filter.Q.value = 5;
+    
+    const gain = this.ctx.createGain();
+    gain.gain.setValueAtTime(0, this.ctx.currentTime);
+    gain.gain.linearRampToValueAtTime(0.015, this.ctx.currentTime + 0.15);
+    gain.gain.linearRampToValueAtTime(0.001, this.ctx.currentTime + 0.3);
+    
+    noise.connect(filter);
+    filter.connect(gain);
+    gain.connect(this.ctx.destination);
+    
+    noise.start();
+  }
 }
 
 export const soundEngine = new SoundEngine();

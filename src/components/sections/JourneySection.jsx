@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { useSound } from '../../context/SoundContext';
 import { Container } from '../layout/Container';
 
 gsap.registerPlugin(ScrollTrigger);
@@ -58,6 +59,15 @@ export const JourneySection = () => {
   const sectionRef = useRef(null);
   const [activeIndex, setActiveIndex] = useState(0);
   const [isHovering, setIsHovering] = useState(false);
+  const [isInView, setIsInView] = useState(false);
+  const { playLightRay } = useSound();
+
+  // Play sound when active index changes, but ONLY if in view
+  useEffect(() => {
+    if (isInView) {
+      playLightRay();
+    }
+  }, [activeIndex, isInView, playLightRay]);
 
   useEffect(() => {
     if (isHovering) return;
@@ -79,6 +89,10 @@ export const JourneySection = () => {
         scrollTrigger: {
           trigger: sectionRef.current,
           start: 'top 75%',
+          onEnter: () => setIsInView(true),
+          onLeave: () => setIsInView(false),
+          onEnterBack: () => setIsInView(true),
+          onLeaveBack: () => setIsInView(false)
         }
       });
 

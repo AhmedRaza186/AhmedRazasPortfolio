@@ -30,8 +30,16 @@ export const SoundProvider = ({ children }) => {
     if (soundEnabled) soundEngine.playPing();
   };
 
+  const playDoorOpen = () => {
+    if (soundEnabled) soundEngine.playDoorOpen();
+  };
+
+  const playLightRay = () => {
+    if (soundEnabled) soundEngine.playLightRay();
+  };
+
   return (
-    <SoundContext.Provider value={{ soundEnabled, toggleSound, playHover, playWhoosh, playPing }}>
+    <SoundContext.Provider value={{ soundEnabled, toggleSound, playHover, playWhoosh, playPing, playDoorOpen, playLightRay }}>
       {children}
     </SoundContext.Provider>
   );

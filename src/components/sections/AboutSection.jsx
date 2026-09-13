@@ -2,6 +2,7 @@ import React, { useEffect, useRef } from 'react';
 import { useTransition } from '../../context/TransitionContext';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { useSound } from '../../context/SoundContext';
 import { Container } from '../layout/Container';
 import { Grid } from '../layout/Grid';
 import { Button } from '../ui/Button';
@@ -20,6 +21,7 @@ const processSteps = [
 export const AboutSection = () => {
   const sectionRef = useRef(null);
   const { navigateWithTransition } = useTransition();
+  const { playLightRay } = useSound();
 
   useEffect(() => {
     const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -60,9 +62,19 @@ export const AboutSection = () => {
       const pulseTl = gsap.timeline({ 
         repeat: -1, 
         repeatDelay: 1.5,
-        delay: 2
+        delay: 2,
+        scrollTrigger: {
+          trigger: sectionRef.current,
+          start: 'top bottom',
+          end: 'bottom top',
+          toggleActions: 'play pause resume pause'
+        },
+        onRepeat: () => playLightRay()
       });
       
+      // Play on first start too
+      pulseTl.call(() => playLightRay(), [], 0);
+
       // Desktop top line pulse
       pulseTl.fromTo('.process-pulse-1', { left: '-100px', opacity: 0 }, { opacity: 1, duration: 0.2, ease: 'none' }, 0)
              .to('.process-pulse-1', { left: '100%', duration: 1.5, ease: 'power1.inOut' }, 0)
