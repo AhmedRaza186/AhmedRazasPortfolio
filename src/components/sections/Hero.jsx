@@ -19,53 +19,52 @@ export const Hero = () => {
   const [appReady, setAppReady] = useState(false);
 
   useEffect(() => {
-    // Initial states MUST be set immediately before the user even clicks enter!
-    if (!heroAnimPlayed) {
-      gsap.set(q('.hero-meta'), { opacity: 0, y: 10 });
-      gsap.set(q('.hero-title-line'), { opacity: 0, y: 40, rotateX: -10 });
-      gsap.set(q('.hero-desc'), { opacity: 0, y: 20 });
-      gsap.set(q('.hero-cta'), { opacity: 0, y: 20 });
-      gsap.set(q('.hero-image-container'), { clipPath: 'inset(100% 0% 0% 0%)' });
-      gsap.set(q('.hero-image'), { scale: 1.1 });
-    }
+    let ctx = gsap.context(() => {
+      // Initial states MUST be set immediately before the user even clicks enter!
+      if (!heroAnimPlayed) {
+        gsap.set(q('.hero-meta'), { opacity: 0, y: 10 });
+        gsap.set(q('.hero-title-line'), { opacity: 0, y: 40, rotateX: -10 });
+        gsap.set(q('.hero-desc'), { opacity: 0, y: 20 });
+        gsap.set(q('.hero-cta'), { opacity: 0, y: 20 });
+        gsap.set(q('.hero-image-container'), { clipPath: 'inset(100% 0% 0% 0%)' });
+        gsap.set(q('.hero-image'), { scale: 1.1 });
+      }
+
+      const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+      // If they prefer reduced motion, or if we've already played it, just show it.
+      if (prefersReducedMotion || (heroAnimPlayed && appReady)) {
+        gsap.set(q('.animate-item'), { opacity: 1, y: 0, clipPath: 'inset(0% 0% 0% 0%)', scale: 1, rotateX: 0 });
+        if (heroAnimPlayed) window.dispatchEvent(new CustomEvent('hero-image-revealed'));
+        return;
+      }
+
+      // If app is not ready yet, we wait.
+      if (!appReady) return;
+
+      const tl = gsap.timeline({ defaults: { ease: 'power3.out' } });
+
+      // Fast start since they just clicked enter
+      const introDelay = 0.2; 
+
+      tl.to(q('.hero-meta'), { opacity: 1, y: 0, duration: 0.8, stagger: 0.1, delay: introDelay })
+        .to(q('.hero-title-line'), { opacity: 1, y: 0, rotateX: 0, duration: 1, stagger: 0.1 }, '-=0.6')
+        .to(q('.hero-desc'), { opacity: 1, y: 0, duration: 0.8 }, '-=0.6')
+        .to(q('.hero-cta'), { opacity: 1, y: 0, duration: 0.8, stagger: 0.1 }, '-=0.6')
+        .to(q('.hero-image-container'), { clipPath: 'inset(0% 0% 0% 0%)', duration: 1.2, ease: 'power4.inOut' }, '-=0.8')
+        .to(q('.hero-image'), { scale: 1, duration: 1.2, ease: 'power4.inOut', clearProps: 'transform' }, '-=1.2')
+        .add(() => {
+          heroAnimPlayed = true;
+          window.dispatchEvent(new CustomEvent('hero-image-revealed'));
+        });
+    }, heroRef);
 
     const handleAppReady = () => setAppReady(true);
     window.addEventListener('app-ready', handleAppReady);
 
-    // Wait until app is ready and animation hasn't played
-    if (!appReady || heroAnimPlayed) {
-      return () => window.removeEventListener('app-ready', handleAppReady);
-    }
-
-    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-
-    if (prefersReducedMotion || heroAnimPlayed) {
-      gsap.set(q('.animate-item'), { opacity: 1, y: 0, clipPath: 'inset(0% 0% 0% 0%)', scale: 1, rotateX: 0 });
-      // Still dispatch the event if other things rely on the image being "revealed"
-      if (heroAnimPlayed) window.dispatchEvent(new CustomEvent('hero-image-revealed'));
-      return;
-    }
-
-    heroAnimPlayed = true;
-
-    const tl = gsap.timeline({ defaults: { ease: 'power3.out' } });
-
-    heroAnimPlayed = true;
-
-    // Animation Sequence
-    const introDelay = 0.2; // Fast start since they just clicked enter
-
-    tl.to(q('.hero-meta'), { opacity: 1, y: 0, duration: 0.8, stagger: 0.1, delay: introDelay })
-      .to(q('.hero-title-line'), { opacity: 1, y: 0, rotateX: 0, duration: 1, stagger: 0.1 }, '-=0.6')
-      .to(q('.hero-desc'), { opacity: 1, y: 0, duration: 0.8 }, '-=0.6')
-      .to(q('.hero-cta'), { opacity: 1, y: 0, duration: 0.8, stagger: 0.1 }, '-=0.6')
-      .to(q('.hero-image-container'), { clipPath: 'inset(0% 0% 0% 0%)', duration: 1.2, ease: 'power4.inOut' }, '-=0.8')
-      .to(q('.hero-image'), { scale: 1, duration: 1.2, ease: 'power4.inOut', clearProps: 'transform' }, '-=1.2')
-      .add(() => window.dispatchEvent(new CustomEvent('hero-image-revealed')));
-
     return () => {
       window.removeEventListener('app-ready', handleAppReady);
-      tl.kill();
+      ctx.revert();
     };
   }, [appReady]); // Rerun when appReady changes
 
