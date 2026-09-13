@@ -15,7 +15,8 @@ export default defineConfig({
       registerType: 'autoUpdate',
       includeAssets: ['apple-touch-icon.jpg'],
       injectManifest: {
-        globPatterns: ['**/*.{js,css,html,ico,png,svg,jpg,jpeg,webp,webmanifest}']
+        globPatterns: ['**/*.{js,css,html,ico,png,svg,jpg,jpeg,webp,webmanifest}'],
+        maximumFileSizeToCacheInBytes: 15000000
       },
       manifest: {
         name: 'Ahmed Raza - Full Stack Developer',
