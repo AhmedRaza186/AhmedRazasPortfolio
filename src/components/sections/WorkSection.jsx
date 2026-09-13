@@ -4,6 +4,7 @@ import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { Container } from '../layout/Container';
 import { Grid } from '../layout/Grid';
+import { ProjectMockup } from '../micro/ProjectMockup';
 import { projects } from '../../data/projects';
 
 gsap.registerPlugin(ScrollTrigger);
@@ -41,50 +42,7 @@ const ProjectCard = ({ project, index }) => {
                   className="parallax-image w-[110%] h-[110%] max-w-none object-contain p-8 md:p-12 lg:p-16 transition-transform duration-700 ease-out"
                 />
               ) : (
-                // CSS Dashboard Mockup for User Management System
-                <div className="absolute inset-0 flex p-4 gap-4 bg-[var(--color-canvas)]">
-                  {/* Sidebar */}
-                  <div className="w-1/4 h-full rounded-md border border-[var(--color-border-subtle)] bg-[var(--color-elevated)] p-3 flex flex-col gap-3">
-                    <div className="w-full h-4 bg-[var(--color-border-strong)] rounded-sm opacity-20 mb-4"></div>
-                    <div className="w-3/4 h-2 bg-[var(--color-border-strong)] rounded-sm opacity-10"></div>
-                    <div className="w-2/3 h-2 bg-[var(--color-border-strong)] rounded-sm opacity-10"></div>
-                    <div className="w-4/5 h-2 bg-[var(--color-border-strong)] rounded-sm opacity-10"></div>
-                  </div>
-                  {/* Main Content */}
-                  <div className="w-3/4 h-full flex flex-col gap-4">
-                    {/* Header */}
-                    <div className="w-full h-12 rounded-md border border-[var(--color-border-subtle)] bg-[var(--color-elevated)] p-3 flex items-center justify-between">
-                       <div className="w-1/3 h-2 bg-[var(--color-border-strong)] rounded-sm opacity-20"></div>
-                       <div className="w-8 h-8 rounded-full border border-[var(--color-border-strong)] opacity-20"></div>
-                    </div>
-                    {/* Stats */}
-                    <div className="grid grid-cols-3 gap-4">
-                      <div className="h-16 rounded-md border border-[var(--color-border-subtle)] bg-[var(--color-elevated)] p-3 flex flex-col justify-center gap-2">
-                        <div className="w-1/2 h-2 bg-[var(--color-border-strong)] rounded-sm opacity-10"></div>
-                        <div className="w-1/3 h-4 bg-[var(--color-border-strong)] rounded-sm opacity-30"></div>
-                      </div>
-                      <div className="h-16 rounded-md border border-[var(--color-border-subtle)] bg-[var(--color-elevated)] p-3 flex flex-col justify-center gap-2">
-                        <div className="w-1/2 h-2 bg-[var(--color-border-strong)] rounded-sm opacity-10"></div>
-                        <div className="w-1/3 h-4 bg-[var(--color-border-strong)] rounded-sm opacity-30"></div>
-                      </div>
-                      <div className="h-16 rounded-md border border-[var(--color-border-subtle)] bg-[var(--color-elevated)] p-3 flex flex-col justify-center gap-2">
-                        <div className="w-1/2 h-2 bg-[var(--color-border-strong)] rounded-sm opacity-10"></div>
-                        <div className="w-1/3 h-4 bg-[var(--color-border-strong)] rounded-sm opacity-30"></div>
-                      </div>
-                    </div>
-                    {/* List */}
-                    <div className="flex-1 rounded-md border border-[var(--color-border-subtle)] bg-[var(--color-elevated)] p-4 flex flex-col gap-3">
-                       <div className="w-full h-8 rounded-sm bg-[var(--color-canvas)] border border-[var(--color-border-subtle)] flex items-center px-3">
-                         <div className="w-6 h-6 rounded-full bg-[var(--color-border-strong)] opacity-20"></div>
-                         <div className="ml-3 w-1/4 h-2 bg-[var(--color-border-strong)] rounded-sm opacity-20"></div>
-                       </div>
-                       <div className="w-full h-8 rounded-sm bg-[var(--color-canvas)] border border-[var(--color-border-subtle)] flex items-center px-3">
-                         <div className="w-6 h-6 rounded-full bg-[var(--color-border-strong)] opacity-20"></div>
-                         <div className="ml-3 w-1/3 h-2 bg-[var(--color-border-strong)] rounded-sm opacity-20"></div>
-                       </div>
-                    </div>
-                  </div>
-                </div>
+                <ProjectMockup slug={project.slug} />
               )}
             </div>
           </div>
