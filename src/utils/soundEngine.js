@@ -181,6 +181,41 @@ class SoundEngine {
     
     noise.start();
   }
+
+  // Intense klaxon alarm for Easter Egg trigger
+  playAlarm() {
+    if (!this.ctx || this.ctx.state === 'suspended') return;
+
+    // Two oscillators for a dissonant, piercing alarm sound
+    const osc1 = this.ctx.createOscillator();
+    const osc2 = this.ctx.createOscillator();
+    const gain = this.ctx.createGain();
+
+    osc1.type = 'sawtooth';
+    osc2.type = 'square';
+    
+    // Klaxon siren sweep up and down
+    osc1.frequency.setValueAtTime(400, this.ctx.currentTime);
+    osc1.frequency.linearRampToValueAtTime(800, this.ctx.currentTime + 0.3);
+    osc1.frequency.linearRampToValueAtTime(400, this.ctx.currentTime + 0.6);
+    
+    osc2.frequency.setValueAtTime(410, this.ctx.currentTime); // Slight dissonance
+    osc2.frequency.linearRampToValueAtTime(820, this.ctx.currentTime + 0.3);
+    osc2.frequency.linearRampToValueAtTime(410, this.ctx.currentTime + 0.6);
+
+    gain.gain.setValueAtTime(0, this.ctx.currentTime);
+    gain.gain.linearRampToValueAtTime(0.3, this.ctx.currentTime + 0.05);
+    gain.gain.linearRampToValueAtTime(0.001, this.ctx.currentTime + 0.6);
+
+    osc1.connect(gain);
+    osc2.connect(gain);
+    gain.connect(this.ctx.destination);
+
+    osc1.start();
+    osc2.start();
+    osc1.stop(this.ctx.currentTime + 0.6);
+    osc2.stop(this.ctx.currentTime + 0.6);
+  }
 }
 
 export const soundEngine = new SoundEngine();

@@ -39,12 +39,16 @@ export const SoundProvider = ({ children }) => {
     if (soundEnabledRef.current) soundEngine.playDoorOpen();
   };
 
+  const playAlarm = () => {
+    if (soundEnabledRef.current) soundEngine.playAlarm();
+  };
+
   const playLightRay = () => {
     if (soundEnabledRef.current) soundEngine.playLightRay();
   };
 
   return (
-    <SoundContext.Provider value={{ soundEnabled, toggleSound, playHover, playWhoosh, playPing, playDoorOpen, playLightRay }}>
+    <SoundContext.Provider value={{ soundEnabled, toggleSound, playHover, playWhoosh, playPing, playDoorOpen, playLightRay, playAlarm }}>
       {children}
     </SoundContext.Provider>
   );

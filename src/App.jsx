@@ -7,6 +7,7 @@ import { ChatWidget } from './components/chat/ChatWidget';
 import { TransitionProvider } from './context/TransitionContext';
 import { SoundProvider } from './context/SoundContext';
 import { SoundToggle } from './components/ui/SoundToggle';
+import { EasterEgg } from './components/ui/EasterEgg';
 import gsap from 'gsap';
 
 function App() {
@@ -22,6 +23,7 @@ function App() {
               <AppRoutes />
             </main>
             <ChatWidget />
+            <EasterEgg />
           </div>
         </SmoothScroll>
       </TransitionProvider>
