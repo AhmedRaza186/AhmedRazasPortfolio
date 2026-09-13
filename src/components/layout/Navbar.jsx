@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { NavLink } from 'react-router-dom';
+import { TransitionNavLink } from '../ui/TransitionNavLink';
 import { Container } from './Container';
 import { Logo } from '../common/Logo';
 import { siteConfig } from '../../data/site';
@@ -54,7 +54,7 @@ export const Navbar = () => {
           {/* Desktop Navigation */}
           <nav className="hidden md:flex items-center space-x-10">
             {navLinks.map((link) => (
-              <NavLink
+              <TransitionNavLink
                 key={link.name}
                 to={link.path}
                 className={({ isActive }) =>
@@ -75,7 +75,7 @@ export const Navbar = () => {
                     />
                   </>
                 )}
-              </NavLink>
+              </TransitionNavLink>
             ))}
             
             <a
@@ -123,7 +123,7 @@ export const Navbar = () => {
       >
         <div className="flex flex-col items-center justify-center h-full space-y-10 px-6">
           {navLinks.map((link) => (
-            <NavLink
+            <TransitionNavLink
               key={link.name}
               to={link.path}
               onClick={() => setIsMobileMenuOpen(false)}
@@ -136,7 +136,7 @@ export const Navbar = () => {
               }
             >
               {link.name}
-            </NavLink>
+            </TransitionNavLink>
           ))}
           
           <a

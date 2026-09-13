@@ -1,5 +1,5 @@
 import React, { useEffect, useRef } from 'react';
-import { Link } from 'react-router-dom';
+import { TransitionLink } from '../ui/TransitionLink';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { Container } from '../layout/Container';
@@ -91,7 +91,7 @@ export const ContactSection = () => {
           {/* Right Column — Links */}
           <div className="col-span-4 md:col-span-12 lg:col-span-5 lg:col-start-8 flex flex-col justify-center gap-10 lg:gap-12 mt-8 lg:mt-0">
             {contactLinks.map((link, idx) => {
-              const LinkElement = link.external ? 'a' : Link;
+              const LinkElement = link.external ? 'a' : TransitionLink;
               const linkProps = link.external 
                 ? { href: link.href, target: link.download ? undefined : "_blank", rel: link.download ? undefined : "noopener noreferrer", download: link.download }
                 : { to: link.to };

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { TransitionLink } from '../ui/TransitionLink';
 
 const TRUSTED_URLS = [
   '/', '/work', '/about', '/achievements', '/journey', '/contact', '/experience',
@@ -50,14 +50,14 @@ const parseInline = (text, keyPrefix) => {
 
       if (url.startsWith('/') && !url.endsWith('.pdf')) {
         return (
-          <Link 
+          <TransitionLink 
             key={`${keyPrefix}-${i}`} 
             to={url}
             className="text-blue-600 dark:text-blue-400 hover:underline underline-offset-2 transition-colors font-medium"
             style={{ color: 'var(--color-accent)' }}
           >
             {label}
-          </Link>
+          </TransitionLink>
         );
       }
 

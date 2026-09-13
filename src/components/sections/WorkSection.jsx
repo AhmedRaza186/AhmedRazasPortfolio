@@ -1,5 +1,5 @@
 import React, { useEffect, useRef } from 'react';
-import { Link } from 'react-router-dom';
+import { TransitionLink } from '../ui/TransitionLink';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { Container } from '../layout/Container';
@@ -95,11 +95,11 @@ const ProjectCard = ({ project, index }) => {
             <span>{project.category}</span>
           </div>
           
-          <Link to={`/work/${project.slug}`} className="group/title block w-fit">
+          <TransitionLink to={`/work/${project.slug}`} className="group/title block w-fit">
             <h3 className="font-display text-3xl md:text-5xl lg:text-[3.5rem] mb-4 md:mb-6 leading-[1.1] transition-colors duration-300 group-hover/title:text-[var(--color-accent)]">
               {project.title}
             </h3>
-          </Link>
+          </TransitionLink>
           
           <p className="font-body text-[var(--color-text-secondary)] text-base md:text-lg mb-6 leading-relaxed">
             {project.description}
@@ -133,10 +133,10 @@ const ProjectCard = ({ project, index }) => {
           
           {/* Action Links */}
           <div className="mt-auto flex flex-col sm:flex-row items-start sm:items-center font-meta font-semibold gap-4 sm:gap-6 text-xs md:text-sm">
-            <Link to={`/work/${project.slug}`} className="group/link flex items-center gap-2 text-[var(--color-text-primary)] transition-all duration-300">
+            <TransitionLink to={`/work/${project.slug}`} className="group/link flex items-center gap-2 text-[var(--color-text-primary)] transition-all duration-300">
               CASE STUDY 
               <span className="text-[var(--color-accent)] transition-transform duration-300 group-hover/link:translate-x-1">→</span>
-            </Link>
+            </TransitionLink>
             
             {project.liveUrl && (
               <a href={project.liveUrl} target="_blank" rel="noopener noreferrer" className="group/link flex items-center gap-2 text-[var(--color-text-secondary)] hover:text-[var(--color-text-primary)] transition-all duration-300">
@@ -229,7 +229,7 @@ export const WorkSection = () => {
 
         {/* View All Projects CTA */}
         <div className="mt-12 md:mt-20 text-center flex justify-center">
-          <Link 
+          <TransitionLink 
             to="/work" 
             className="group flex items-center gap-4 px-8 py-4 rounded-full border border-[var(--color-border-strong)] bg-[var(--color-canvas)] hover:bg-[var(--color-elevated)] transition-all duration-300 focus:outline-none"
           >
@@ -239,7 +239,7 @@ export const WorkSection = () => {
             <span className="font-meta text-lg text-[var(--color-text-secondary)] group-hover:text-[var(--color-accent)] group-hover:translate-x-1 group-hover:-translate-y-1 transition-all duration-300">
               ↗
             </span>
-          </Link>
+          </TransitionLink>
         </div>
 
       </Container>

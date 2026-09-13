@@ -1,5 +1,5 @@
 import React, { useEffect, useRef } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useTransition } from '../../context/TransitionContext';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { Container } from '../layout/Container';
@@ -19,7 +19,7 @@ const processSteps = [
 
 export const AboutSection = () => {
   const sectionRef = useRef(null);
-  const navigate = useNavigate();
+  const { navigateWithTransition } = useTransition();
 
   useEffect(() => {
     const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -187,7 +187,7 @@ export const AboutSection = () => {
               My path started with design and experimentation before I found my footing in full-stack web development. Today, I enjoy working where product thinking, engineering, AI, and business problems overlap.
             </p>
             <button 
-              onClick={() => navigate('/journey')}
+              onClick={() => navigateWithTransition('/journey')}
               className="group inline-flex items-center gap-3 font-meta text-xs tracking-widest text-[var(--color-text-primary)] transition-all duration-300 focus:outline-none"
             >
               <span className="relative">

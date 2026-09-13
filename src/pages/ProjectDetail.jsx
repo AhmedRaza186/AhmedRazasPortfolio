@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useMemo, useState } from 'react';
-import { useParams, useNavigate, Link } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
+import { TransitionLink } from '../components/ui/TransitionLink';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { projects } from '../data/projects';
@@ -363,13 +364,13 @@ export const ProjectDetail = () => {
       {nextProject && (
         <div className="cs-section border-t border-[var(--color-border-subtle)] bg-[var(--color-canvas)]">
           <Container className="py-24 md:py-32">
-            <Link to={`/work/${nextProject.slug}`} className="group block w-fit mx-auto text-center focus:outline-none relative py-8">
-              <span className="font-meta text-xs tracking-widest text-[var(--color-text-secondary)] mb-6 block transition-colors group-hover:text-[var(--color-accent)]">
-                NEXT PROJECT →
+            <TransitionLink to={`/work/${nextProject.slug}`} className="group block w-fit mx-auto text-center focus:outline-none relative py-8">
+              <span className="font-meta text-xs tracking-widest text-[var(--color-text-secondary)] uppercase block mb-4 transition-colors group-hover:text-[var(--color-accent)]">
+                Next Project
               </span>
-              <h2 className="font-display text-4xl md:text-6xl text-[var(--color-text-primary)] group-hover:opacity-70 transition-opacity mb-4">
+              <h3 className="font-display text-4xl md:text-6xl text-[var(--color-text-primary)] relative z-10 transition-transform duration-500 group-hover:scale-[1.02]">
                 {nextProject.title}
-              </h2>
+              </h3>
               {nextProject.category && (
                 <div className="font-body text-base md:text-lg text-[var(--color-text-secondary)] opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                   {nextProject.category}
@@ -380,7 +381,7 @@ export const ProjectDetail = () => {
                   <img src={nextProject.thumbnail} alt="" className="w-full h-full object-contain" />
                 </div>
               )}
-            </Link>
+            </TransitionLink>
           </Container>
         </div>
       )}

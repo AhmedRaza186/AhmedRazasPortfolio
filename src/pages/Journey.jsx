@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { TransitionLink } from '../components/ui/TransitionLink';
 import { Container } from '../components/layout/Container';
 import { JourneySection } from '../components/sections/JourneySection';
 import { HourglassBackground } from '../components/ui/HourglassBackground';
@@ -10,12 +10,12 @@ export const Journey = () => {
     <div className="pt-24 md:pt-32 min-h-screen bg-[var(--color-canvas)] relative">
       <HourglassBackground />
       <Container className="relative z-10">
-        <Link 
+        <TransitionLink 
           to="/" 
           className="inline-block font-meta text-xs tracking-widest text-[var(--color-text-secondary)] hover:text-[var(--color-accent)] transition-colors duration-300"
         >
           ← BACK HOME
-        </Link>
+        </TransitionLink>
       </Container>
       
       {/* The Journey Section Content */}

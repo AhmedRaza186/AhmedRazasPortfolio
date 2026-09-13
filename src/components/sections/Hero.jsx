@@ -1,5 +1,5 @@
 import React, { useEffect, useRef } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useTransition } from '../../context/TransitionContext';
 import gsap from 'gsap';
 import { Container } from '../layout/Container';
 import { Grid } from '../layout/Grid';
@@ -8,7 +8,7 @@ import { Magnetic } from '../ui/Magnetic';
 import { siteConfig } from '../../data/site';
 
 export const Hero = () => {
-  const navigate = useNavigate();
+  const { navigateWithTransition } = useTransition();
   const heroRef = useRef(null);
   const q = gsap.utils.selector(heroRef);
 
@@ -89,7 +89,7 @@ export const Hero = () => {
             <div className="flex flex-wrap items-center gap-4">
               <div className="hero-cta animate-item">
                 <Magnetic>
-                  <Button onClick={() => navigate('/work')}>
+                  <Button onClick={() => navigateWithTransition('/work')}>
                     VIEW WORK ↗
                   </Button>
                 </Magnetic>

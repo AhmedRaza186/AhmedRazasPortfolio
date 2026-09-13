@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { TransitionLink } from '../components/ui/TransitionLink';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { Container } from '../components/layout/Container';
@@ -120,7 +120,7 @@ export const Work = () => {
   };
 
   const renderArchiveCard = (project, index) => (
-    <Link 
+    <TransitionLink 
       key={project.slug} 
       to={`/work/${project.slug}`}
       className="aw-project-card filtered-project group flex flex-col gap-4 border-t border-[var(--color-border-subtle)] pt-6 pb-2"
@@ -163,7 +163,7 @@ export const Work = () => {
           VIEW CASE STUDY <span className="opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-300">↗</span>
         </div>
       </div>
-    </Link>
+    </TransitionLink>
   );
 
   return (
@@ -179,9 +179,9 @@ export const Work = () => {
                 <span className="w-1.5 h-1.5 rounded-full bg-[var(--color-accent)] inline-block"></span>
                 PROJECT ARCHIVE
               </div>
-              <Link to="/" className="font-meta text-xs tracking-widest text-[var(--color-text-secondary)] hover:text-[var(--color-accent)] transition-colors">
+              <TransitionLink to="/" className="font-meta text-xs tracking-widest text-[var(--color-text-secondary)] hover:text-[var(--color-accent)] transition-colors">
                 BACK HOME ↗
-              </Link>
+              </TransitionLink>
             </div>
             
             <h1 className="aw-title font-display text-[clamp(3.5rem,8vw,7rem)] leading-[0.9] tracking-tight text-[var(--color-text-primary)] mb-8">
@@ -220,7 +220,7 @@ export const Work = () => {
             </h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-12 md:gap-16 lg:gap-20">
             {featuredProjects.map((project, index) => (
-              <Link 
+              <TransitionLink 
                 key={project.slug} 
                 to={`/work/${project.slug}`}
                 className="aw-project-card filtered-project group block"
@@ -253,7 +253,7 @@ export const Work = () => {
                     VIEW CASE STUDY <span className="opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-300">↗</span>
                   </div>
                 </div>
-              </Link>
+              </TransitionLink>
             ))}
           </div>
         </div>
