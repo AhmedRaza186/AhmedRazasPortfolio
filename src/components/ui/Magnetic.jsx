@@ -44,7 +44,7 @@ export const Magnetic = ({ children }) => {
   }, []);
 
   return (
-    <div ref={magneticRef} style={{ display: 'inline-block' }}>
+    <div ref={magneticRef} style={{ display: 'inline-block' }} data-cursor-magnetic="true">
       {children}
     </div>
   );

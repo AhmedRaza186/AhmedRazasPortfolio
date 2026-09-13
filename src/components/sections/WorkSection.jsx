@@ -28,8 +28,11 @@ const ProjectCard = ({ project, index }) => {
               <div className="w-2.5 h-2.5 rounded-full bg-[var(--color-border-strong)] opacity-50"></div>
             </div>
             
-            {/* Image / UI Placeholder */}
-            <div className="w-full aspect-[4/3] md:aspect-[16/9] lg:aspect-[4/3] bg-[var(--color-canvas)] relative flex items-center justify-center overflow-hidden">
+            {/* Project Image Wrapper */}
+            <div 
+              className="group/image relative w-full aspect-[4/3] md:aspect-[16/9] lg:aspect-[21/9] overflow-hidden rounded-sm cursor-pointer border border-[var(--color-border-subtle)] bg-[var(--color-canvas)] flex items-center justify-center"
+              data-cursor="VIEW CASE STUDY"
+            >
               {project.thumbnail ? (
                 <img 
                   src={project.thumbnail} 

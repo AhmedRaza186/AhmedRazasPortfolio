@@ -364,7 +364,11 @@ export const ProjectDetail = () => {
       {nextProject && (
         <div className="cs-section border-t border-[var(--color-border-subtle)] bg-[var(--color-canvas)]">
           <Container className="py-24 md:py-32">
-            <TransitionLink to={`/work/${nextProject.slug}`} className="group block w-fit mx-auto text-center focus:outline-none relative py-8">
+            <TransitionLink 
+              to={`/work/${nextProject.slug}`} 
+              className="group relative flex flex-col md:flex-row items-center justify-between py-12 md:py-20 cursor-pointer overflow-hidden outline-none"
+              data-cursor="NEXT PROJECT"
+            >
               <span className="font-meta text-xs tracking-widest text-[var(--color-text-secondary)] uppercase block mb-4 transition-colors group-hover:text-[var(--color-accent)]">
                 Next Project
               </span>
