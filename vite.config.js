@@ -1,10 +1,44 @@
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 import tailwindcss from '@tailwindcss/vite'
+import { VitePWA } from 'vite-plugin-pwa'
 
 // https://vite.dev/config/
 export default defineConfig({
-  plugins: [react(), tailwindcss()],
+  plugins: [
+    react(), 
+    tailwindcss(),
+    VitePWA({
+      registerType: 'autoUpdate',
+      includeAssets: ['apple-touch-icon.jpg'],
+      manifest: {
+        name: 'Ahmed Raza - Full Stack Developer',
+        short_name: 'Ahmed Raza',
+        description: 'Product-focused Full Stack Developer building robust MERN architecture with Node.js, Express, and REST APIs, alongside seamless frontend experiences.',
+        theme_color: '#0f0f0f',
+        background_color: '#0f0f0f',
+        display: 'standalone',
+        icons: [
+          {
+            src: '/pwa-192x192.jpg',
+            sizes: '192x192',
+            type: 'image/jpeg'
+          },
+          {
+            src: '/pwa-512x512.jpg',
+            sizes: '512x512',
+            type: 'image/jpeg'
+          },
+          {
+            src: '/pwa-512x512.jpg',
+            sizes: '512x512',
+            type: 'image/jpeg',
+            purpose: 'any maskable'
+          }
+        ]
+      }
+    })
+  ],
   build: {
     rollupOptions: {
       output: {
