@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://ahmedraza.tech/sitemap.xml
+Sitemap: https://ahmed-razas-portfolio.vercel.app/sitemap.xml
