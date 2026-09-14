@@ -78,7 +78,14 @@ export const Navbar = () => {
         </nav>
 
         {/* Mobile Actions */}
-        <div className="md:hidden flex items-center space-x-2 z-50">
+        <div className="md:hidden flex items-center space-x-4 z-50">
+          <a
+            href={siteConfig.cvUrl}
+            download="Ahmed_Raza_CV.pdf"
+            className="text-xs font-medium tracking-wider text-[var(--color-text-primary)] hover:text-[var(--color-accent)] transition-colors duration-200 border border-[var(--color-border-subtle)] px-3 py-1.5 rounded-full"
+          >
+            CV ↗
+          </a>
           <ThemeToggle />
         </div>
       </Container>
