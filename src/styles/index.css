@@ -25,6 +25,18 @@
 }
 
 @layer base {
+  .dark {
+    --color-canvas: #0f0f0f;
+    --color-elevated: #1a1a1a;
+    --color-text-primary: #f5f4ef;
+    --color-text-secondary: #999999;
+    --color-text-muted: #666666;
+    --color-border-subtle: #262626;
+    --color-border-strong: #333333;
+    --color-accent: #3157FF;
+    --color-accent-hover: #4a6cff;
+  }
+  
   html, body {
     margin: 0;
     padding: 0;
