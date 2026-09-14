@@ -6,7 +6,7 @@ export const SoundToggle = () => {
   const { soundEnabled, toggleSound } = useSound();
 
   return (
-    <div className="fixed bottom-6 left-6 md:bottom-8 md:left-8 z-[9000]">
+    <div className="fixed bottom-28 left-4 md:bottom-8 md:left-8 z-[9000]">
       <Magnetic>
         <button
           onClick={toggleSound}
