@@ -1,15 +1,14 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { NavLink, useLocation } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 import { Home, Briefcase, Award, Map, PenTool, Mail } from 'lucide-react';
 import gsap from 'gsap';
-import { useTransition } from '../../context/TransitionContext';
+import { TransitionNavLink } from '../ui/TransitionNavLink';
 
 export const MobileDock = () => {
   const [isVisible, setIsVisible] = useState(true);
   const lastScrollY = useRef(0);
   const dockRef = useRef(null);
   const location = useLocation();
-  const { playTransition } = useTransition();
 
   const dockLinks = [
     { name: 'Home', path: '/', icon: Home },
@@ -46,12 +45,6 @@ export const MobileDock = () => {
     }
   }, [isVisible]);
 
-  const handleNavigation = (e, path) => {
-    if (location.pathname === path) return;
-    e.preventDefault();
-    playTransition(path);
-  };
-
   return (
     <div 
       ref={dockRef}
@@ -60,22 +53,26 @@ export const MobileDock = () => {
       <div className="bg-[var(--color-canvas)]/80 backdrop-blur-xl border border-[var(--color-border-subtle)] rounded-full px-3 py-3 shadow-[0_8px_30px_rgb(0,0,0,0.12)] dark:shadow-[0_8px_30px_rgb(0,0,0,0.3)] flex items-center justify-between overflow-x-auto no-scrollbar gap-2">
         {dockLinks.map((link) => {
           const Icon = link.icon;
-          const isActive = location.pathname === link.path;
           
           return (
-            <a
+            <TransitionNavLink
               key={link.name}
-              href={link.path}
-              onClick={(e) => handleNavigation(e, link.path)}
-              className={`relative flex flex-col items-center justify-center p-2 rounded-full min-w-[3.5rem] transition-colors duration-300 ${
-                isActive 
-                  ? 'text-[var(--color-canvas)] bg-[var(--color-text-primary)]' 
-                  : 'text-[var(--color-text-secondary)] hover:text-[var(--color-text-primary)] hover:bg-black/5 dark:hover:bg-white/5'
-              }`}
+              to={link.path}
+              className={({ isActive }) =>
+                `relative flex flex-col items-center justify-center p-2 rounded-full min-w-[3.5rem] transition-colors duration-300 ${
+                  isActive 
+                    ? 'text-[var(--color-canvas)] bg-[var(--color-text-primary)]' 
+                    : 'text-[var(--color-text-secondary)] hover:text-[var(--color-text-primary)] hover:bg-black/5 dark:hover:bg-white/5'
+                }`
+              }
             >
-              <Icon strokeWidth={isActive ? 2.5 : 2} className="w-5 h-5 mb-1" />
-              <span className="text-[10px] font-medium leading-none tracking-wide">{link.name}</span>
-            </a>
+              {({ isActive }) => (
+                <>
+                  <Icon strokeWidth={isActive ? 2.5 : 2} className="w-5 h-5 mb-1" />
+                  <span className="text-[10px] font-medium leading-none tracking-wide">{link.name}</span>
+                </>
+              )}
+            </TransitionNavLink>
           );
         })}
       </div>

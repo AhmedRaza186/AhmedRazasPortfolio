@@ -1,8 +1,14 @@
 import React from 'react';
 import { TransitionLink } from '../ui/TransitionLink';
+import { useTheme } from '../../context/ThemeContext';
 
 export const Logo = ({ variant = 'default', className = '', ...props }) => {
-  const src = variant === 'white' 
+  const { theme } = useTheme();
+  
+  // If explicitly requested white, use white. Or if in dark mode and default was requested, use white.
+  const isWhite = variant === 'white' || (theme === 'dark' && variant === 'default');
+  
+  const src = isWhite 
     ? '/assets/personal/AhmedRaza-logo-white.png' 
     : '/assets/personal/AhmedRaza-logo.png';
 
