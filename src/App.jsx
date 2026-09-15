@@ -6,6 +6,7 @@ import { MobileDock } from './components/layout/MobileDock';
 import { CustomCursor } from './components/ui/CustomCursor';
 import { SmoothScroll } from './components/layout/SmoothScroll';
 import { ChatWidget } from './components/chat/ChatWidget';
+import { FeedbackWidget } from './components/ui/FeedbackWidget';
 import { TransitionProvider } from './context/TransitionContext';
 import { SoundProvider } from './context/SoundContext';
 import { ThemeProvider } from './context/ThemeContext';
@@ -29,6 +30,7 @@ function App() {
                 </main>
                 <MobileDock />
                 <ChatWidget />
+                <FeedbackWidget />
                 <EasterEgg />
               </div>
             </SmoothScroll>
