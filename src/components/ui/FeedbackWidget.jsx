@@ -17,6 +17,7 @@ export const FeedbackWidget = () => {
   
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
+  const [showCancelConfirm, setShowCancelConfirm] = useState(false);
   const [hasTriggeredExitIntent, setHasTriggeredExitIntent] = useState(false);
   
   const modalRef = useRef(null);
@@ -55,7 +56,28 @@ export const FeedbackWidget = () => {
   const handleOpenModal = () => {
     setIsOpen(true);
     setHasTriggeredExitIntent(true);
+    setShowCancelConfirm(false);
     localStorage.setItem('hasSeenFeedbackModal', 'true');
+  };
+
+  const handleCloseAttempt = () => {
+    if (isSubmitting) return;
+    
+    // If they haven't started filling it out, maybe just close? 
+    // The user requested: "if user cancelling modal without giving review we should show text like are u sure"
+    if (!showCancelConfirm) {
+      setShowCancelConfirm(true);
+    } else {
+      setIsOpen(false);
+      setShowCancelConfirm(false);
+      // Optional: Reset form state when completely closed
+      // setRating(0); setText(''); resetAudio();
+    }
+  };
+
+  const forceClose = () => {
+    setIsOpen(false);
+    setShowCancelConfirm(false);
   };
 
   const startRecording = async () => {
@@ -146,6 +168,7 @@ export const FeedbackWidget = () => {
         setTimeout(() => {
           setIsOpen(false);
           setIsSuccess(false);
+          setShowCancelConfirm(false);
           setRating(0);
           setText('');
           resetAudio();
@@ -180,7 +203,7 @@ export const FeedbackWidget = () => {
         <div className="fixed inset-0 z-[1000] flex items-center justify-center px-4 bg-[var(--color-canvas)]/80 backdrop-blur-sm">
           <div 
             className="absolute inset-0" 
-            onClick={() => !isSubmitting && setIsOpen(false)}
+            onClick={handleCloseAttempt}
           ></div>
           
           {/* Modal Content */}
@@ -189,7 +212,7 @@ export const FeedbackWidget = () => {
             className="relative w-full max-w-md bg-[var(--color-elevated)] border border-[var(--color-border-subtle)] rounded-2xl shadow-2xl p-6 md:p-8"
           >
             <button 
-              onClick={() => setIsOpen(false)}
+              onClick={handleCloseAttempt}
               className="absolute top-4 right-4 text-[var(--color-text-secondary)] hover:text-[var(--color-text-primary)] transition-colors"
               disabled={isSubmitting}
             >
@@ -203,6 +226,27 @@ export const FeedbackWidget = () => {
                 </div>
                 <h3 className="text-2xl font-display text-[var(--color-text-primary)] mb-2">Thank You!</h3>
                 <p className="text-[var(--color-text-secondary)]">Your feedback helps me improve.</p>
+              </div>
+            ) : showCancelConfirm ? (
+              <div className="flex flex-col items-center justify-center py-8 text-center animate-in fade-in zoom-in duration-300">
+                <h3 className="text-2xl font-display text-[var(--color-text-primary)] mb-3">Wait! Are you sure?</h3>
+                <p className="text-[var(--color-text-secondary)] mb-8">
+                  Your feedback is incredibly valuable to me and helps me improve this portfolio. It only takes a few seconds!
+                </p>
+                <div className="flex gap-4 w-full">
+                  <button 
+                    onClick={() => setShowCancelConfirm(false)} 
+                    className="flex-1 py-3 bg-[var(--color-text-primary)] text-[var(--color-canvas)] rounded-lg font-medium hover:scale-105 transition-transform"
+                  >
+                    Give Feedback
+                  </button>
+                  <button 
+                    onClick={forceClose} 
+                    className="flex-1 py-3 border border-[var(--color-border-strong)] text-[var(--color-text-secondary)] hover:text-red-500 hover:border-red-500 rounded-lg font-medium transition-colors"
+                  >
+                    Close
+                  </button>
+                </div>
               </div>
             ) : (
               <form onSubmit={handleSubmit} className="flex flex-col gap-6">
