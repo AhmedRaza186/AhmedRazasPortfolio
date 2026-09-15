@@ -19,6 +19,7 @@ export const FeedbackWidget = () => {
   const [isSuccess, setIsSuccess] = useState(false);
   const [showCancelConfirm, setShowCancelConfirm] = useState(false);
   const [hasTriggeredExitIntent, setHasTriggeredExitIntent] = useState(false);
+  const [openedByExitIntent, setOpenedByExitIntent] = useState(false);
   
   const modalRef = useRef(null);
   const mediaRecorderRef = useRef(null);
@@ -40,6 +41,7 @@ export const FeedbackWidget = () => {
       if (e.clientY <= 0 && !hasTriggeredExitIntent && !isOpen) {
         const hasSeen = localStorage.getItem('hasSeenFeedbackModal');
         if (!hasSeen) {
+          setOpenedByExitIntent(true);
           setIsOpen(true);
           setHasTriggeredExitIntent(true);
           localStorage.setItem('hasSeenFeedbackModal', 'true');
@@ -54,6 +56,7 @@ export const FeedbackWidget = () => {
   }, [hasTriggeredExitIntent, isOpen]);
 
   const handleOpenModal = () => {
+    setOpenedByExitIntent(false);
     setIsOpen(true);
     setHasTriggeredExitIntent(true);
     setShowCancelConfirm(false);
@@ -63,21 +66,20 @@ export const FeedbackWidget = () => {
   const handleCloseAttempt = () => {
     if (isSubmitting) return;
     
-    // If they haven't started filling it out, maybe just close? 
-    // The user requested: "if user cancelling modal without giving review we should show text like are u sure"
-    if (!showCancelConfirm) {
+    // Only show begging screen if it was opened automatically by exit intent
+    if (openedByExitIntent && !showCancelConfirm) {
       setShowCancelConfirm(true);
     } else {
       setIsOpen(false);
       setShowCancelConfirm(false);
-      // Optional: Reset form state when completely closed
-      // setRating(0); setText(''); resetAudio();
+      setOpenedByExitIntent(false);
     }
   };
 
   const forceClose = () => {
     setIsOpen(false);
     setShowCancelConfirm(false);
+    setOpenedByExitIntent(false);
   };
 
   const startRecording = async () => {
