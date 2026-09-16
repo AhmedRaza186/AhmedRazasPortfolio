@@ -32,7 +32,7 @@ export const Writing = () => {
       <Container className="mb-24 md:mb-32 flex-grow">
         
         {/* Header Section */}
-        <div className="mb-20">
+        <div className="mb-20 jarvis-section" data-jarvis-explain="This is the Writing section, where Ahmed shares his thoughts, learnings, and technical articles.">
           <div className="writing-meta text-meta flex items-center gap-4 text-[var(--color-text-secondary)] mb-8">
             <div className="flex items-center gap-3">
               <span className="w-1.5 h-1.5 rounded-full bg-[var(--color-accent)] inline-block"></span>
@@ -51,7 +51,8 @@ export const Writing = () => {
             <div 
               key={article.slug} 
               onClick={() => navigateWithTransition(`/writing/${article.slug}`)}
-              className="article-card group block py-8 md:py-12 border-b border-[var(--color-border-subtle)] cursor-pointer hover:bg-[var(--color-text-secondary)]/5 -mx-4 px-4 rounded-sm transition-colors"
+              className="article-card jarvis-section group block py-8 md:py-12 border-b border-[var(--color-border-subtle)] cursor-pointer hover:bg-[var(--color-text-secondary)]/5 -mx-4 px-4 rounded-sm transition-colors"
+              data-jarvis-explain={`Article: ${article.title}. ${article.description}`}
             >
               <Grid className="items-center">
                 

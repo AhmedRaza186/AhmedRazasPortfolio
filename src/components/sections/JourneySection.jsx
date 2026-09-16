@@ -131,7 +131,7 @@ export const JourneySection = () => {
       <Container>
 
         {/* Section Header */}
-        <div className="mb-20 md:mb-20">
+        <div className="mb-20 md:mb-20 jarvis-section" data-jarvis-explain="This is Ahmed's Journey. It outlines how he got here, from visual design and experimentation to building full-stack products and exploring AI-driven systems.">
           <div className="journey-header mb-6">
             <span className="text-meta flex items-center gap-3 text-[var(--color-text-secondary)]">
               <span className="w-1.5 h-1.5 rounded-full bg-[var(--color-text-primary)] inline-block"></span>
@@ -155,7 +155,8 @@ export const JourneySection = () => {
             return (
               <div 
                 key={idx} 
-                className="journey-milestone journey-anim relative cursor-pointer"
+                className="journey-milestone jarvis-section journey-anim relative cursor-pointer"
+                data-jarvis-explain={`Step ${step.num}: ${step.title}. ${step.desc}`}
                 onMouseEnter={() => { setIsHovering(true); setActiveIndex(idx); }}
                 onMouseLeave={() => setIsHovering(false)}
               >
@@ -191,8 +192,9 @@ export const JourneySection = () => {
             return (
               <div
                 key={idx}
-                className={`journey-milestone absolute cursor-pointer ${isAbove ? 'pos-above bottom-[50%]' : 'pos-below top-[50%]'}`}
+                className={`journey-milestone jarvis-section absolute cursor-pointer ${isAbove ? 'pos-above bottom-[50%]' : 'pos-below top-[50%]'}`}
                 style={{ left: step.left, width: step.width }}
+                data-jarvis-explain={`Step ${step.num}: ${step.title}. ${step.desc}`}
                 onMouseEnter={() => { setIsHovering(true); setActiveIndex(idx); }}
                 onMouseLeave={() => setIsHovering(false)}
               >
@@ -223,7 +225,7 @@ export const JourneySection = () => {
         </div>
 
         {/* Bottom Context */}
-        <div className="journey-footer mt-24 md:mt-32 pt-16 md:pt-24 border-t border-[var(--color-border-subtle)]">
+        <div className="journey-footer jarvis-section mt-24 md:mt-32 pt-16 md:pt-24 border-t border-[var(--color-border-subtle)]" data-jarvis-explain="Ahmed is still figuring things out, but the direction is becoming clearer: build useful products, understand the systems behind them, and use technology to solve real problems.">
           <div className="flex flex-col items-center text-center">
             <span className="text-meta text-[var(--color-accent)] mb-6 flex items-center gap-3">
               <span className="w-1.5 h-1.5 rounded-full bg-[var(--color-accent)] inline-block"></span>

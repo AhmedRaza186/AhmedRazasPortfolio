@@ -151,7 +151,7 @@ export const Work = () => {
       <Container className="mb-16 md:mb-24 flex-grow relative z-10">
         
         {/* Header */}
-        <Grid className="mb-20 md:mb-32">
+        <Grid className="mb-20 md:mb-32 jarvis-section" data-jarvis-explain="This is the Work archive. It contains a collection of products, experiments, and interfaces Ahmed has built over time.">
           <div className="col-span-4 md:col-span-12 lg:col-span-10">
             <div className="aw-meta flex items-center justify-between mb-8">
               <div className="font-meta text-xs tracking-widest text-[var(--color-text-secondary)] flex items-center gap-3">
@@ -193,7 +193,7 @@ export const Work = () => {
 
         {/* FEATURED PROJECTS */}
         {featuredProjects.length > 0 && (
-          <div className="mb-24 md:mb-32">
+          <div className="mb-24 md:mb-32 jarvis-section" data-jarvis-explain="These are Ahmed's featured projects, showcasing his best and most complex work.">
             <h2 className="aw-section-title font-display text-2xl md:text-3xl text-[var(--color-text-primary)] mb-12 pb-4 border-b border-[var(--color-border-strong)]">
               FEATURED
             </h2>
@@ -240,7 +240,7 @@ export const Work = () => {
 
         {/* 2026 ARCHIVE */}
         {y2026Projects.length > 0 && (
-          <div className="mb-24 md:mb-32">
+          <div className="mb-24 md:mb-32 jarvis-section" data-jarvis-explain="Here you can see the projects developed in 2026.">
             <h2 className="aw-section-title font-display text-2xl md:text-3xl text-[var(--color-text-primary)] mb-12 pb-4 border-b border-[var(--color-border-strong)]">
               2026
             </h2>
@@ -252,7 +252,7 @@ export const Work = () => {
 
         {/* 2025 & EARLIER ARCHIVE */}
         {archiveProjects.length > 0 && (
-          <div className="mb-16">
+          <div className="mb-16 jarvis-section" data-jarvis-explain="And here is the archive of projects from 2025 and earlier.">
             <h2 className="aw-section-title font-display text-2xl md:text-3xl text-[var(--color-text-primary)] mb-12 pb-4 border-b border-[var(--color-border-strong)]">
               2025 & EARLIER
             </h2>

@@ -162,7 +162,10 @@ export const JarvisCore = () => {
   const nextSection = () => {
     if (!isTouringRef.current) return;
 
-    const sections = Array.from(document.querySelectorAll('.jarvis-section'));
+    // Only select visible jarvis-sections
+    const sections = Array.from(document.querySelectorAll('.jarvis-section')).filter(el => {
+      return el.offsetParent !== null || window.getComputedStyle(el).display !== 'none';
+    });
     
     if (tourIndexRef.current >= sections.length) {
       speak("That concludes the tour, sir. Let me know if you need anything else.");

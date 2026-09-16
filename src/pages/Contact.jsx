@@ -67,7 +67,7 @@ export const Contact = () => {
         <Grid>
           
           {/* Left Column — Context & Direct Links */}
-          <div className="col-span-4 md:col-span-12 lg:col-span-5 mb-16 lg:mb-0 flex flex-col justify-between">
+          <div className="col-span-4 md:col-span-12 lg:col-span-5 mb-16 lg:mb-0 flex flex-col justify-between jarvis-section" data-jarvis-explain="This is the Contact page. You can reach out to Ahmed via email, LinkedIn, WhatsApp, or check out his GitHub and Resume.">
             <div>
               <div className="contact-meta text-meta flex flex-col md:flex-row md:items-center gap-2 md:gap-4 text-[var(--color-text-secondary)] mb-8">
                 <div className="flex items-center gap-3">
@@ -116,7 +116,7 @@ export const Contact = () => {
           </div>
           
           {/* Right Column — Form & Availability */}
-          <div className="col-span-4 md:col-span-12 lg:col-span-6 lg:col-start-7 flex flex-col justify-between">
+          <div className="col-span-4 md:col-span-12 lg:col-span-6 lg:col-start-7 flex flex-col justify-between jarvis-section" data-jarvis-explain="You can also use this contact form to send a direct message. Just fill in your details and send it over!">
             <div className="contact-form">
               <ContactForm />
             </div>

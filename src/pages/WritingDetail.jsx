@@ -59,7 +59,7 @@ export const WritingDetail = () => {
         </button>
 
         {/* Article Header */}
-        <div className="article-header mb-16 border-b border-[var(--color-border-subtle)] pb-12">
+        <div className="article-header jarvis-section mb-16 border-b border-[var(--color-border-subtle)] pb-12" data-jarvis-explain={`This is the article titled ${article.title}, published on ${article.date}.`}>
           <h1 className="font-display text-[clamp(2.5rem,5vw,4.5rem)] leading-[1.1] tracking-tight text-[var(--color-text-primary)] mb-8">
             {article.title}
           </h1>
@@ -71,7 +71,7 @@ export const WritingDetail = () => {
         </div>
 
         {/* Markdown Content */}
-        <div className="markdown-content">
+        <div className="markdown-content jarvis-section" data-jarvis-explain="Here is the full content of the article.">
           <ReactMarkdown
             remarkPlugins={[remarkGfm]}
             components={{
