@@ -2,17 +2,26 @@ import React, { Suspense } from 'react';
 import { Routes, Route } from 'react-router-dom';
 import { ScrollToTop } from '../components/common/ScrollToTop';
 
+// Safe lazy loader that handles chunk loading errors (e.g. after a new deployment)
+const safeLazy = (importFn) => React.lazy(() => 
+  importFn().catch((err) => {
+    console.error('Error loading chunk, forcing reload...', err);
+    window.location.reload();
+    return new Promise(() => {}); // Prevent React from trying to render
+  })
+);
+
 // Lazy load pages for code splitting
-const Home = React.lazy(() => import('../pages/Home').then(module => ({ default: module.Home })));
-const Work = React.lazy(() => import('../pages/Work').then(module => ({ default: module.Work })));
-const Experience = React.lazy(() => import('../pages/Experience').then(module => ({ default: module.Experience })));
-const About = React.lazy(() => import('../pages/About').then(module => ({ default: module.About })));
-const Achievements = React.lazy(() => import('../pages/Achievements').then(module => ({ default: module.Achievements })));
-const Journey = React.lazy(() => import('../pages/Journey').then(module => ({ default: module.Journey })));
-const Contact = React.lazy(() => import('../pages/Contact').then(module => ({ default: module.Contact })));
-const ProjectDetail = React.lazy(() => import('../pages/ProjectDetail').then(module => ({ default: module.ProjectDetail })));
-const Writing = React.lazy(() => import('../pages/Writing').then(module => ({ default: module.Writing })));
-const WritingDetail = React.lazy(() => import('../pages/WritingDetail').then(module => ({ default: module.WritingDetail })));
+const Home = safeLazy(() => import('../pages/Home').then(module => ({ default: module.Home })));
+const Work = safeLazy(() => import('../pages/Work').then(module => ({ default: module.Work })));
+const Experience = safeLazy(() => import('../pages/Experience').then(module => ({ default: module.Experience })));
+const About = safeLazy(() => import('../pages/About').then(module => ({ default: module.About })));
+const Achievements = safeLazy(() => import('../pages/Achievements').then(module => ({ default: module.Achievements })));
+const Journey = safeLazy(() => import('../pages/Journey').then(module => ({ default: module.Journey })));
+const Contact = safeLazy(() => import('../pages/Contact').then(module => ({ default: module.Contact })));
+const ProjectDetail = safeLazy(() => import('../pages/ProjectDetail').then(module => ({ default: module.ProjectDetail })));
+const Writing = safeLazy(() => import('../pages/Writing').then(module => ({ default: module.Writing })));
+const WritingDetail = safeLazy(() => import('../pages/WritingDetail').then(module => ({ default: module.WritingDetail })));
 
 // A simple loading fallback
 const LoadingFallback = () => (

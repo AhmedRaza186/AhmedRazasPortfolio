@@ -12,6 +12,7 @@ import { SoundProvider } from './context/SoundContext';
 import { ThemeProvider } from './context/ThemeContext';
 import { SoundToggle } from './components/ui/SoundToggle';
 import { EasterEgg } from './components/ui/EasterEgg';
+import { IOSInstallPrompt } from './components/ui/IOSInstallPrompt';
 import gsap from 'gsap';
 
 function App() {
@@ -32,6 +33,7 @@ function App() {
                 <ChatWidget />
                 <FeedbackWidget />
                 <EasterEgg />
+                <IOSInstallPrompt />
               </div>
             </SmoothScroll>
           </TransitionProvider>
