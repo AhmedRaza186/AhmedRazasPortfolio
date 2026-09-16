@@ -83,7 +83,7 @@ export const Hero = () => {
         <Grid className="items-end">
 
           {/* Left Column - Content */}
-          <div className="col-span-4 md:col-span-8 lg:col-span-7 flex flex-col z-10">
+          <div className="col-span-4 md:col-span-8 lg:col-span-7 flex flex-col z-10 jarvis-section" data-jarvis-explain="Ahmed builds digital products from idea to deployment. He is a Full Stack Developer based in Karachi, Pakistan.">
 
             {/* Metadata */}
             <div className="flex flex-wrap items-center gap-4 mb-10 md:mb-12">
@@ -109,7 +109,7 @@ export const Hero = () => {
             </p>
 
             {/* CTAs */}
-            <div className="flex flex-wrap items-center gap-4">
+            <div className="flex flex-wrap items-center gap-4 jarvis-section" data-jarvis-explain="You can view his work, get in touch via WhatsApp, or download his CV.">
               <div className="hero-cta animate-item">
                 <Magnetic>
                   <Button onClick={() => navigateWithTransition('/work')}>
@@ -137,7 +137,7 @@ export const Hero = () => {
           </div>
 
           {/* Right Column - Image (Background on mobile, Grid on desktop) */}
-          <div className="absolute inset-0 w-full h-full -z-10 lg:z-auto lg:relative lg:col-span-4 lg:col-start-9 group pointer-events-none lg:pointer-events-auto">
+          <div className="absolute inset-0 w-full h-full -z-10 lg:z-auto lg:relative lg:col-span-4 lg:col-start-9 group pointer-events-none lg:pointer-events-auto jarvis-section" data-jarvis-explain="This is a portrait of Ahmed Raza.">
             <div className="hero-image-container animate-item relative w-full h-full lg:aspect-[3/4] overflow-hidden lg:rounded-sm bg-transparent lg:bg-[var(--color-border-subtle)]">
               <img
                 src="/assets/personal/ahmedRazaPhoto.jpg"

@@ -97,7 +97,8 @@ export const Contact = () => {
                   download={link.download}
                   target={link.download ? undefined : "_blank"}
                   rel={link.download ? undefined : "noopener noreferrer"}
-                  className="contact-link-row group flex items-center justify-between border-b border-[var(--color-border-subtle)] py-4 hover:bg-[var(--color-text-secondary)]/5 px-4 -mx-4 rounded-sm focus:outline-none focus-visible:bg-[var(--color-text-secondary)]/5 transition-colors"
+                  className="contact-link-row jarvis-section group flex items-center justify-between border-b border-[var(--color-border-subtle)] py-4 hover:bg-[var(--color-text-secondary)]/5 px-4 -mx-4 rounded-sm focus:outline-none focus-visible:bg-[var(--color-text-secondary)]/5 transition-colors"
+                  data-jarvis-explain={`Link to ${link.label}.`}
                 >
                   <div className="flex flex-col gap-1">
                     <span className="font-meta text-[10px] tracking-widest text-[var(--color-text-secondary)]">

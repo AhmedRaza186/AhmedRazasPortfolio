@@ -100,7 +100,8 @@ export const Work = () => {
     <TransitionLink 
       key={project.slug} 
       to={`/work/${project.slug}`}
-      className="aw-project-card filtered-project group flex flex-col gap-4 border-t border-[var(--color-border-subtle)] pt-6 pb-2"
+      className="aw-project-card jarvis-section filtered-project group flex flex-col gap-4 border-t border-[var(--color-border-subtle)] pt-6 pb-2"
+      data-jarvis-explain={`Project: ${project.title}. ${project.description}`}
     >
       <div className="flex justify-between items-start mb-2">
         <span className="font-meta text-[10px] tracking-widest text-[var(--color-text-secondary)]">
@@ -202,7 +203,8 @@ export const Work = () => {
               <TransitionLink 
                 key={project.slug} 
                 to={`/work/${project.slug}`}
-                className="aw-project-card filtered-project group block"
+                className="aw-project-card jarvis-section filtered-project group block"
+                data-jarvis-explain={`Featured Project: ${project.title}. ${project.description}`}
               >
                 <div className="w-full aspect-[16/9] lg:aspect-square bg-[var(--color-elevated)] rounded-sm overflow-hidden mb-6 md:mb-8 relative flex items-center justify-center">
                   {project.thumbnail ? (

@@ -75,19 +75,19 @@ export const WritingDetail = () => {
           <ReactMarkdown
             remarkPlugins={[remarkGfm]}
             components={{
-              h1: ({node, ...props}) => <h1 className="font-display text-4xl md:text-5xl text-[var(--color-text-primary)] mt-12 mb-6" {...props} />,
-              h2: ({node, ...props}) => <h2 className="font-display text-3xl md:text-4xl text-[var(--color-text-primary)] mt-12 mb-6" {...props} />,
-              h3: ({node, ...props}) => <h3 className="font-display text-2xl md:text-3xl text-[var(--color-text-primary)] mt-8 mb-4" {...props} />,
-              p: ({node, ...props}) => <p className="font-body text-lg md:text-xl text-[var(--color-text-secondary)] leading-relaxed mb-6" {...props} />,
-              ul: ({node, ...props}) => <ul className="list-disc list-inside font-body text-lg md:text-xl text-[var(--color-text-secondary)] mb-6 space-y-2" {...props} />,
-              ol: ({node, ...props}) => <ol className="list-decimal list-inside font-body text-lg md:text-xl text-[var(--color-text-secondary)] mb-6 space-y-2" {...props} />,
+              h1: ({node, ...props}) => <h1 className="font-display text-4xl md:text-5xl text-[var(--color-text-primary)] mt-12 mb-6 jarvis-section" data-jarvis-explain={props.children} {...props} />,
+              h2: ({node, ...props}) => <h2 className="font-display text-3xl md:text-4xl text-[var(--color-text-primary)] mt-12 mb-6 jarvis-section" data-jarvis-explain={props.children} {...props} />,
+              h3: ({node, ...props}) => <h3 className="font-display text-2xl md:text-3xl text-[var(--color-text-primary)] mt-8 mb-4 jarvis-section" data-jarvis-explain={props.children} {...props} />,
+              p: ({node, ...props}) => <p className="font-body text-lg md:text-xl text-[var(--color-text-secondary)] leading-relaxed mb-6 jarvis-section" data-jarvis-explain={node.children?.[0]?.value || 'A paragraph of text.'} {...props} />,
+              ul: ({node, ...props}) => <ul className="list-disc list-inside font-body text-lg md:text-xl text-[var(--color-text-secondary)] mb-6 space-y-2 jarvis-section" data-jarvis-explain="Here is a list of items." {...props} />,
+              ol: ({node, ...props}) => <ol className="list-decimal list-inside font-body text-lg md:text-xl text-[var(--color-text-secondary)] mb-6 space-y-2 jarvis-section" data-jarvis-explain="Here is a numbered list of items." {...props} />,
               li: ({node, ...props}) => <li className="pl-2" {...props} />,
               a: ({node, ...props}) => <a className="text-[var(--color-accent)] hover:underline underline-offset-4 decoration-[var(--color-border-subtle)] transition-colors" target="_blank" rel="noopener noreferrer" {...props} />,
-              blockquote: ({node, ...props}) => <blockquote className="border-l-2 border-[var(--color-accent)] pl-6 py-2 my-8 italic text-[var(--color-text-primary)] bg-[var(--color-border-subtle)]/10" {...props} />,
+              blockquote: ({node, ...props}) => <blockquote className="border-l-2 border-[var(--color-accent)] pl-6 py-2 my-8 italic text-[var(--color-text-primary)] bg-[var(--color-border-subtle)]/10 jarvis-section" data-jarvis-explain="A quote." {...props} />,
               code({node, inline, className, children, ...props}) {
                 const match = /language-(\w+)/.exec(className || '')
                 return !inline && match ? (
-                  <div className="my-8 rounded-sm overflow-hidden border border-[var(--color-border-subtle)]">
+                  <div className="my-8 rounded-sm overflow-hidden border border-[var(--color-border-subtle)] jarvis-section" data-jarvis-explain="Here is a code snippet.">
                     <SyntaxHighlighter
                       {...props}
                       children={String(children).replace(/\n$/, '')}

@@ -14,7 +14,7 @@ const ProjectCard = ({ project, index }) => {
   const isReverse = index % 2 !== 0;
 
   return (
-    <div className="project-card col-span-4 md:col-span-12 mb-32 md:mb-40 group">
+    <div className="project-card jarvis-section col-span-4 md:col-span-12 mb-32 md:mb-40 group" data-jarvis-explain={`Selected Project ${index + 1}: ${project.title}. ${project.description}`}>
       <div className={`flex flex-col ${isReverse ? 'lg:flex-row-reverse' : 'lg:flex-row'} gap-12 lg:gap-24 items-center`}>
         
         {/* Visual Block - 55% width */}
@@ -181,7 +181,7 @@ export const WorkSection = () => {
       <Container>
         
         {/* Section Header */}
-        <div className="work-header mb-24 md:mb-40 border-t border-[var(--color-border-subtle)] pt-12 md:pt-16">
+        <div className="work-header jarvis-section mb-24 md:mb-40 border-t border-[var(--color-border-subtle)] pt-12 md:pt-16" data-jarvis-explain="This is the Selected Works section, showcasing Ahmed's products and experiments across AI, automation, commerce, and full-stack development.">
           <Grid>
             <div className="col-span-4 md:col-span-8 lg:col-span-7 flex flex-col gap-6 md:gap-8">
               <span className="work-header-element text-meta flex items-center gap-3 text-[var(--color-text-secondary)]">
@@ -206,7 +206,7 @@ export const WorkSection = () => {
         </Grid>
 
         {/* View All Projects CTA */}
-        <div className="mt-12 md:mt-20 text-center flex justify-center">
+        <div className="mt-12 md:mt-20 text-center flex justify-center jarvis-section" data-jarvis-explain="You can click here to view all projects in the archive.">
           <TransitionLink 
             to="/work" 
             className="group flex items-center gap-4 px-8 py-4 rounded-full border border-[var(--color-border-strong)] bg-[var(--color-canvas)] hover:bg-[var(--color-elevated)] transition-all duration-300 focus:outline-none"
