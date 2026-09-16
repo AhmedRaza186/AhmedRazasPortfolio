@@ -132,7 +132,7 @@ export const ChatWidget = () => {
     <div className="fixed bottom-28 right-4 md:bottom-8 md:right-8 z-[999] flex flex-col items-end pointer-events-none">
       
       {/* Preview Bubbles */}
-      <div className="pointer-events-auto absolute bottom-20 right-0 flex flex-col items-end gap-2 mb-2">
+      <div className="pointer-events-auto absolute bottom-20 right-0 hidden md:flex flex-col items-end gap-2 mb-2">
         {showPreview && !isOpen && PREVIEW_MESSAGES.map((msg, index) => (
           <div 
             key={index}
