@@ -11,8 +11,8 @@ import { TransitionProvider } from './context/TransitionContext';
 import { SoundProvider } from './context/SoundContext';
 import { ThemeProvider } from './context/ThemeContext';
 import { SoundToggle } from './components/ui/SoundToggle';
-import { EasterEgg } from './components/ui/EasterEgg';
 import { IOSInstallPrompt } from './components/ui/IOSInstallPrompt';
+import { JarvisCore } from './components/ui/JarvisCore';
 import gsap from 'gsap';
 
 function App() {
@@ -34,6 +34,7 @@ function App() {
                 <FeedbackWidget />
                 <EasterEgg />
                 <IOSInstallPrompt />
+                <JarvisCore />
               </div>
             </SmoothScroll>
           </TransitionProvider>

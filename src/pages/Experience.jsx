@@ -67,7 +67,8 @@ export const Experience = () => {
           {experiences.map((exp, index) => (
             <div 
               key={index} 
-              className="experience-item relative pl-6 md:pl-0 border-l md:border-l-0 border-[var(--color-border-subtle)] md:border-t md:pt-12 flex flex-col md:flex-row gap-4 md:gap-12"
+              className="experience-item jarvis-section relative pl-6 md:pl-0 border-l md:border-l-0 border-[var(--color-border-subtle)] md:border-t md:pt-12 flex flex-col md:flex-row gap-4 md:gap-12"
+              data-jarvis-explain={`Ahmed worked at ${exp.company} as a ${exp.role}. ${exp.description}`}
             >
               {/* Mobile Timeline Dot */}
               <div className="md:hidden absolute -left-[5px] top-2 w-2.5 h-2.5 rounded-full bg-[var(--color-canvas)] border border-[var(--color-border-strong)]"></div>
