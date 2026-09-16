@@ -13,6 +13,7 @@ import { ThemeProvider } from './context/ThemeContext';
 import { SoundToggle } from './components/ui/SoundToggle';
 import { IOSInstallPrompt } from './components/ui/IOSInstallPrompt';
 import { JarvisCore } from './components/ui/JarvisCore';
+import { EasterEgg } from './components/ui/EasterEgg';
 import gsap from 'gsap';
 
 function App() {

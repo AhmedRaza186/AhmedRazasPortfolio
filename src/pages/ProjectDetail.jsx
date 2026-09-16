@@ -155,7 +155,7 @@ export const ProjectDetail = () => {
       </Container>
 
       {/* Project Header */}
-      <Container className="mb-16 md:mb-24">
+      <Container className="mb-16 md:mb-24 jarvis-section" data-jarvis-explain={`This is ${project.title}, a ${project.category} project from ${project.year}. ${project.description || ''}`}>
         <Grid>
           <div className="col-span-4 md:col-span-12 lg:col-span-10">
             {/* Logo */}
@@ -244,7 +244,7 @@ export const ProjectDetail = () => {
         {/* Problem & Approach */}
         <Grid className="mb-24 md:mb-32 gap-y-16">
           {caseStudy?.problem && (
-            <div className="cs-section col-span-4 md:col-span-6 lg:col-span-5 lg:col-start-1">
+            <div className="cs-section jarvis-section col-span-4 md:col-span-6 lg:col-span-5 lg:col-start-1" data-jarvis-explain={`The Problem: ${caseStudy.problem}`}>
               <h3 className="font-meta text-xs text-[var(--color-text-secondary)] tracking-widest mb-6">THE PROBLEM</h3>
               <p className="font-body text-lg md:text-xl text-[var(--color-text-secondary)] leading-relaxed">
                 {caseStudy.problem}
@@ -252,7 +252,7 @@ export const ProjectDetail = () => {
             </div>
           )}
           {caseStudy?.approach && (
-            <div className="cs-section col-span-4 md:col-span-6 lg:col-span-5 lg:col-start-7">
+            <div className="cs-section jarvis-section col-span-4 md:col-span-6 lg:col-span-5 lg:col-start-7" data-jarvis-explain={`The Approach: ${caseStudy.approach}`}>
               <h3 className="font-meta text-xs text-[var(--color-text-secondary)] tracking-widest mb-6">THE APPROACH</h3>
               <p className="font-body text-lg md:text-xl text-[var(--color-text-secondary)] leading-relaxed">
                 {caseStudy.approach}
@@ -263,7 +263,7 @@ export const ProjectDetail = () => {
 
         {/* Solution */}
         {caseStudy?.solution && (
-          <Grid className="cs-section mb-24 md:mb-32">
+          <Grid className="cs-section jarvis-section mb-24 md:mb-32" data-jarvis-explain={`The Solution: ${caseStudy.solution}`}>
             <div className="col-span-4 md:col-span-12 lg:col-span-8 lg:col-start-3 border-t border-[var(--color-border-subtle)] pt-16">
               <h3 className="font-meta text-xs text-[var(--color-text-secondary)] tracking-widest mb-6">THE SOLUTION</h3>
               <p className="font-body text-lg md:text-xl text-[var(--color-text-primary)] leading-relaxed">
@@ -279,7 +279,7 @@ export const ProjectDetail = () => {
             <h3 className="font-meta text-xs text-[var(--color-text-secondary)] tracking-widest mb-12 lg:mb-16">KEY FEATURES</h3>
             <Grid className="cs-features-grid gap-y-12">
               {caseStudy.features.map((feature, idx) => (
-                <div key={idx} className="cs-feature-item col-span-4 md:col-span-6 lg:col-span-3">
+                <div key={idx} className="cs-feature-item jarvis-section col-span-4 md:col-span-6 lg:col-span-3" data-jarvis-explain={`Feature ${idx + 1}: ${feature.name}. ${feature.description}`}>
                   <div className="font-meta text-[10px] text-[var(--color-text-secondary)] mb-4 pb-4 border-b border-[var(--color-border-subtle)]">
                     {String(idx + 1).padStart(2, '0')}
                   </div>
@@ -296,7 +296,7 @@ export const ProjectDetail = () => {
         )}
 
         {/* Tech & Role & Challenges */}
-        <Grid className="cs-section mb-24 md:mb-40 gap-y-16 border-t border-[var(--color-border-subtle)] pt-16">
+        <Grid className="cs-section jarvis-section mb-24 md:mb-40 gap-y-16 border-t border-[var(--color-border-subtle)] pt-16" data-jarvis-explain={`Built with ${project.technologies?.join(', ') || 'various tools'}. Ahmed's role was ${caseStudy?.role || 'Full Stack Developer'}. The main challenge was: ${caseStudy?.challenges || 'ensuring performance and stability'}.`}>
           <div className="col-span-4 md:col-span-4 lg:col-span-3">
              <h3 className="font-meta text-xs text-[var(--color-text-secondary)] tracking-widest mb-6">BUILT WITH</h3>
              {project.technologies && project.technologies.length > 0 ? (
@@ -327,7 +327,7 @@ export const ProjectDetail = () => {
 
         {/* Outcome */}
         {caseStudy?.outcome && (
-          <Grid className="cs-section mb-24 md:mb-32">
+          <Grid className="cs-section jarvis-section mb-24 md:mb-32" data-jarvis-explain={`The Outcome: ${caseStudy.outcome}`}>
             <div className="col-span-4 md:col-span-12 lg:col-span-8 lg:col-start-3">
               <h3 className="font-meta text-xs text-[var(--color-text-secondary)] tracking-widest mb-6 text-center lg:text-left">OUTCOME</h3>
               <p className="font-display text-2xl md:text-4xl leading-[1.2] text-[var(--color-text-primary)] text-center lg:text-left">
