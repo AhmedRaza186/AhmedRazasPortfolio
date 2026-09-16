@@ -109,6 +109,8 @@ export const JarvisCore = () => {
     };
   }, []); // Empty dependency array so it's only created once!
 
+  const utteranceRef = useRef(null);
+
   const speak = (text, callback) => {
     isSpeakingRef.current = true;
     setIsSpeaking(true);
@@ -117,7 +119,10 @@ export const JarvisCore = () => {
       try { recognitionRef.current.abort(); } catch (e) {} // Abort immediately stops and prevents onresult
     }
     
+    // Store in ref to prevent garbage collection bug in Chrome
     const utterance = new SpeechSynthesisUtterance(text);
+    utteranceRef.current = utterance;
+    
     if (voiceRef.current) utterance.voice = voiceRef.current;
     utterance.rate = 0.95;
     utterance.pitch = 0.9;
@@ -136,6 +141,13 @@ export const JarvisCore = () => {
           }
         }, 300);
       }
+    };
+    
+    // Fallback for Chrome bug where onend sometimes doesn't fire at all for very long text
+    // Not usually needed if referenced, but good practice
+    utterance.onerror = () => {
+      isSpeakingRef.current = false;
+      setIsSpeaking(false);
     };
     
     synthRef.current.speak(utterance);
