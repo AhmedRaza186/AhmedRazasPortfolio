@@ -17,6 +17,12 @@ export const EasterEgg = () => {
 
     const handleKeyDown = (e) => {
       if (activeEgg) return;
+      
+      // Ignore keystrokes if the user is typing in an input field or textarea
+      if (['INPUT', 'TEXTAREA'].includes(e.target.tagName) || e.target.isContentEditable) {
+        return;
+      }
+      
       if (!/^[a-zA-Z]$/.test(e.key)) return;
 
       keyBuffer += e.key.toLowerCase();
