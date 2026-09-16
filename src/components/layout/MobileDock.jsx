@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useLocation } from 'react-router-dom';
-import { Home, Briefcase, Award, Map, PenTool, Mail } from 'lucide-react';
+import { Home, Briefcase, Award, Map, PenTool, Mail, MessageSquare } from 'lucide-react';
 import gsap from 'gsap';
 import { TransitionNavLink } from '../ui/TransitionNavLink';
 
@@ -17,6 +17,7 @@ export const MobileDock = () => {
     { name: 'Journey', path: '/journey', icon: Map },
     { name: 'Writing', path: '/writing', icon: PenTool },
     { name: 'Contact', path: '/contact', icon: Mail },
+    { name: 'Feedback', action: 'open-feedback', icon: MessageSquare },
   ];
 
   useEffect(() => {
@@ -53,6 +54,19 @@ export const MobileDock = () => {
       <div className="bg-[var(--color-canvas)]/80 backdrop-blur-xl border border-[var(--color-border-subtle)] rounded-full px-3 py-3 shadow-[0_8px_30px_rgb(0,0,0,0.12)] dark:shadow-[0_8px_30px_rgb(0,0,0,0.3)] flex items-center justify-between overflow-x-auto no-scrollbar gap-2">
         {dockLinks.map((link) => {
           const Icon = link.icon;
+          
+          if (link.action) {
+            return (
+              <button
+                key={link.name}
+                onClick={() => window.dispatchEvent(new CustomEvent(link.action))}
+                className="relative flex flex-col items-center justify-center p-2 rounded-full min-w-[3.5rem] transition-colors duration-300 text-[var(--color-text-secondary)] hover:text-[var(--color-text-primary)] hover:bg-black/5 dark:hover:bg-white/5"
+              >
+                <Icon strokeWidth={2} className="w-5 h-5 mb-1" />
+                <span className="text-[10px] font-medium leading-none tracking-wide">{link.name}</span>
+              </button>
+            );
+          }
           
           return (
             <TransitionNavLink

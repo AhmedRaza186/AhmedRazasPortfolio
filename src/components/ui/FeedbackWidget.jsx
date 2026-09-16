@@ -63,6 +63,12 @@ export const FeedbackWidget = () => {
     localStorage.setItem('hasSeenFeedbackModal', 'true');
   };
 
+  useEffect(() => {
+    const openFromExternal = () => handleOpenModal();
+    window.addEventListener('open-feedback', openFromExternal);
+    return () => window.removeEventListener('open-feedback', openFromExternal);
+  }, []);
+
   const handleCloseAttempt = () => {
     if (isSubmitting) return;
     
@@ -191,11 +197,10 @@ export const FeedbackWidget = () => {
       {/* Floating Trigger Button */}
       <button
         onClick={handleOpenModal}
-        className={`fixed top-1/2 right-0 -translate-y-1/2 bg-[var(--color-text-primary)] text-[var(--color-canvas)] py-3 px-2 rounded-l-lg shadow-[-4px_0_15px_rgba(0,0,0,0.1)] hover:pr-4 transition-all duration-300 z-[900] ${isOpen ? 'translate-x-full' : 'translate-x-0'}`}
-        style={{ writingMode: 'vertical-rl', textOrientation: 'mixed' }}
+        className={`hidden md:flex fixed bottom-0 left-1/2 -translate-x-1/2 bg-[var(--color-text-primary)] text-[var(--color-canvas)] py-2 px-6 rounded-t-lg shadow-[0_-4px_15px_rgba(0,0,0,0.1)] hover:pb-3 transition-all duration-300 z-[900] ${isOpen ? 'translate-y-full' : 'translate-y-0'}`}
       >
-        <span className="flex items-center gap-2 font-medium tracking-widest text-sm">
-          <MessageSquare className="w-4 h-4 rotate-90" />
+        <span className="flex items-center gap-2 font-medium tracking-widest text-sm uppercase">
+          <MessageSquare className="w-4 h-4" />
           Feedback
         </span>
       </button>
