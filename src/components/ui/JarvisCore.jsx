@@ -44,10 +44,20 @@ export const JarvisCore = () => {
   const isSpeakingRef = useRef(false);
   const isActiveRef = useRef(false);
 
-  // Sync refs with state
-  useEffect(() => { isActiveRef.current = isActive; }, [isActive]);
-  useEffect(() => { isListeningRef.current = isListening; }, [isListening]);
-  useEffect(() => { isSpeakingRef.current = isSpeaking; }, [isSpeaking]);
+  const toggleActive = () => {
+    const newState = !isActive;
+    isActiveRef.current = newState;
+    setIsActive(newState);
+
+    if (newState && recognitionRef.current && !isListeningRef.current && !isSpeakingRef.current) {
+      try {
+        recognitionRef.current.start();
+      } catch (e) {}
+    } else if (!newState && recognitionRef.current) {
+      recognitionRef.current.stop();
+      if (isTouringRef.current) stopTour();
+    }
+  };
 
   // Initialize SpeechRecognition ONCE
   useEffect(() => {
@@ -59,18 +69,18 @@ export const JarvisCore = () => {
       recognition.lang = 'en-US';
 
       recognition.onstart = () => {
+        isListeningRef.current = true;
         setIsListening(true);
       };
       
       recognition.onend = () => {
+        isListeningRef.current = false;
         setIsListening(false);
         // Restart if active and not speaking (keep continuous listening alive)
         if (isActiveRef.current && !isSpeakingRef.current) {
           try {
             recognition.start();
-          } catch (e) {
-            console.error("Jarvis restart error:", e);
-          }
+          } catch (e) {}
         }
       };
 
@@ -83,8 +93,8 @@ export const JarvisCore = () => {
       };
 
       recognition.onerror = (event) => {
-        console.error("Jarvis recognition error:", event.error);
         if (event.error === 'not-allowed') {
+          isActiveRef.current = false;
           setIsActive(false);
         }
       };
@@ -99,39 +109,32 @@ export const JarvisCore = () => {
     };
   }, []); // Empty dependency array so it's only created once!
 
-  // Handle active toggle
-  useEffect(() => {
-    if (isActive && recognitionRef.current && !isListening && !isSpeaking) {
-      try {
-        recognitionRef.current.start();
-      } catch (e) {
-        console.error("Jarvis initial start error:", e);
-      }
-    } else if (!isActive && recognitionRef.current) {
-      recognitionRef.current.stop();
-    }
-  }, [isActive, isListening, isSpeaking]);
-
   const speak = (text, callback) => {
+    isSpeakingRef.current = true;
+    setIsSpeaking(true);
+
     if (recognitionRef.current) {
-      recognitionRef.current.stop(); // Stop listening while speaking to prevent echo
+      try { recognitionRef.current.abort(); } catch (e) {} // Abort immediately stops and prevents onresult
     }
     
-    setIsSpeaking(true);
     const utterance = new SpeechSynthesisUtterance(text);
     if (voiceRef.current) utterance.voice = voiceRef.current;
     utterance.rate = 0.95;
     utterance.pitch = 0.9;
     
     utterance.onend = () => {
+      isSpeakingRef.current = false;
       setIsSpeaking(false);
+      
       if (callback) callback();
       
-      // Resume listening
+      // Resume listening if still active
       if (isActiveRef.current && recognitionRef.current) {
         setTimeout(() => {
-          try { recognitionRef.current.start(); } catch (e) {}
-        }, 500);
+          if (!isSpeakingRef.current && !isListeningRef.current) {
+            try { recognitionRef.current.start(); } catch (e) {}
+          }
+        }, 300);
       }
     };
     
@@ -261,7 +264,7 @@ export const JarvisCore = () => {
 
       <Magnetic>
         <button
-          onClick={() => setIsActive(!isActive)}
+          onClick={toggleActive}
           className={`w-12 h-12 rounded-full border shadow-lg flex items-center justify-center transition-all duration-300 focus:outline-none group ${
             isActive 
               ? 'bg-[var(--color-accent)] border-[var(--color-accent)] text-white' 
