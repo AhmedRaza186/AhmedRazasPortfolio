@@ -303,26 +303,30 @@ export const FeedbackWidget = () => {
                   {!audioUrl ? (
                     <button
                       type="button"
-                      onMouseDown={startRecording}
-                      onMouseUp={stopRecording}
-                      onTouchStart={startRecording}
-                      onTouchEnd={stopRecording}
+                      onClick={isRecording ? stopRecording : startRecording}
                       className={`w-full flex items-center justify-center gap-3 p-4 rounded-lg border-2 transition-all duration-300 ${
                         isRecording 
-                          ? 'border-red-500 bg-red-500/10 text-red-500 scale-[0.98]' 
+                          ? 'border-red-500 bg-red-500/10 text-red-500 shadow-[0_0_15px_rgba(239,68,68,0.2)]' 
                           : 'border-[var(--color-border-strong)] text-[var(--color-text-secondary)] hover:border-[var(--color-text-primary)] hover:text-[var(--color-text-primary)]'
                       }`}
                     >
                       {isRecording ? (
                         <>
-                          <Mic className="w-5 h-5 animate-pulse" />
-                          <span className="font-medium animate-pulse">Recording... {formatTime(recordingTime)}</span>
-                          <span className="text-xs ml-2 opacity-70">(Release to stop)</span>
+                          <div className="flex items-center gap-1">
+                            <span className="w-1 h-4 bg-red-500 rounded-full animate-[pulse_0.8s_ease-in-out_infinite]"></span>
+                            <span className="w-1 h-6 bg-red-500 rounded-full animate-[pulse_0.8s_ease-in-out_0.2s_infinite]"></span>
+                            <span className="w-1 h-3 bg-red-500 rounded-full animate-[pulse_0.8s_ease-in-out_0.4s_infinite]"></span>
+                            <span className="w-1 h-5 bg-red-500 rounded-full animate-[pulse_0.8s_ease-in-out_0.1s_infinite]"></span>
+                          </div>
+                          <span className="font-medium animate-pulse ml-2">{formatTime(recordingTime)}</span>
+                          <span className="ml-auto bg-red-500 text-white text-xs px-3 py-1.5 rounded-md hover:bg-red-600 transition-colors shadow-sm">
+                            Stop Recording
+                          </span>
                         </>
                       ) : (
                         <>
                           <Mic className="w-5 h-5" />
-                          <span className="font-medium">Hold to record voice</span>
+                          <span className="font-medium">Tap to record voice</span>
                         </>
                       )}
                     </button>
