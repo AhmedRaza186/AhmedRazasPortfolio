@@ -17,7 +17,6 @@ export const MobileDock = () => {
     { name: 'Journey', path: '/journey', icon: Map },
     { name: 'Writing', path: '/writing', icon: PenTool },
     { name: 'Contact', path: '/contact', icon: Mail },
-    { name: 'Feedback', action: 'open-feedback', icon: MessageSquare },
   ];
 
   useEffect(() => {
@@ -49,24 +48,20 @@ export const MobileDock = () => {
   return (
     <div 
       ref={dockRef}
-      className="md:hidden fixed bottom-6 left-1/2 -translate-x-1/2 z-[100] px-4 w-[95%] max-w-sm"
+      className="md:hidden fixed bottom-6 left-1/2 -translate-x-1/2 z-[100] w-[95%] max-w-sm flex flex-col items-center gap-3"
     >
-      <div className="bg-[var(--color-canvas)]/80 backdrop-blur-xl border border-[var(--color-border-subtle)] rounded-full px-3 py-3 shadow-[0_8px_30px_rgb(0,0,0,0.12)] dark:shadow-[0_8px_30px_rgb(0,0,0,0.3)] flex items-center justify-between overflow-x-auto no-scrollbar gap-2">
+      {/* Floating Feedback Button */}
+      <button 
+        onClick={() => window.dispatchEvent(new CustomEvent('open-feedback'))}
+        className="w-10 h-10 bg-[var(--color-text-primary)] text-[var(--color-canvas)] rounded-full flex items-center justify-center shadow-[0_8px_20px_rgb(0,0,0,0.15)] dark:shadow-[0_8px_20px_rgb(0,0,0,0.4)] hover:scale-105 transition-transform"
+        aria-label="Leave Feedback"
+      >
+        <MessageSquare className="w-5 h-5" />
+      </button>
+
+      <div className="w-full bg-[var(--color-canvas)]/80 backdrop-blur-xl border border-[var(--color-border-subtle)] rounded-full px-3 py-3 shadow-[0_8px_30px_rgb(0,0,0,0.12)] dark:shadow-[0_8px_30px_rgb(0,0,0,0.3)] flex items-center justify-between overflow-x-auto no-scrollbar gap-2">
         {dockLinks.map((link) => {
           const Icon = link.icon;
-          
-          if (link.action) {
-            return (
-              <button
-                key={link.name}
-                onClick={() => window.dispatchEvent(new CustomEvent(link.action))}
-                className="relative flex flex-col items-center justify-center p-2 rounded-full min-w-[3.5rem] transition-colors duration-300 text-[var(--color-text-secondary)] hover:text-[var(--color-text-primary)] hover:bg-black/5 dark:hover:bg-white/5"
-              >
-                <Icon strokeWidth={2} className="w-5 h-5 mb-1" />
-                <span className="text-[10px] font-medium leading-none tracking-wide">{link.name}</span>
-              </button>
-            );
-          }
           
           return (
             <TransitionNavLink
