@@ -40,24 +40,37 @@ export const JarvisCore = () => {
     }
   }, []);
 
-  // Initialize SpeechRecognition
+  const isListeningRef = useRef(false);
+  const isSpeakingRef = useRef(false);
+  const isActiveRef = useRef(false);
+
+  // Sync refs with state
+  useEffect(() => { isActiveRef.current = isActive; }, [isActive]);
+  useEffect(() => { isListeningRef.current = isListening; }, [isListening]);
+  useEffect(() => { isSpeakingRef.current = isSpeaking; }, [isSpeaking]);
+
+  // Initialize SpeechRecognition ONCE
   useEffect(() => {
     const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
     if (SpeechRecognition) {
       const recognition = new SpeechRecognition();
       recognition.continuous = true;
       recognition.interimResults = false;
-      recognition.lang = 'en-US'; // We can use en-US, it usually picks up Roman Urdu decently if pronounced clearly
+      recognition.lang = 'en-US';
 
-      recognition.onstart = () => setIsListening(true);
+      recognition.onstart = () => {
+        setIsListening(true);
+      };
       
       recognition.onend = () => {
         setIsListening(false);
-        // Restart if active (to keep continuous listening alive if browser stops it)
-        if (isActive && !isSpeaking) {
+        // Restart if active and not speaking (keep continuous listening alive)
+        if (isActiveRef.current && !isSpeakingRef.current) {
           try {
             recognition.start();
-          } catch (e) {}
+          } catch (e) {
+            console.error("Jarvis restart error:", e);
+          }
         }
       };
 
@@ -66,8 +79,14 @@ export const JarvisCore = () => {
         const transcript = event.results[current][0].transcript.toLowerCase();
         
         console.log("Jarvis heard:", transcript);
-
         handleCommand(transcript);
+      };
+
+      recognition.onerror = (event) => {
+        console.error("Jarvis recognition error:", event.error);
+        if (event.error === 'not-allowed') {
+          setIsActive(false);
+        }
       };
 
       recognitionRef.current = recognition;
@@ -78,13 +97,16 @@ export const JarvisCore = () => {
         recognitionRef.current.stop();
       }
     };
-  }, [isActive, isSpeaking]);
+  }, []); // Empty dependency array so it's only created once!
 
+  // Handle active toggle
   useEffect(() => {
     if (isActive && recognitionRef.current && !isListening && !isSpeaking) {
       try {
         recognitionRef.current.start();
-      } catch (e) {}
+      } catch (e) {
+        console.error("Jarvis initial start error:", e);
+      }
     } else if (!isActive && recognitionRef.current) {
       recognitionRef.current.stop();
     }
@@ -106,7 +128,7 @@ export const JarvisCore = () => {
       if (callback) callback();
       
       // Resume listening
-      if (isActive && recognitionRef.current) {
+      if (isActiveRef.current && recognitionRef.current) {
         setTimeout(() => {
           try { recognitionRef.current.start(); } catch (e) {}
         }, 500);
