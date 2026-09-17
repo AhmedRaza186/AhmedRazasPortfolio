@@ -220,29 +220,42 @@ export const JarvisCore = () => {
     sections.forEach(el => gsap.to(el, { boxShadow: 'none', borderColor: 'transparent', duration: 0.3 }));
 
     // Calculate robust absolute target Y to perfectly center the element
-    const absoluteY = currentSection.getBoundingClientRect().top + window.scrollY;
-    const targetY = absoluteY - (window.innerHeight / 2) + (currentSection.offsetHeight / 2);
+    const rect = currentSection.getBoundingClientRect();
+    const absoluteY = rect.top + window.scrollY;
+    const targetY = absoluteY - (window.innerHeight / 2) + (rect.height / 2);
 
-    // Scroll securely using GSAP to prevent user interference from breaking it
-    gsap.to(window, {
-      duration: 1,
-      scrollTo: { y: targetY, autoKill: false },
-      ease: 'power3.inOut',
-      onComplete: () => {
-        if (!isTouringRef.current) return;
-        
-        gsap.to(currentSection, { 
-          boxShadow: '0 0 20px var(--color-accent)', 
-          borderColor: 'var(--color-accent)',
-          duration: 0.5 
-        });
+    const highlightAndSpeak = () => {
+      if (!isTouringRef.current) return;
+      
+      gsap.to(currentSection, { 
+        boxShadow: '0 0 20px var(--color-accent)', 
+        borderColor: 'var(--color-accent)',
+        duration: 0.5 
+      });
 
-        speak(explanation, () => {
-          tourIndexRef.current++;
-          setTimeout(nextSection, 1000); // Pause before next section
-        });
-      }
-    });
+      speak(explanation, () => {
+        tourIndexRef.current++;
+        setTimeout(nextSection, 1000); // Pause before next section
+      });
+    };
+
+    // Check if the element is already comfortably visible in the viewport
+    const isVisible = rect.top >= 100 && rect.bottom <= (window.innerHeight - 100);
+    const isMassive = rect.height > (window.innerHeight - 200);
+    const isMassiveAndVisible = isMassive && rect.top <= 100 && rect.bottom >= (window.innerHeight - 100);
+
+    if (isVisible || isMassiveAndVisible) {
+      // Element is already visible, no need to scroll! Just highlight it.
+      highlightAndSpeak();
+    } else {
+      // Scroll securely using GSAP to prevent user interference from breaking it
+      gsap.to(window, {
+        duration: 1,
+        scrollTo: { y: targetY, autoKill: false },
+        ease: 'power3.inOut',
+        onComplete: highlightAndSpeak
+      });
+    }
   };
 
   // Keyboard shortcut to stop tour
