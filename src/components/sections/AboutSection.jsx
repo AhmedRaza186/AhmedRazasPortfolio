@@ -112,7 +112,7 @@ export const AboutSection = () => {
               02 / ABOUT
             </span>
           </div>
-          <div className="about-statement about-anim col-span-4 md:col-span-12 lg:col-span-8 lg:col-start-5">
+          <div className="about-statement jarvis-section about-anim col-span-4 md:col-span-12 lg:col-span-8 lg:col-start-5" data-jarvis-explain="This is the About Section. Ahmed's philosophy is that he doesn't start with the code, he starts with the problem.">
             <h2 className="font-display text-[clamp(3.5rem,7vw,6.5rem)] leading-[0.9] tracking-tight mb-8">
               I don't start with the code.<br />I start with the problem.
             </h2>
@@ -127,14 +127,14 @@ export const AboutSection = () => {
           <div className="col-span-4 md:col-span-12 lg:col-span-10 lg:col-start-3">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-16 md:gap-24">
               
-              <div className="about-split about-anim">
+              <div className="about-split about-anim jarvis-section" data-jarvis-explain="First comes Product Thinking. Before building, he tries to understand the user, the business goal, and what actually needs to exist.">
                 <h3 className="text-meta text-[var(--color-text-secondary)] mb-6">01 — PRODUCT THINKING</h3>
                 <p className="font-display text-2xl md:text-3xl lg:text-4xl leading-[1.5] tracking-tight text-[var(--color-text-primary)]">
                   Before building, I try to understand the user, the business goal, and what actually needs to exist.
                 </p>
               </div>
 
-              <div className="about-split about-anim">
+              <div className="about-split about-anim jarvis-section" data-jarvis-explain="Then comes Engineering. He turns that understanding into clean logic using Node.js, robust REST APIs with Express, and scalable data systems with MongoDB.">
                 <h3 className="text-meta text-[var(--color-text-secondary)] mb-6">02 — ENGINEERING</h3>
                 <p className="font-display text-2xl md:text-3xl lg:text-4xl leading-[1.5] tracking-tight text-[var(--color-text-primary)]">
                   Then I turn that understanding into clean logic using Node.js, robust REST APIs with Express, and scalable data systems with MongoDB.
@@ -153,7 +153,7 @@ export const AboutSection = () => {
             <div className="snake-line-mobile snake-line absolute top-0 left-[-1px] w-[1px] h-full bg-[var(--color-border-strong)] opacity-0"></div>
             <div className="process-pulse-mobile absolute top-[-100px] left-[-2px] w-[3px] h-[100px] bg-gradient-to-b from-transparent via-[var(--color-accent)] to-transparent opacity-0 z-10 pointer-events-none shadow-[0_0_12px_rgba(49,87,255,0.8)]"></div>
             {processSteps.map((step, idx) => (
-              <div key={idx} className="process-step about-anim group relative">
+              <div key={idx} className="process-step about-anim group relative jarvis-section" data-jarvis-explain={`Step ${step.num}. ${step.title}. ${step.desc}`}>
                 <span className="absolute -left-[29px] top-2 w-2 h-2 rounded-full bg-[var(--color-canvas)] border border-[var(--color-border-strong)] group-hover:bg-[var(--color-accent)] group-hover:border-[var(--color-accent)] transition-colors duration-300"></span>
                 <div className="text-meta text-[var(--color-text-secondary)] mb-1 group-hover:text-[var(--color-text-primary)] transition-colors duration-300">{step.num}</div>
                 <h4 className="font-display text-2xl tracking-wide group-hover:text-[var(--color-text-primary)] transition-colors duration-300 mb-2">{step.title}</h4>
@@ -178,7 +178,7 @@ export const AboutSection = () => {
             {/* Grid for Nodes */}
             <div className="grid grid-cols-3 gap-y-32 text-center relative z-10">
               {desktopOrder.map((step, idx) => (
-                <div key={idx} className="process-step about-anim group relative flex flex-col items-center cursor-default mx-auto bg-[var(--color-canvas)] px-8">
+                <div key={idx} className="process-step about-anim group relative flex flex-col items-center cursor-default mx-auto bg-[var(--color-canvas)] px-8 jarvis-section" data-jarvis-explain={`Step ${step.num}. ${step.title}. ${step.desc}`}>
                   {/* Subtle Node interaction */}
                   <div className="absolute top-[28px] left-1/2 -translate-x-1/2 -translate-y-1/2 w-2 h-2 rounded-full border border-[var(--color-border-strong)] bg-[var(--color-canvas)] group-hover:border-[var(--color-accent)] group-hover:bg-[var(--color-accent)] transition-all duration-300 -z-10 group-hover:scale-150"></div>
                   
@@ -193,7 +193,7 @@ export const AboutSection = () => {
         </div>
 
         {/* Layer 04 — Background / Personal Context */}
-        <Grid className="about-footer about-anim border-t border-[var(--color-border-subtle)] pt-12 md:pt-16">
+        <Grid className="about-footer about-anim border-t border-[var(--color-border-subtle)] pt-12 md:pt-16 jarvis-section" data-jarvis-explain="Ahmed's path started with design and experimentation before he found his footing in full-stack web development. Today, he enjoys working where product thinking, engineering, AI, and business problems overlap.">
           <div className="col-span-4 md:col-span-12 lg:col-span-8 flex flex-col items-start gap-8">
             <p className="font-body text-lg md:text-xl text-[var(--color-text-secondary)] max-w-[65ch] leading-relaxed mb-4 lg:mb-0">
               My path started with design and experimentation before I found my footing in full-stack web development. Today, I enjoy working where product thinking, engineering, AI, and business problems overlap.

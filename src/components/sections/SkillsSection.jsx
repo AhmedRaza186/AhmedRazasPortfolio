@@ -92,7 +92,7 @@ export const SkillsSection = () => {
             <span className="text-meta text-[var(--color-text-secondary)]">WHAT I WORK WITH</span>
           </div>
           
-          <div className="skills-anim skills-statement col-span-4 md:col-span-12 lg:col-span-8 lg:col-start-5">
+          <div className="skills-anim skills-statement jarvis-section col-span-4 md:col-span-12 lg:col-span-8 lg:col-start-5" data-jarvis-explain="This is the Expertise Section. Ahmed builds interfaces that feel simple, and systems that aren't.">
             <h2 className="font-display text-[clamp(3rem,6vw,5.5rem)] leading-[1.1] tracking-tight text-[var(--color-text-primary)]">
               I build interfaces that feel simple, and systems that aren't.
             </h2>
@@ -120,7 +120,7 @@ export const SkillsSection = () => {
               <div key={idx} className="group cursor-default">
                 
                 {/* Editorial Row */}
-                <div className="skills-anim skills-row flex flex-col lg:flex-row items-start lg:items-center justify-between py-10 md:py-12 px-6 lg:px-8 -mx-6 lg:-mx-8 gap-8 lg:gap-12 transition-colors duration-500 rounded-2xl group-hover:bg-[var(--color-elevated)] group-hover:shadow-[0_0_30px_rgba(49,87,255,0.1)]">
+                <div className="skills-anim skills-row jarvis-section flex flex-col lg:flex-row items-start lg:items-center justify-between py-10 md:py-12 px-6 lg:px-8 -mx-6 lg:-mx-8 gap-8 lg:gap-12 transition-colors duration-500 rounded-2xl group-hover:bg-[var(--color-elevated)] group-hover:shadow-[0_0_30px_rgba(49,87,255,0.1)]" data-jarvis-explain={`Expertise ${item.num}: ${item.title}. ${item.desc}. Technologies include ${item.tech.join(', ')}.`}>
                   
                   {/* Left: Number + Category */}
                   <div className="flex items-start gap-6 lg:gap-8 w-full lg:w-1/3 flex-shrink-0">
