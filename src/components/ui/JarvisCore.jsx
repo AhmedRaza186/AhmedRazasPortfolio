@@ -2,6 +2,9 @@ import React, { useState, useEffect, useRef } from 'react';
 import { Bot, Mic, MicOff } from 'lucide-react';
 import { Magnetic } from './Magnetic';
 import gsap from 'gsap';
+import { ScrollToPlugin } from 'gsap/ScrollToPlugin';
+
+gsap.registerPlugin(ScrollToPlugin);
 
 export const JarvisCore = () => {
   const [isActive, setIsActive] = useState(false);
@@ -216,24 +219,30 @@ export const JarvisCore = () => {
     // Remove highlight from previous
     sections.forEach(el => gsap.to(el, { boxShadow: 'none', borderColor: 'transparent', duration: 0.3 }));
 
-    // Scroll into view
-    currentSection.scrollIntoView({ behavior: 'smooth', block: 'center' });
-    
-    // Highlight current
-    setTimeout(() => {
-      if (!isTouringRef.current) return;
-      
-      gsap.to(currentSection, { 
-        boxShadow: '0 0 20px var(--color-accent)', 
-        borderColor: 'var(--color-accent)',
-        duration: 0.5 
-      });
+    // Calculate robust absolute target Y to perfectly center the element
+    const absoluteY = currentSection.getBoundingClientRect().top + window.scrollY;
+    const targetY = absoluteY - (window.innerHeight / 2) + (currentSection.offsetHeight / 2);
 
-      speak(explanation, () => {
-        tourIndexRef.current++;
-        setTimeout(nextSection, 1000); // Pause before next section
-      });
-    }, 800); // Wait for scroll
+    // Scroll securely using GSAP to prevent user interference from breaking it
+    gsap.to(window, {
+      duration: 1,
+      scrollTo: { y: targetY, autoKill: false },
+      ease: 'power3.inOut',
+      onComplete: () => {
+        if (!isTouringRef.current) return;
+        
+        gsap.to(currentSection, { 
+          boxShadow: '0 0 20px var(--color-accent)', 
+          borderColor: 'var(--color-accent)',
+          duration: 0.5 
+        });
+
+        speak(explanation, () => {
+          tourIndexRef.current++;
+          setTimeout(nextSection, 1000); // Pause before next section
+        });
+      }
+    });
   };
 
   // Keyboard shortcut to stop tour
