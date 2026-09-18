@@ -17,9 +17,6 @@ export const FeedbackWidget = () => {
   
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
-  const [showCancelConfirm, setShowCancelConfirm] = useState(false);
-  const [hasTriggeredExitIntent, setHasTriggeredExitIntent] = useState(false);
-  const [openedByExitIntent, setOpenedByExitIntent] = useState(false);
   
   const modalRef = useRef(null);
   const mediaRecorderRef = useRef(null);
@@ -38,11 +35,7 @@ export const FeedbackWidget = () => {
   // Exit intent logic removed per user feedback
 
   const handleOpenModal = () => {
-    setOpenedByExitIntent(false);
     setIsOpen(true);
-    setHasTriggeredExitIntent(true);
-    setShowCancelConfirm(false);
-    localStorage.setItem('hasSeenFeedbackModal', 'true');
   };
 
   useEffect(() => {
@@ -54,12 +47,6 @@ export const FeedbackWidget = () => {
   const handleCloseAttempt = () => {
     if (isSubmitting) return;
     setIsOpen(false);
-  };
-
-  const forceClose = () => {
-    setIsOpen(false);
-    setShowCancelConfirm(false);
-    setOpenedByExitIntent(false);
   };
 
   const startRecording = async () => {
@@ -208,26 +195,6 @@ export const FeedbackWidget = () => {
                 <h3 className="text-2xl font-display text-[var(--color-text-primary)] mb-2">Thank You!</h3>
                 <p className="text-[var(--color-text-secondary)]">Your feedback helps me improve.</p>
               </div>
-            ) : showCancelConfirm ? (
-              <div className="flex flex-col items-center justify-center py-8 text-center animate-in fade-in zoom-in duration-300">
-                <h3 className="text-2xl font-display text-[var(--color-text-primary)] mb-3">Wait! Are you sure?</h3>
-                <p className="text-[var(--color-text-secondary)] mb-8">
-                  Your feedback is incredibly valuable to me and helps me improve this portfolio. It only takes a few seconds!
-                </p>
-                <div className="flex gap-4 w-full">
-                  <button 
-                    onClick={() => setShowCancelConfirm(false)} 
-                    className="flex-1 py-3 bg-[var(--color-text-primary)] text-[var(--color-canvas)] rounded-lg font-medium hover:scale-105 transition-transform"
-                  >
-                    Give Feedback
-                  </button>
-                  <button 
-                    onClick={forceClose} 
-                    className="flex-1 py-3 border border-[var(--color-border-strong)] text-[var(--color-text-secondary)] hover:text-red-500 hover:border-red-500 rounded-lg font-medium transition-colors"
-                  >
-                    Close
-                  </button>
-                </div>
               </div>
             ) : (
               <form onSubmit={handleSubmit} className="flex flex-col gap-6">

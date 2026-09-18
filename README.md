@@ -47,7 +47,7 @@ Welcome to the frontend repository for Ahmed Raza's interactive and premium pers
 3. Set up environment variables by creating a `.env` file in the root directory:
    ```env
    # Ensure you don't include a trailing slash in the URL
-   VITE_BACKEND_URL="http://localhost:8000"
+   VITE_API_URL="http://localhost:8000"
    ```
    *(Update any other keys like EmailJS service IDs if necessary).*
 4. Start the development server:

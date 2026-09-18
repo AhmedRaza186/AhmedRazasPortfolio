@@ -1,5 +1,5 @@
 import React, { Suspense } from 'react';
-import { Routes, Route } from 'react-router-dom';
+import { Routes, Route, Navigate } from 'react-router-dom';
 import { ScrollToTop } from '../components/common/ScrollToTop';
 
 // Safe lazy loader that handles chunk loading errors (e.g. after a new deployment)
@@ -15,7 +15,6 @@ const safeLazy = (importFn) => React.lazy(() =>
 const Home = safeLazy(() => import('../pages/Home').then(module => ({ default: module.Home })));
 const Work = safeLazy(() => import('../pages/Work').then(module => ({ default: module.Work })));
 const Experience = safeLazy(() => import('../pages/Experience').then(module => ({ default: module.Experience })));
-const About = safeLazy(() => import('../pages/About').then(module => ({ default: module.About })));
 const Achievements = safeLazy(() => import('../pages/Achievements').then(module => ({ default: module.Achievements })));
 const Journey = safeLazy(() => import('../pages/Journey').then(module => ({ default: module.Journey })));
 const Contact = safeLazy(() => import('../pages/Contact').then(module => ({ default: module.Contact })));
@@ -40,7 +39,7 @@ export const AppRoutes = () => {
           <Route path="/work" element={<Work />} />
           <Route path="/work/:slug" element={<ProjectDetail />} />
           <Route path="/experience" element={<Experience />} />
-          <Route path="/about" element={<About />} />
+          <Route path="/about" element={<Navigate to="/journey" replace />} />
           <Route path="/achievements" element={<Achievements />} />
           <Route path="/journey" element={<Journey />} />
           <Route path="/contact" element={<Contact />} />
