@@ -195,7 +195,6 @@ export const FeedbackWidget = () => {
                 <h3 className="text-2xl font-display text-[var(--color-text-primary)] mb-2">Thank You!</h3>
                 <p className="text-[var(--color-text-secondary)]">Your feedback helps me improve.</p>
               </div>
-              </div>
             ) : (
               <form onSubmit={handleSubmit} className="flex flex-col gap-6">
                 <div>
