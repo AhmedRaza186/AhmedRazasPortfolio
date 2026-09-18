@@ -410,11 +410,11 @@ export const JarvisCore = () => {
       <Magnetic>
         <button
           onClick={toggleActive}
-          className={\`w-12 h-12 rounded-full border shadow-lg flex items-center justify-center transition-all duration-300 focus:outline-none group \${
+          className={`w-12 h-12 rounded-full border shadow-lg flex items-center justify-center transition-all duration-300 focus:outline-none group ${
             isActive 
               ? 'bg-[var(--color-accent)] border-[var(--color-accent)] text-white' 
               : 'bg-[var(--color-elevated)] border-[var(--color-border-strong)] text-[var(--color-text-primary)] hover:border-[var(--color-accent)]'
-          }\`}
+          }`}
           aria-label={isActive ? 'Deactivate Jarvis' : 'Activate Jarvis'}
           data-cursor={isActive ? 'DEACTIVATE JARVIS' : 'ACTIVATE JARVIS'}
         >
