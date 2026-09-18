@@ -242,13 +242,13 @@ export const JarvisCore = () => {
 
     if (intent) {
       if (intent.type === 'PAGE') {
-        speak(\`Navigating to \${intent.name}.\`, () => {
+        speak(`Navigating to ${intent.name}.`, () => {
           navigate(intent.path);
           pendingTourRef.current = { targetId: null };
         });
       } 
       else if (intent.type === 'SECTION') {
-        speak(\`Focusing on \${intent.name}.\`, () => {
+        speak(`Focusing on ${intent.name}.`, () => {
           if (location.pathname !== intent.path) {
             navigate(intent.path);
             pendingTourRef.current = { targetId: intent.id };
