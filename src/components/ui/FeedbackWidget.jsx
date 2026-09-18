@@ -35,25 +35,7 @@ export const FeedbackWidget = () => {
     }
   }, [isOpen]);
 
-  useEffect(() => {
-    const handleMouseLeave = (e) => {
-      // Trigger when mouse leaves the top of the window (exit intent)
-      if (e.clientY <= 0 && !hasTriggeredExitIntent && !isOpen) {
-        const hasSeen = localStorage.getItem('hasSeenFeedbackModal');
-        if (!hasSeen) {
-          setOpenedByExitIntent(true);
-          setIsOpen(true);
-          setHasTriggeredExitIntent(true);
-          localStorage.setItem('hasSeenFeedbackModal', 'true');
-        }
-      }
-    };
-
-    document.addEventListener('mouseleave', handleMouseLeave);
-    return () => {
-      document.removeEventListener('mouseleave', handleMouseLeave);
-    };
-  }, [hasTriggeredExitIntent, isOpen]);
+  // Exit intent logic removed per user feedback
 
   const handleOpenModal = () => {
     setOpenedByExitIntent(false);
@@ -71,15 +53,7 @@ export const FeedbackWidget = () => {
 
   const handleCloseAttempt = () => {
     if (isSubmitting) return;
-    
-    // Only show begging screen if it was opened automatically by exit intent
-    if (openedByExitIntent && !showCancelConfirm) {
-      setShowCancelConfirm(true);
-    } else {
-      setIsOpen(false);
-      setShowCancelConfirm(false);
-      setOpenedByExitIntent(false);
-    }
+    setIsOpen(false);
   };
 
   const forceClose = () => {

@@ -13,6 +13,7 @@
 
   --font-display: "Instrument Serif", serif;
   --font-body: "Manrope", sans-serif;
+  --font-meta: "JetBrains Mono", "Courier New", monospace;
   
   --text-hero: clamp(4rem, 9vw, 8rem);
   --text-heading: clamp(3rem, 6vw, 5rem);

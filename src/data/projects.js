@@ -15,7 +15,7 @@ const autoQA = {
   ],
   demo: {
     type: "local",
-    url: "/assets/projects/AutoQA/demo.mp4"
+    url: null
   },
   liveUrl: "https://auto-qa-rouge.vercel.app/",
   githubUrl: "https://github.com/AhmedRaza186/Auto-QA",
@@ -196,7 +196,7 @@ const vipSetup = {
   ],
   demo: {
     type: "local",
-    url: "/assets/projects/VipSetup/demo.mp4"
+    url: null
   },
   liveUrl: "https://vip-setup-demo.vercel.app/",
   githubUrl: null,
@@ -237,7 +237,7 @@ const noirCafe = {
   ],
   demo: {
     type: "local",
-    url: "/assets/projects/Noir/demo.mp4"
+    url: null
   },
   liveUrl: "https://noir-demo-self.vercel.app/",
   githubUrl: null,

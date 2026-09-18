@@ -91,8 +91,8 @@ export const Work = () => {
 
   const filteredProjects = projects.filter(p => isMatch(p, activeFilter));
   const featuredProjects = filteredProjects.filter(p => p.featured);
-  const y2026Projects = filteredProjects.filter(p => p.year === '2026' && !p.featured);
-  const archiveProjects = filteredProjects.filter(p => p.year !== '2026' && !p.featured);
+  const y2026Projects = filteredProjects.filter(p => String(p.year) === '2026' && !p.featured);
+  const archiveProjects = filteredProjects.filter(p => String(p.year) !== '2026' && !p.featured);
 
 
 

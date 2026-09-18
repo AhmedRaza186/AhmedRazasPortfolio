@@ -3,8 +3,16 @@ import { useParams, useNavigate } from 'react-router-dom';
 import gsap from 'gsap';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
-import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
+import { PrismLight as SyntaxHighlighter } from 'react-syntax-highlighter';
+import jsx from 'react-syntax-highlighter/dist/esm/languages/prism/jsx';
+import javascript from 'react-syntax-highlighter/dist/esm/languages/prism/javascript';
+import css from 'react-syntax-highlighter/dist/esm/languages/prism/css';
 import { vscDarkPlus } from 'react-syntax-highlighter/dist/esm/styles/prism';
+
+SyntaxHighlighter.registerLanguage('jsx', jsx);
+SyntaxHighlighter.registerLanguage('javascript', javascript);
+SyntaxHighlighter.registerLanguage('js', javascript);
+SyntaxHighlighter.registerLanguage('css', css);
 import { Container } from '../components/layout/Container';
 import { Footer } from '../components/layout/Footer';
 import { writingArticles } from '../data/writing';

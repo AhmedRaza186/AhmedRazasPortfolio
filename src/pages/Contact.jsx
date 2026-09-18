@@ -38,7 +38,7 @@ export const Contact = () => {
     {
       label: "LINKEDIN",
       value: "Ahmed Raza",
-      href: "https://www.linkedin.com/in/ahmed-raza-mun/",
+      href: "https://www.linkedin.com/in/ahmed-raza-14188b35b/",
     },
     {
       label: "WHATSAPP",
